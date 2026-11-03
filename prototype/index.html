@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmileCheck SG</title>
+  <meta name="description" content="Screen a photo of your teeth, understand what it means, and find a clinic near you. A screening aid, not a diagnosis.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 110%27%3E%3Crect width=%27100%27 height=%27110%27 rx=%2724%27 fill=%27%23121110%27/%3E%3Cpath d=%27M28 30C27 20 38 16 50 21c12-5 23-1 22 9-1 16-3 24-6 31-2 13-4 26-9 27-5 1-4-16-7-19-3 3-2 20-7 19-5-1-7-14-9-27-3-7-5-15-6-31Z%27 fill=%27%23f6f0ea%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Always-visible emergency bar -->
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="SmileCheck SG home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 100 110"><path d="M20 22C18 8 34 2 50 9c16-7 32-1 30 13-2 22-4 34-8 44-3 18-5 36-12 38-7 1-6-22-10-26-4 4-3 27-10 26-7-2-9-20-12-38-4-10-6-22-8-44Z"/></svg>
+      </span>
+      SmileCheck <span class="brand-sg">SG</span>
+    </a>
+    <nav class="nav-chips" aria-label="Sections">
+      <a class="chip" href="#screen"><i data-lucide="scan-line"></i>Screen</a>
+      <a class="chip" href="#understand"><i data-lucide="book-open"></i>Understand</a>
+      <a class="chip" href="#cost"><i data-lucide="wallet"></i>Cost</a>
+      <a class="chip" href="#act"><i data-lucide="map-pin"></i>Clinics &amp; care</a>
+    </nav>
+    <nav class="nav-mini" aria-label="Sections">
+      <a href="#screen">Screen</a><a href="#understand">Meaning</a><a href="#cost">Cost</a><a href="#act">Clinics</a>
+    </nav>
+    <a class="sos" href="tel:995" aria-label="Dental emergency: call 995">
+      <i data-lucide="siren"></i><span class="sos-text">Emergency</span> 995
+    </a>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-copy">
+        <h1><span class="nw">Check your teeth</span> <span class="nw">in a minute</span></h1>
+        <p class="hero-sub">Snap a photo of your teeth. See what it looks like, how urgent it is, and where to go.</p>
+        <div class="hero-actions">
+          <a class="btn btn-light" href="#screen"><i data-lucide="camera"></i>Start screening</a>
+          <span class="hero-note"><i data-lucide="lock"></i>Photos stay on your device</span>
+        </div>
+        <ul class="hero-chips" aria-label="What we screen for">
+          <li><span class="cond-dot" style="--c:var(--c-calculus)"></span>Tartar</li>
+          <li><span class="cond-dot" style="--c:var(--c-caries)"></span>Decay</li>
+          <li><span class="cond-dot" style="--c:var(--c-discolouration)"></span>Staining</li>
+          <li><span class="cond-dot" style="--c:var(--c-ulcer)"></span>Mouth ulcer</li>
+          <li><span class="cond-dot" style="--c:var(--c-hypodontia)"></span>Missing teeth</li>
+        </ul>
+      </div>
+      <div class="hero-art" aria-hidden="true" id="heroArt"></div>
+    </section>
+
+    <!-- ============ DETECTION ============ -->
+    <section id="screen" class="section">
+      <div class="section-head">
+        <span class="section-icon"><i data-lucide="scan-line"></i></span>
+        <div>
+          <h2>Screen your teeth</h2>
+          <p>One clear front photo works. More angles give a better read.</p>
+        </div>
+      </div>
+
+      <div class="screen-grid">
+        <!-- Upload card -->
+        <div class="card upload-card" id="uploadCard">
+          <label class="consent">
+            <input type="checkbox" id="consent">
+            <span class="switch" aria-hidden="true"></span>
+            <span>I agree my photos are used <strong>only for this screening</strong>. They are not uploaded or stored. <a href="#privacy">PDPA notice</a></span>
+          </label>
+          <p class="consent-hint" id="consentHint"><i data-lucide="arrow-up"></i>Turn this on to add photos</p>
+
+          <div class="dropzone" id="dropzone" tabindex="-1">
+            <div class="dz-art" aria-hidden="true" id="dzArt"></div>
+            <p class="dz-title">Drop photos here</p>
+            <div class="dz-buttons">
+              <button class="btn btn-dark" id="btnUpload" type="button"><i data-lucide="upload"></i><span id="uploadLabel">Upload from computer</span></button>
+              <button class="btn btn-soft" id="btnCamera" type="button"><i data-lucide="camera"></i>Take photo</button>
+            </div>
+            <ul class="tips" aria-label="Photo tips">
+              <li><span class="tip-icon"><i data-lucide="sun"></i></span>Bright light</li>
+              <li><span class="tip-icon"><i data-lucide="smile"></i></span>Lips back</li>
+              <li><span class="tip-icon"><i data-lucide="focus"></i></span>Close up</li>
+            </ul>
+            <p class="dz-hint" id="dzHint">JPG or PNG · up to 5 photos</p>
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+          </div>
+
+          <div class="angles-wrap">
+            <p class="angles-title">Add more angles <span>for a better read</span></p>
+            <div class="angles" id="angles" role="group" aria-label="Photo angles"></div>
+          </div>
+
+          <button class="btn btn-dark btn-block btn-lg" id="btnAnalyse" type="button" aria-disabled="true">
+            <i data-lucide="sparkles"></i>Analyse photos
+          </button>
+          <p class="demo-row">
+            <span>No photo handy? Try a sample:</span>
+            <span class="demo-chips" id="demoChips"></span>
+          </p>
+        </div>
+
+        <!-- Result card -->
+        <div class="card result-card is-empty" id="resultCard" aria-live="polite">
+          <div class="result-empty" id="resultEmpty">
+            <div class="empty-art" aria-hidden="true" id="emptyArt"></div>
+            <p class="empty-title">Your result shows here</p>
+            <p class="empty-sub">Add a photo and tap <strong>Analyse</strong>.</p>
+          </div>
+
+          <div class="result-unclear" id="resultUnclear" hidden>
+            <div class="unclear-photo" id="unclearPhoto"></div>
+            <p class="empty-title">We can't read this photo</p>
+            <p class="empty-sub" id="unclearWhy">It looks too dark, blurry or doesn't show teeth.</p>
+            <ul class="tips tips-row" aria-label="Photo tips">
+              <li><span class="tip-icon"><i data-lucide="sun"></i></span>Bright light</li>
+              <li><span class="tip-icon"><i data-lucide="smile"></i></span>Lips back</li>
+              <li><span class="tip-icon"><i data-lucide="focus"></i></span>Close up</li>
+            </ul>
+            <button class="btn btn-dark" id="btnRetake" type="button"><i data-lucide="camera"></i>Try another photo</button>
+          </div>
+
+          <div class="result-loading" id="resultLoading" hidden>
+            <div class="scan-frame"><img id="scanImg" alt=""><span class="scan-line"></span></div>
+            <p class="empty-title">Looking closely…</p>
+          </div>
+
+          <div class="result-body" id="resultBody" hidden>
+            <div class="result-hero" id="resultHero">
+              <div class="result-photo" id="resultPhoto"></div>
+              <span class="sim-tag"><i data-lucide="flask-conical"></i>Prototype · simulated AI</span>
+              <div class="result-overlay">
+                <p class="result-kicker">Looks most like</p>
+                <h3 class="result-name" id="resultName">—</h3>
+                <p class="result-aka" id="resultAka"></p>
+              </div>
+            </div>
+            <div class="ring-row">
+              <div class="ring" id="ring" role="img" aria-label=""><span id="ringVal">0%</span></div>
+              <div>
+                <p class="ring-title">Likelihood</p>
+                <p class="ring-text">How closely <span id="photoCount">your photo</span> matches. A dentist must confirm.</p>
+              </div>
+            </div>
+            <div class="low-conf" id="lowConf" hidden>
+              <i data-lucide="image-off"></i>
+              <span>The model isn't sure. Try a brighter, closer photo.</span>
+            </div>
+            <div class="probs" id="probs" aria-label="Likelihood of each condition"></div>
+            <details class="probs probs-fold" id="probsFold" hidden><summary>See all likelihoods</summary><div id="probsFoldBody" class="probs-inner"></div></details>
+            <p class="result-caveat"><i data-lucide="eye-off"></i>Photos can't show gum disease or problems under the gums.</p>
+            <button class="btn btn-soft btn-sm" id="btnReset" type="button"><i data-lucide="trash-2"></i>Delete photos &amp; start again</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Safety banner -->
+      <div class="safety">
+        <div class="safety-item safety-info">
+          <span class="safety-icon"><i data-lucide="shield-alert"></i></span>
+          <div>
+            <p class="safety-title">A screening, not a diagnosis</p>
+            <p>Only a dentist can confirm what you have. We never suggest medicine.</p>
+          </div>
+        </div>
+        <a class="safety-item safety-sos" href="tel:995">
+          <span class="safety-icon"><i data-lucide="siren"></i></span>
+          <div>
+            <p class="safety-title">Swollen face, heavy bleeding or injury?</p>
+            <p>That's an emergency. Call 995 or go to A&amp;E now.</p>
+          </div>
+          <span class="sos-call"><i data-lucide="phone"></i>995</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ UNDERSTANDING ============ -->
+    <section id="understand" class="section needs-result">
+      <div class="section-head">
+        <span class="section-icon"><i data-lucide="book-open"></i></span>
+        <div>
+          <h2 id="understandTitle">What this means</h2>
+          <p>In plain words, based on your screening.</p>
+        </div>
+      </div>
+      <div class="locked" data-lock>
+        <span class="locked-icon"><i data-lucide="book-open"></i></span><span>Your plain-words explainer appears after screening.</span><a class="btn btn-soft btn-sm" href="#screen">Screen a photo</a>
+      </div>
+
+      <div class="understand-grid" data-content hidden>
+        <article class="card what-card">
+          <div class="what-art" id="whatArt" aria-hidden="true"></div>
+          <div>
+            <h3 class="card-title">What is it?</h3>
+            <p class="what-text" id="whatText"></p>
+          </div>
+        </article>
+
+        <article class="card urgency-card" id="urgencyCard">
+          <h3 class="card-title">How urgent?</h3>
+          <div class="urgency-meter" id="urgencyMeter" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="urgency-labels" id="urgencyLabels" aria-hidden="true"></div>
+          <div class="urgency-verdict">
+            <span class="urgency-icon" id="urgencyIcon"></span>
+            <div>
+              <p class="urgency-title" id="urgencyTitle"></p>
+              <p class="urgency-detail" id="urgencyDetail"></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card cause-card">
+          <h3 class="card-title" id="causesTitle">How it happens</h3>
+          <ul class="cause-list" id="causeList"></ul>
+        </article>
+
+        <article class="card flow-card">
+          <h3 class="card-title" id="flowTitle">If left alone</h3>
+          <ol class="flow" id="flow"></ol>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ COST (placeholder) ============ -->
+    <section id="cost" class="section">
+      <div class="section-head">
+        <span class="section-icon"><i data-lucide="wallet"></i></span>
+        <div>
+          <h2>What will it cost?</h2>
+          <p>Coming soon: your price after CHAS and MediSave.</p>
+        </div>
+      </div>
+      <div class="card cost-card">
+        <ul class="cost-fields" aria-label="What the estimator will ask">
+          <li class="cost-field"><span class="cost-icon"><i data-lucide="id-card"></i></span>Citizenship</li>
+          <li class="cost-field"><span class="cost-icon"><i data-lucide="credit-card"></i></span>CHAS card</li>
+          <li class="cost-field"><span class="cost-icon"><i data-lucide="cake"></i></span>Age</li>
+          <li class="cost-field"><span class="cost-icon"><i data-lucide="stethoscope"></i></span><span id="costProcedure">Treatment</span></li>
+        </ul>
+        <div class="cost-soon">
+          <span class="soon-pill"><i data-lucide="hourglass"></i>Coming soon</span>
+          <p class="cost-soon-title">Cost estimator</p>
+          <p>An estimate, not a fixed price <strong>(non-binding)</strong>. Every figure will show its source: MOH, CHAS and CPF.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACTION ============ -->
+    <section id="act" class="section needs-result">
+      <div class="section-head">
+        <span class="section-icon"><i data-lucide="map-pin"></i></span>
+        <div>
+          <h2>Get it checked</h2>
+          <p>Clinics near you, and what to use at home meanwhile.</p>
+        </div>
+      </div>
+      <div class="locked" data-lock>
+        <span class="locked-icon"><i data-lucide="map"></i></span><span>Clinics and home-care picks matched to your result appear here.</span><a class="btn btn-soft btn-sm" href="#screen">Screen a photo</a>
+      </div>
+
+      <div data-content hidden>
+        <div class="act-grid">
+          <div class="card map-card">
+            <div class="map-bar">
+              <div class="filter-chips" id="filterChips" role="group" aria-label="Clinic type"></div>
+              <div class="map-tools">
+                <label class="area-pick"><i data-lucide="map-pin"></i>Area
+                  <select id="areaSelect" aria-label="Choose your area"></select></label>
+                <button class="btn btn-soft btn-sm" id="btnLocate" type="button"><i data-lucide="locate-fixed"></i>Use my location</button>
+              </div>
+            </div>
+            <div id="map" role="region" aria-label="Map of clinics"></div>
+            <p class="map-note" id="mapNote"><i data-lucide="info"></i>Distances from Ang Mo Kio. Your location is never stored or sent.</p>
+          </div>
+
+          <div class="card clinic-card">
+            <h3 class="card-title">Nearby clinics</h3>
+            <p class="clinic-far" id="clinicFar" hidden><i data-lucide="map-pin-off"></i>No sample clinics near this area yet. The live search will cover all of Singapore.</p>
+            <ul class="clinic-list" id="clinicList"></ul>
+            <p class="sample-note"><i data-lucide="flask-conical"></i>CHAS clinics shown are samples. The AI agent will search live listings.</p>
+            <a class="more-link" href="https://www.chas.sg/clinic-locator" target="_blank" rel="noopener"><i data-lucide="search"></i>All CHAS dental clinics<i data-lucide="external-link"></i></a>
+          </div>
+        </div>
+
+        <div class="card products-card">
+          <div class="products-head">
+            <h3 class="card-title">Home care that helps</h3>
+            <p id="productsFor"></p>
+          </div>
+          <ul class="products" id="products"></ul>
+          <p class="products-note"><i data-lucide="pill-bottle"></i>No medicine here on purpose. For pain or sores, ask a dentist or pharmacist.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="privacy">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-title"><i data-lucide="shield-check"></i>Your data (PDPA)</p>
+        <p>Photos are processed on this device and deleted when you leave or tap delete. Nothing is uploaded, sold or used for training without separate consent.</p>
+      </div>
+      <div>
+        <p class="footer-title"><i data-lucide="scale"></i>Fair and honest</p>
+        <p>The model learned from 4,375 photos that are not from Singapore patients, so it can be wrong, especially in poor light. It can't see gum disease.</p>
+      </div>
+      <div>
+        <p class="footer-title"><i data-lucide="book-marked"></i>Sources</p>
+        <p>MOH Dental Fee Benchmarks 2025 · CHAS dental subsidies (1 Oct 2025) · CPF MediSave · HPB &amp; NDCS oral health guides · Kaggle Oral Image Dataset</p>
+      </div>
+    </div>
+    <p class="footer-name">SmileCheck SG <span>· IT2226 prototype · screening aid only</span></p>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
