@@ -1,4 +1,4 @@
 # AI use log — <member name>
 
-| Date | Tool | Task | Prompt summary | How output was used / verified |
+| Date | Tool | What you asked for | Accepted / changed / rejected | Why – what you checked and what you found |
 |---|---|---|---|---|

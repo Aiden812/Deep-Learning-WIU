@@ -1,6 +1,6 @@
 # Decisions log
 
-One entry per decision. Newest at the top.
+One entry per decision
 
 ## YYYY-MM-DD — Title
 - **Decision:**
