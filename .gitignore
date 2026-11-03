@@ -1,2 +1,54 @@
+# --- Data (never commit datasets) ---------------------------------------
+# Ignore everything under data/ but keep the folder skeleton (.gitkeep files)
+data/**
+!data/**/
+!data/**/.gitkeep
+
+# --- Model weights -------------------------------------------------------
+models/*/weights/*
+!models/*/weights/.gitkeep
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.h5
+*.safetensors
+
+# --- Training outputs ----------------------------------------------------
+runs/
+wandb/
+mlruns/
+lightning_logs/
+
+# --- Secrets -------------------------------------------------------------
+.env
+.env.*
+!.env.example
+kaggle.json
+
+# --- Python --------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node (frontend) -----------------------------------------------------
+node_modules/
+dist/
+build/
+
+# --- OS / editor ---------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+
+# --- Local tooling ---
 .playwright-cli/
 .taste-skill/

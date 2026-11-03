@@ -1,0 +1,51 @@
+# Single source of truth for condition classes.
+# Used by: models/classifier, models/yolo_caries, cost/, genai/, app/.
+# Class IDs must never be renumbered once models are trained against them.
+#
+# urgency: one of [routine, soon, urgent]          (TODO: agree definitions in docs/decisions.md)
+# procedures: keys into cost/procedure_mapping.csv
+
+version: 1
+
+conditions:
+  - id: 0
+    name: calculus
+    display_name: Calculus (tartar)
+    source_label: Calculus            # folder name in kaggle_oral
+    urgency: null                     # TODO
+    procedures: []                    # TODO
+
+  - id: 1
+    name: caries
+    display_name: Dental caries
+    source_label: caries
+    urgency: null
+    procedures: []
+
+  - id: 2
+    name: hypodontia
+    display_name: Hypodontia
+    source_label: Hypodontia
+    urgency: null
+    procedures: []
+
+  - id: 3
+    name: mouth_ulcer
+    display_name: Mouth ulcer
+    source_label: Mouth ulcer
+    urgency: null
+    procedures: []
+
+  - id: 4
+    name: normal
+    display_name: No visible condition
+    source_label: Normal
+    urgency: null
+    procedures: []
+
+  - id: 5
+    name: tooth_discoloration
+    display_name: Tooth discoloration
+    source_label: tooth discoloration
+    urgency: null
+    procedures: []

@@ -1,0 +1,11 @@
+# Ultralytics dataset config.
+# Ultralytics resolves a relative `path` against its `datasets_dir` setting, so run once:
+#   yolo settings datasets_dir="<absolute path to repo root>"
+path: data/processed/yolo
+train: images/train
+val: images/val
+test: images/test
+
+# TODO: confirm final class set (DentalAI has Caries / Cavity / Crack; Zenodo is caries-only)
+names:
+  0: caries

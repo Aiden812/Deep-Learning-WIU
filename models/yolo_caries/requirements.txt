@@ -1,0 +1,10 @@
+# Pin versions once the training environment is settled
+ultralytics
+opencv-python
+numpy
+pandas
+pyyaml
+matplotlib
+imagehash
+pillow
+tqdm
