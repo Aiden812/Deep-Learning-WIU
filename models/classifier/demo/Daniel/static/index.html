@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oral condition classifier — demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <span class="wordmark">Oral condition classifier</span>
+    <span class="topbar-right">
+      <span id="device-pill" class="pill">loading…</span>
+    </span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="cols">
+
+    <!-- left: upload -->
+    <div class="col-left">
+      <h2 class="sec">Upload a photo</h2>
+      <div id="drop" class="dropzone" tabindex="0" role="button"
+           aria-label="Choose an intraoral photo or drag one here">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 16V4m0 0 4 4m-4-4L8 8"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>
+        </svg>
+        <p>Drop an image here, click to browse, or paste from clipboard</p>
+        <p class="dz-hint">JPG / PNG / WebP, up to 20&nbsp;MB</p>
+        <input id="file" type="file" accept="image/*" hidden>
+      </div>
+
+      <div id="preview-card" class="card hidden">
+        <div class="preview-row">
+          <img id="preview" alt="Uploaded photo">
+          <div class="preview-side">
+            <p id="file-name" class="mono small"></p>
+            <p id="file-size" class="muted small"></p>
+            <div class="btn-row">
+              <button id="again" class="btn">Choose another</button>
+              <button id="clear" class="btn btn-quiet">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="sec">History</h2>
+      <div id="history" class="history" aria-live="polite">
+        <p class="muted small pad">Nothing classified yet.</p>
+      </div>
+    </div>
+
+    <!-- right: result -->
+    <div class="col-right">
+      <h2 class="sec">Prediction</h2>
+
+      <div id="idle" class="card empty">
+        <p>The model returns a probability for each of six conditions. Upload a photo to see them.</p>
+      </div>
+
+      <div id="loading" class="card empty hidden">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Running inference…</p>
+      </div>
+
+      <div id="error" class="card error hidden">
+        <strong>Could not classify the image</strong>
+        <p id="error-msg" class="small"></p>
+      </div>
+
+      <div id="result" class="hidden">
+        <div class="card verdict">
+          <div class="verdict-row">
+            <div>
+              <p class="muted tiny">Most likely</p>
+              <h3 id="pred-name">—</h3>
+            </div>
+            <div class="verdict-num">
+              <p class="muted tiny">Confidence</p>
+              <h3 id="pred-conf">—</h3>
+            </div>
+          </div>
+          <div id="abstain" class="notice hidden">
+            Confidence is below the abstention threshold (<span id="abstain-thresh"></span>).
+            The model is not confident enough to answer — a retake with better lighting and focus,
+            or a dental visit, is the safer next step.
+          </div>
+          <p class="small muted">Runner-up: <span id="top2">—</span></p>
+          <p class="tiny mono" id="latency"></p>
+        </div>
+
+        <div class="card">
+          <h3 class="card-h">Probabilities</h3>
+          <div id="bars" class="bars"></div>
+        </div>
+
+        <details class="card json-card">
+          <summary>Raw JSON response</summary>
+          <pre id="raw-json" class="mono small"></pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="model-strip">
+    <h2 class="sec">About this model</h2>
+    <div class="strip-grid">
+      <div>
+        <h3 class="card-h">Test performance (n=321)</h3>
+        <table class="tbl" id="metrics-tbl">
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+        <h3 class="card-h">Per-class test F1</h3>
+        <div id="f1-bars" class="bars"></div>
+      </div>
+      <div>
+        <h3 class="card-h">Checkpoint</h3>
+        <table class="tbl kv">
+          <tbody id="ckpt-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="disclaimer">Trained on 4,375 images from the Kaggle oral-image dataset (group-aware splits,
+       class-balanced sampling, strong augmentation). Test macro-F1 0.921 [0.883, 0.953] on 321 held-out photos.
+       Confidence is temperature-scaled (T=0.62); predictions under the abstention threshold are flagged.</p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Screening and education aid — not a diagnosis. Trained on non-Singapore web/clinical photos.
+       Gum disease is not a class, so “No visible condition” does not mean healthy gums. See a dentist for any concern.</p>
+  </div>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
