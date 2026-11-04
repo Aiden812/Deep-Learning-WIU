@@ -1,0 +1,2 @@
+# Pin versions once the training environment is settled
+kagglehub
