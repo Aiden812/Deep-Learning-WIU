@@ -1,2 +1,19 @@
 # Pin versions once the training environment is settled
 kagglehub
+
+# oral_condition_classifier.ipynb
+# Install PyTorch with CUDA from https://pytorch.org/get-started/locally/ first, e.g.
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+# (tested with torch 2.10 + torchvision 0.25; torchvision >= 0.20 is needed for v2.JPEG)
+torch
+torchvision>=0.20
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+pillow
+opencv-python
+pyyaml
+tqdm
+ipykernel
