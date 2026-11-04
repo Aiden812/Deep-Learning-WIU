@@ -1,5 +1,5 @@
-/* SmileCheck SG prototype: front-end only. The model call is simulated in `predict()`;
-   swap it for the real CNN endpoint later without touching the rendering code. */
+/* SmileCheck SG prototype. `predict()` sends photos to the classifier in app/backend;
+   the sample chips below still show simulated results. */
 (function () {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -135,28 +135,41 @@
     $("#consent").focus();
   }
 
-  /* ---------------- Simulated model ---------------- */
-  // Reads a tiny thumbnail of each photo and turns its colour statistics into a stable
-  // pseudo-probability over the six dataset classes. Placeholder for the trained CNN.
+  /* ---------------- Model (backend) ---------------- */
+  // Served by app/backend/main.py. When the page comes from another local server, point at the backend's port.
+  const API_BASE = location.port === "8000" ? "" : "http://127.0.0.1:8000";
+  // shared/conditions.yaml names -> keys used by this page's content
+  const MODEL_KEYS = {
+    calculus: "calculus", caries: "caries", hypodontia: "hypodontia",
+    mouth_ulcer: "ulcer", normal: "normal", tooth_discoloration: "discolouration",
+  };
+
+  // Checks the front photo here first, then sends the original files (full 0-255 pixels,
+  // no scaling) to the classifier, which averages its probabilities over all photos.
   async function predict(photoList) {
-    let seed = 0;
-    for (const [n, p] of photoList.entries()) {
-      const img = await loadImage(p.url);
-      const S = 32;
-      const c = document.createElement("canvas");
-      c.width = c.height = S;
-      const ctx = c.getContext("2d");
-      ctx.drawImage(img, 0, 0, S, S);
-      const d = ctx.getImageData(0, 0, S, S).data;
-      for (let i = 0; i < d.length; i += 4) seed = (seed * 31 + d[i] + d[i + 1] * 3 + d[i + 2] * 7) >>> 0;
-      if (n === 0) {
-        const why = photoQuality(d, S);
-        if (why) return { unclear: true, why };
-      }
+    const img = await loadImage(photoList[0].url);
+    const S = 32;
+    const c = document.createElement("canvas");
+    c.width = c.height = S;
+    const ctx = c.getContext("2d");
+    ctx.drawImage(img, 0, 0, S, S);
+    const why = photoQuality(ctx.getImageData(0, 0, S, S).data, S);
+    if (why) return { unclear: true, why };
+
+    const form = new FormData();
+    photoList.forEach((p) => form.append("files", p.file));
+    let out;
+    try {
+      const r = await fetch(`${API_BASE}/api/predict`, { method: "POST", body: form });
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+      out = await r.json();
+    } catch (err) {
+      console.error("Prediction failed:", err);
+      return { unclear: true, title: "We couldn't check this photo", why: "The screening service isn't responding. Please try again in a moment." };
     }
-    const rand = mulberry(seed);
-    const top = CLASS_ORDER[Math.floor(rand() * CLASS_ORDER.length)];
-    return { key: top, probs: makeProbs(top, 0.6 + rand() * 0.32, rand) };
+    const probs = {};
+    for (const [name, p] of Object.entries(out.probs)) probs[MODEL_KEYS[name]] = p;
+    return { key: MODEL_KEYS[out.class_name], probs };
   }
 
   // Rejects photos the model should not guess on: too dark, washed out, flat or blurry.
@@ -207,7 +220,7 @@
     if ($("#btnAnalyse").getAttribute("aria-disabled") === "true") return;
     showLoading(list[0].url);
     const [res] = await Promise.all([predict(list), wait(1600)]);
-    if (res.unclear) return showUnclear(list[0].url, res.why);
+    if (res.unclear) return showUnclear(list[0].url, res.why, res.title);
     showResult({ ...res, count: list.length, photoUrl: list[0].url });
   });
 
@@ -229,9 +242,10 @@
     scrollToResult();
   }
 
-  function showUnclear(url, why) {
+  function showUnclear(url, why, title = "We can't read this photo") {
     showOnly("#resultUnclear");
     $("#unclearPhoto").innerHTML = `<img src="${url}" alt="The photo you added">`;
+    $("#unclearTitle").textContent = title;
     $("#unclearWhy").textContent = why;
     clearResult();
   }
@@ -253,6 +267,7 @@
     photo.innerHTML = res.photoUrl ? `<img src="${res.photoUrl}" alt="Your uploaded photo">` : Art.condition(res.key);
     $("#resultName").textContent = c.name;
     $("#resultAka").textContent = c.aka;
+    $("#simTag").hidden = !res.demo;
     $("#photoCount").textContent = res.demo ? "this sample" : res.count > 1 ? `your ${res.count} photos` : "your photo";
     $("#lowConf").hidden = res.probs[res.key] >= LOW_CONFIDENCE;
 
