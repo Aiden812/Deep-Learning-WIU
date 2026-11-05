@@ -1,0 +1,43 @@
+{
+  "_note": "Home-care product types, not brands, and no medicated products. The agent searches this catalogue; a live version would query retailer listings.",
+  "products": {
+    "soft_brush": {
+      "name": "Soft-bristle toothbrush",
+      "look_for": "Soft or extra-soft bristles and a small head. Replace it every 3 months.",
+      "why": {
+        "default": "Cleans well without wearing down gums or enamel.",
+        "mouth_ulcer": "Gentler around a sore spot than medium or hard bristles."
+      }
+    },
+    "fluoride_paste": {
+      "name": "Fluoride toothpaste",
+      "look_for": "1,000 to 1,500 ppm fluoride on the label (adult strength).",
+      "why": {
+        "default": "Fluoride strengthens enamel and helps stop early decay.",
+        "caries": "The most effective everyday protection against new decay."
+      }
+    },
+    "interdental_brush": {
+      "name": "Interdental brushes",
+      "look_for": "A pack of mixed sizes. Use the largest that slides in without forcing.",
+      "why": {
+        "default": "Reaches the gaps between teeth, where tartar and gum disease start.",
+        "hypodontia": "Cleans the sides of teeth next to a gap."
+      }
+    },
+    "floss": {
+      "name": "Dental floss or floss picks",
+      "look_for": "Waxed floss slides more easily between tight teeth.",
+      "why": {
+        "default": "Removes plaque between teeth before it can harden into tartar."
+      }
+    },
+    "sls_free_paste": {
+      "name": "SLS-free fluoride toothpaste",
+      "look_for": "\"SLS-free\" or \"no sodium lauryl sulfate\" on the label, with fluoride.",
+      "why": {
+        "default": "Some people with frequent mouth ulcers find foaming agents irritating."
+      }
+    }
+  }
+}

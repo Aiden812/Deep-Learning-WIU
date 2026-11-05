@@ -44,19 +44,27 @@ def _load_checkpoint(path: Path) -> dict:
         return torch.load(path, map_location="cpu", weights_only=False)
 
 
-def _build_model(name: str, n: int) -> nn.Module:
-    # Mirrors build_model() in oral_condition_classifier.ipynb (pretrained unused here).
-    if name == "convnext_tiny":
-        m = tv.models.convnext_tiny(weights=None)
-        m.classifier[2] = nn.Linear(m.classifier[2].in_features, n)
-    elif name == "efficientnet_b0":
-        m = tv.models.efficientnet_b0(weights=None)
-        m.classifier[1] = nn.Linear(m.classifier[1].in_features, n)
-    elif name == "resnet50":
-        m = tv.models.resnet50(weights=None)
-        m.fc = nn.Linear(m.fc.in_features, n)
+# Final-layer path per backbone, for checkpoints saved before the notebook stored "head" itself.
+_KNOWN_HEADS = {"convnext": "classifier.2", "efficientnet": "classifier.1", "resnet": "fc", "regnet": "fc",
+                "mobilenet_v3": "classifier.3", "swin": "head", "vit": "heads.head"}
+
+
+def _build_model(name: str, n: int, head: str | None = None) -> nn.Module:
+    # Mirrors build_model() in oral_condition_classifier.ipynb: any torchvision classifier with its
+    # final nn.Linear (at attribute path `head`) replaced by an n-way layer.
+    if head is None:
+        head = next((h for prefix, h in _KNOWN_HEADS.items() if name.startswith(prefix)), None)
+        if head is None:
+            raise ValueError(f"Checkpoint has no 'head' and backbone {name!r} is not a known family")
+    m = tv.models.get_model(name, weights=None)
+    parent_path, _, attr = head.rpartition(".")
+    parent = m.get_submodule(parent_path) if parent_path else m
+    old = parent[int(attr)] if attr.isdigit() else getattr(parent, attr)
+    new = nn.Linear(old.in_features, n)
+    if attr.isdigit():
+        parent[int(attr)] = new
     else:
-        raise ValueError(f"Unsupported backbone in checkpoint: {name}")
+        setattr(parent, attr, new)
     return m
 
 
@@ -73,7 +81,7 @@ NOTES = ckpt.get("notes", "")
 CACHE_MAX_SIDE = int((ckpt.get("config") or {}).get("cache_max_side", 384))
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-MODEL = _build_model(BACKBONE, len(CLASSES))
+MODEL = _build_model(BACKBONE, len(CLASSES), ckpt.get("head"))
 MODEL.load_state_dict(ckpt["state_dict"])
 MODEL.to(DEVICE).eval()
 

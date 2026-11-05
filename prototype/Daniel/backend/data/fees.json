@@ -1,0 +1,82 @@
+{
+  "_note": "Every figure carries a source key. Fees are before GST. Only figures quoted in the IT2226 brief are used; anything not sourced is reported as unknown rather than guessed.",
+  "gst_rate": 0.09,
+  "sources": {
+    "moh_benchmarks": {
+      "title": "MOH Dental Fee Benchmarks 2025 (private clinics)",
+      "url": "https://www.moh.gov.sg/",
+      "checked": "2026-09-13"
+    },
+    "moh_public_avg": {
+      "title": "MOH 2024 average fees, public hospitals (non-subsidised)",
+      "url": "https://www.moh.gov.sg/",
+      "checked": "2026-09-13"
+    },
+    "chas_2025": {
+      "title": "MOH: Enhanced financing support for CHAS dental procedures (from 1 Oct 2025)",
+      "url": "https://www.chas.sg/News-and-Events/strengthening-support-for-oral-health",
+      "checked": "2026-09-13"
+    },
+    "cpf_flexi": {
+      "title": "CPF: Flexi-MediSave for dental care, age 60 and above (from mid-2026)",
+      "url": "https://www.cpf.gov.sg/",
+      "checked": "2026-09-13"
+    }
+  },
+  "procedures": {
+    "scale_polish": {
+      "name": "Scaling and polishing",
+      "plain": "A professional cleaning that removes tartar and surface stains",
+      "min": 61, "max": 98, "source": "moh_benchmarks",
+      "chas_items": ["scaling", "polishing"]
+    },
+    "filling": {
+      "name": "Simple filling",
+      "plain": "Removes the decay and fills the hole",
+      "min": 65, "max": 160, "source": "moh_benchmarks",
+      "chas_items": ["filling"]
+    },
+    "root_canal_molar": {
+      "name": "Root canal treatment (molar)",
+      "plain": "Cleans out an infected or inflamed nerve inside the tooth",
+      "min": 872, "max": 1400, "source": "moh_benchmarks",
+      "chas_items": ["root_canal"], "medisave_flexi": true
+    },
+    "crown": {
+      "name": "Permanent crown",
+      "plain": "A cap that covers and protects a weakened tooth",
+      "min": 750, "max": 1400, "source": "moh_benchmarks",
+      "chas_items": ["crown"], "medisave_flexi": true
+    },
+    "implant_crown": {
+      "name": "Implant with crown (per tooth)",
+      "plain": "Replaces a missing tooth with a fixed artificial one",
+      "min": 4539, "max": 6600, "source": "moh_public_avg",
+      "chas_items": []
+    }
+  },
+  "chas": {
+    "source": "chas_2025",
+    "eligible_residency": ["citizen"],
+    "claims_note": "Scaling, polishing and fluoride can each be claimed up to 2 times per calendar year.",
+    "max_per_claim": {
+      "scaling":   { "pioneer": 40.00, "merdeka": 35.00, "blue": 30.00, "orange": 20.00, "green": 0 },
+      "polishing": { "pioneer": 30.50, "merdeka": 25.50, "blue": 20.50, "orange": 13.50, "green": 0 },
+      "fluoride":  { "pioneer": 30.50, "merdeka": 25.50, "blue": 20.50, "orange": 13.50, "green": 0 },
+      "crown":     { "pioneer": 625.00 }
+    },
+    "unknown_note": "CHAS subsidies for this treatment were raised from Q4 2025, but the amount for your card isn't in our sourced table. Ask the clinic before treatment."
+  },
+  "flexi_medisave": {
+    "source": "cpf_flexi",
+    "min_age_group": "60plus",
+    "eligible_residency": ["citizen", "pr"],
+    "annual_cap": 400,
+    "note": "Paid from your own MediSave savings, not a subsidy. Up to S$400 a year towards root canal treatment and crowns."
+  },
+  "general_notes": [
+    "Fees are typical ranges before GST. GST-registered private clinics add 9%.",
+    "Check-up and consultation fees are not included and vary by clinic.",
+    "Polyclinic dental services cost less but non-emergency waits can be up to a year."
+  ]
+}

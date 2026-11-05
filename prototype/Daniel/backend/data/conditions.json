@@ -1,0 +1,113 @@
+{
+  "_note": "Plain-language content per class in shared/conditions.yaml. Education only: no diagnosis, no medication advice.",
+  "conditions": {
+    "calculus": {
+      "label": "Tartar (calculus)",
+      "short": "Hardened plaque stuck to the teeth",
+      "urgency": "routine",
+      "what": "Tartar is plaque that has hardened onto your teeth, usually along the gumline. It looks yellow or brown and you can't brush it off at home.",
+      "why": "Plaque that stays on teeth for a few days hardens into tartar. It builds faster if you skip cleaning between teeth, smoke, or have sugary drinks often.",
+      "if_left": "Tartar irritates the gums. Over months it can lead to gum disease, with bleeding, receding gums and, eventually, loose teeth.",
+      "dentist": "A scaling and polishing visit removes it, usually in one appointment of about 30 minutes.",
+      "home": [
+        "Brush twice a day for two minutes with fluoride toothpaste.",
+        "Clean between your teeth once a day with floss or interdental brushes.",
+        "Tartar won't come off at home, so plan a cleaning."
+      ],
+      "procedures": { "likely": ["scale_polish"], "if_worse": [] },
+      "products": ["soft_brush", "fluoride_paste", "interdental_brush", "floss"]
+    },
+    "caries": {
+      "label": "Tooth decay (caries)",
+      "short": "A cavity: damage to the tooth's hard surface",
+      "urgency": "soon",
+      "what": "Tooth decay is damage to the tooth caused by acid from bacteria. Early decay looks like a chalky white or brown spot, and later becomes a hole (cavity).",
+      "why": "Bacteria in plaque turn sugar into acid, which slowly dissolves the tooth. Frequent snacking, sweet drinks and missed brushing speed this up.",
+      "if_left": "Decay doesn't heal by itself. It spreads inward and can reach the nerve, causing pain or infection. At that stage a filling may no longer be enough.",
+      "dentist": "A dentist checks how deep it goes. Small cavities are usually filled in one visit. Deeper decay may need a root canal and a crown.",
+      "home": [
+        "Brush twice a day with fluoride toothpaste, and spit rather than rinse afterwards.",
+        "Cut down on sweet drinks and snacks between meals.",
+        "Book a check soon: a small filling now costs much less than a root canal later."
+      ],
+      "procedures": { "likely": ["filling"], "if_worse": ["root_canal_molar", "crown"] },
+      "products": ["fluoride_paste", "soft_brush", "floss"]
+    },
+    "hypodontia": {
+      "label": "Missing teeth (hypodontia)",
+      "short": "One or more teeth may be missing",
+      "urgency": "routine",
+      "what": "Hypodontia means one or more teeth never developed. A photo can't tell a tooth that never formed from one that was lost or hasn't come through yet. An X-ray can.",
+      "why": "It is usually genetic and is often noticed in childhood or the teens. Teeth lost to decay, gum disease or injury can look similar in a photo.",
+      "if_left": "It isn't harmful by itself. Over time, nearby teeth can drift into the gap, which can change your bite and make cleaning harder.",
+      "dentist": "A dentist confirms it with an X-ray and talks you through options: leaving the gap, braces, a bridge, a denture or an implant.",
+      "home": [
+        "Clean carefully around the gap; food tends to collect there.",
+        "Interdental brushes reach the sides of teeth next to a gap."
+      ],
+      "procedures": { "likely": [], "if_worse": ["implant_crown"] },
+      "products": ["soft_brush", "interdental_brush", "fluoride_paste"]
+    },
+    "mouth_ulcer": {
+      "label": "Mouth ulcer",
+      "short": "A small sore inside the mouth",
+      "urgency": "watch",
+      "what": "A mouth ulcer is a small, painful sore on the inside of the cheeks, lips, tongue or gums. It is usually round, white or yellow, with a red edge.",
+      "why": "Common triggers are biting your cheek, a sharp tooth or brace, a hard toothbrush, stress, and some foods. Many people get them now and then.",
+      "if_left": "Most heal by themselves within one to two weeks. An ulcer that lasts longer than two weeks, keeps coming back, or is unusually large needs to be checked by a dentist or doctor.",
+      "dentist": "A dentist or doctor looks at the sore and asks how long you've had it. If it isn't healing, they may refer you for further checks.",
+      "home": [
+        "Use a soft toothbrush and brush gently around the sore.",
+        "For a few days, avoid very spicy, acidic or rough foods.",
+        "Note the date you first noticed it. If it's still there after two weeks, get it checked."
+      ],
+      "procedures": { "likely": [], "if_worse": [] },
+      "products": ["soft_brush", "sls_free_paste"]
+    },
+    "tooth_discoloration": {
+      "label": "Tooth discolouration",
+      "short": "Stained or darkened teeth",
+      "urgency": "routine",
+      "what": "Discolouration is any change in tooth colour, such as yellow or brown staining, or a single tooth turning grey.",
+      "why": "Most staining sits on the surface and comes from tea, coffee, smoking or strongly coloured food. Deeper colour changes can follow an injury to a tooth, decay, or some childhood medicines.",
+      "if_left": "Surface staining is a cosmetic issue. A single tooth that has turned dark, especially after a knock, should be checked, as it can mean the nerve is affected.",
+      "dentist": "A scaling and polishing visit removes most surface stains. A dentist can also tell you whether the colour change is on the surface or deeper.",
+      "home": [
+        "Rinse with water after tea, coffee or curry.",
+        "Brush twice a day with fluoride toothpaste.",
+        "If one tooth has darkened after an injury, book a check sooner."
+      ],
+      "procedures": { "likely": ["scale_polish"], "if_worse": [] },
+      "products": ["soft_brush", "fluoride_paste", "floss"]
+    },
+    "normal": {
+      "label": "No visible condition",
+      "short": "Nothing stood out in this photo",
+      "urgency": "routine",
+      "what": "None of the five conditions Gigi screens for stood out in this photo. That's a good sign, but it isn't a clean bill of health.",
+      "why": "A photo only shows surfaces the camera can see. Gum disease, decay between teeth and problems below the gumline need an in-person check.",
+      "if_left": "Keep up routine care. Up to 90% of adults in Singapore have some gum disease, and it is usually painless in the early stages.",
+      "dentist": "A routine check-up and cleaning every 6 to 12 months catches problems while they are small and cheap to fix.",
+      "home": [
+        "Brush twice a day with fluoride toothpaste.",
+        "Clean between your teeth once a day.",
+        "Bleeding gums aren't normal. Mention them at your next check-up."
+      ],
+      "procedures": { "likely": ["scale_polish"], "if_worse": [] },
+      "products": ["soft_brush", "fluoride_paste", "interdental_brush"]
+    }
+  },
+  "urgency": {
+    "routine": { "label": "Routine", "advice": "Book a dental visit in the next few months." },
+    "watch": { "label": "Watch it", "advice": "Keep an eye on it. See a dentist or doctor if it hasn't healed in two weeks." },
+    "soon": { "label": "See a dentist soon", "advice": "Book a dental visit within the next 2 to 4 weeks." },
+    "unsure": { "label": "Not sure", "advice": "The photo wasn't clear enough to screen. Retake it, or ask a dentist to take a look." }
+  },
+  "emergency_signs": [
+    "Swelling in your face, jaw or neck",
+    "Bleeding from the mouth that won't stop",
+    "A tooth knocked out or broken in an accident",
+    "Fever with a painful, swollen mouth",
+    "Difficulty breathing, swallowing or opening your mouth"
+  ]
+}

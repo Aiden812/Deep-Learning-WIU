@@ -1,0 +1,921 @@
+{
+ "_note": "PROTOTYPE DATA. These are not real clinics. The production agent would query the CHAS clinic locator (chas.sg) and HealthHub instead.",
+ "clinics": [
+  {
+   "id": "sample-01",
+   "name": "Ang Mo Kio Family Dental (sample)",
+   "area": "Ang Mo Kio",
+   "lat": 1.3731,
+   "lng": 103.8424,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Tamil"
+   ]
+  },
+  {
+   "id": "sample-02",
+   "name": "Ang Mo Kio Polyclinic Dental (sample)",
+   "area": "Ang Mo Kio",
+   "lat": 1.3641,
+   "lng": 103.8494,
+   "setting": "polyclinic",
+   "chas": false,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-03",
+   "name": "Bedok Community Dental (sample)",
+   "area": "Bedok",
+   "lat": 1.3276,
+   "lng": 103.9243,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-04",
+   "name": "Bedok Family Dental (sample)",
+   "area": "Bedok",
+   "lat": 1.3186,
+   "lng": 103.9313,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-05",
+   "name": "Bishan Smile Dental Studio (sample)",
+   "area": "Bishan",
+   "lat": 1.3566,
+   "lng": 103.8322,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-06",
+   "name": "Bukit Batok Community Dental (sample)",
+   "area": "Bukit Batok",
+   "lat": 1.363,
+   "lng": 103.7607,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-07",
+   "name": "Bukit Batok Family Dental (sample)",
+   "area": "Bukit Batok",
+   "lat": 1.354,
+   "lng": 103.7677,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-08",
+   "name": "Bukit Merah Smile Dental Studio (sample)",
+   "area": "Bukit Merah",
+   "lat": 1.2859,
+   "lng": 103.8209,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-09",
+   "name": "Bukit Merah Polyclinic Dental (sample)",
+   "area": "Bukit Merah",
+   "lat": 1.2769,
+   "lng": 103.8279,
+   "setting": "polyclinic",
+   "chas": false,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-10",
+   "name": "Bukit Panjang Family Dental (sample)",
+   "area": "Bukit Panjang",
+   "lat": 1.3814,
+   "lng": 103.7689,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-11",
+   "name": "Choa Chu Kang Smile Dental Studio (sample)",
+   "area": "Choa Chu Kang",
+   "lat": 1.388,
+   "lng": 103.744,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Tamil"
+   ]
+  },
+  {
+   "id": "sample-12",
+   "name": "Choa Chu Kang Community Dental (sample)",
+   "area": "Choa Chu Kang",
+   "lat": 1.379,
+   "lng": 103.751,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-13",
+   "name": "City / Outram Family Dental (sample)",
+   "area": "City / Outram",
+   "lat": 1.2837,
+   "lng": 103.837,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-14",
+   "name": "City / Outram Smile Dental Studio (sample)",
+   "area": "City / Outram",
+   "lat": 1.2747,
+   "lng": 103.844,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-15",
+   "name": "Clementi Community Dental (sample)",
+   "area": "Clementi",
+   "lat": 1.3202,
+   "lng": 103.7619,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-16",
+   "name": "Geylang Family Dental (sample)",
+   "area": "Geylang",
+   "lat": 1.3241,
+   "lng": 103.8888,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-17",
+   "name": "Geylang Smile Dental Studio (sample)",
+   "area": "Geylang",
+   "lat": 1.3151,
+   "lng": 103.8958,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-18",
+   "name": "Hougang Community Dental (sample)",
+   "area": "Hougang",
+   "lat": 1.3652,
+   "lng": 103.8833,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-19",
+   "name": "Hougang Family Dental (sample)",
+   "area": "Hougang",
+   "lat": 1.3562,
+   "lng": 103.8903,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-20",
+   "name": "Jurong East Smile Dental Studio (sample)",
+   "area": "Jurong East",
+   "lat": 1.3369,
+   "lng": 103.7406,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-21",
+   "name": "Jurong West Community Dental (sample)",
+   "area": "Jurong West",
+   "lat": 1.3444,
+   "lng": 103.706,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Tamil"
+   ]
+  },
+  {
+   "id": "sample-22",
+   "name": "Jurong West Polyclinic Dental (sample)",
+   "area": "Jurong West",
+   "lat": 1.3354,
+   "lng": 103.713,
+   "setting": "polyclinic",
+   "chas": false,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-23",
+   "name": "Kallang Smile Dental Studio (sample)",
+   "area": "Kallang",
+   "lat": 1.314,
+   "lng": 103.868,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-24",
+   "name": "Kallang Community Dental (sample)",
+   "area": "Kallang",
+   "lat": 1.305,
+   "lng": 103.875,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-25",
+   "name": "Marine Parade Family Dental (sample)",
+   "area": "Marine Parade",
+   "lat": 1.306,
+   "lng": 103.904,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-26",
+   "name": "Pasir Ris Smile Dental Studio (sample)",
+   "area": "Pasir Ris",
+   "lat": 1.3761,
+   "lng": 103.9444,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-27",
+   "name": "Pasir Ris Community Dental (sample)",
+   "area": "Pasir Ris",
+   "lat": 1.3671,
+   "lng": 103.9514,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-28",
+   "name": "Punggol Family Dental (sample)",
+   "area": "Punggol",
+   "lat": 1.4024,
+   "lng": 103.9042,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-29",
+   "name": "Punggol Polyclinic Dental (sample)",
+   "area": "Punggol",
+   "lat": 1.3934,
+   "lng": 103.9112,
+   "setting": "polyclinic",
+   "chas": false,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-30",
+   "name": "Queenstown Community Dental (sample)",
+   "area": "Queenstown",
+   "lat": 1.2982,
+   "lng": 103.7831,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-31",
+   "name": "Sembawang Family Dental (sample)",
+   "area": "Sembawang",
+   "lat": 1.4531,
+   "lng": 103.8155,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Tamil"
+   ]
+  },
+  {
+   "id": "sample-32",
+   "name": "Sembawang Smile Dental Studio (sample)",
+   "area": "Sembawang",
+   "lat": 1.4441,
+   "lng": 103.8225,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-33",
+   "name": "Sengkang Community Dental (sample)",
+   "area": "Sengkang",
+   "lat": 1.3908,
+   "lng": 103.8884,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-34",
+   "name": "Sengkang Family Dental (sample)",
+   "area": "Sengkang",
+   "lat": 1.3818,
+   "lng": 103.8954,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-35",
+   "name": "Serangoon Smile Dental Studio (sample)",
+   "area": "Serangoon",
+   "lat": 1.3594,
+   "lng": 103.8649,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-36",
+   "name": "Tampines Community Dental (sample)",
+   "area": "Tampines",
+   "lat": 1.3536,
+   "lng": 103.9538,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-37",
+   "name": "Tampines Family Dental (sample)",
+   "area": "Tampines",
+   "lat": 1.3446,
+   "lng": 103.9608,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-38",
+   "name": "Toa Payoh Smile Dental Studio (sample)",
+   "area": "Toa Payoh",
+   "lat": 1.3383,
+   "lng": 103.8533,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown",
+    "implant_crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-39",
+   "name": "Toa Payoh Community Dental (sample)",
+   "area": "Toa Payoh",
+   "lat": 1.3293,
+   "lng": 103.8603,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin"
+   ]
+  },
+  {
+   "id": "sample-40",
+   "name": "Woodlands Family Dental (sample)",
+   "area": "Woodlands",
+   "lat": 1.4422,
+   "lng": 103.786,
+   "setting": "private",
+   "chas": true,
+   "evenings": false,
+   "weekends": true,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  },
+  {
+   "id": "sample-41",
+   "name": "Yishun Smile Dental Studio (sample)",
+   "area": "Yishun",
+   "lat": 1.4344,
+   "lng": 103.8324,
+   "setting": "private",
+   "chas": true,
+   "evenings": true,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Tamil"
+   ]
+  },
+  {
+   "id": "sample-42",
+   "name": "Yishun Polyclinic Dental (sample)",
+   "area": "Yishun",
+   "lat": 1.4254,
+   "lng": 103.8394,
+   "setting": "polyclinic",
+   "chas": false,
+   "evenings": false,
+   "weekends": false,
+   "services": [
+    "scale_polish",
+    "filling",
+    "root_canal_molar",
+    "crown"
+   ],
+   "languages": [
+    "English",
+    "Mandarin",
+    "Malay"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gigi · Oral health check for Singapore</title>
+<meta name="description" content="Screen a photo of your teeth or mouth, understand what it might be, estimate the cost after CHAS and MediSave, and find a clinic nearby. A screening aid, not a diagnosis.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" hidden>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V3m0 0 4 4m-4-4L8 7"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5m6 6-6-6 6-6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4m0 4h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.5m0-3.5h.01"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6m0-6L10 14"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+</svg>
+
+<a class="skip" href="#check">Skip to the check</a>
+
+<aside class="emergency" aria-label="Dental emergency">
+  <div class="wrap emergency-in">
+    <svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>
+    <p><strong>Dental emergency?</strong> Facial swelling, bleeding that won't stop, or a knocked-out tooth: call <a href="tel:995">995</a> or go to the nearest A&amp;E.</p>
+  </div>
+</aside>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top" aria-label="Gigi, home">
+      <img src="assets/mark.svg" alt="" width="32" height="32">
+      <span class="brand-name">gigi</span>
+      <span class="brand-tag">oral health check</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#check">Start a check</a>
+      <a href="#reliability">How reliable is it?</a>
+      <a href="#privacy">Privacy</a>
+    </nav>
+    <span id="mode-pill" class="mode-pill" hidden></span>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Intro -->
+  <section class="intro wrap" aria-labelledby="intro-h">
+    <div class="intro-copy">
+      <h1 id="intro-h">Something in your mouth doesn't look right?</h1>
+      <p class="lede">Take a photo. Gigi tells you what it might be, how soon to see a dentist, what it could cost after CHAS and MediSave, and where to go nearby.</p>
+      <div class="intro-actions">
+        <a class="btn btn-primary btn-lg" href="#check" data-start>Start a check <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="#reliability">How reliable is it?</a>
+      </div>
+      <ul class="facts" aria-label="About this check">
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Free, no sign-up</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Your photo is deleted after screening</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Every fee cites its source</li>
+      </ul>
+    </div>
+
+    <figure class="sample" aria-labelledby="sample-cap">
+      <figcaption id="sample-cap" class="sample-cap">Sample result <span>CHAS Blue card, aged under 60</span></figcaption>
+      <div class="sample-row sample-head">
+        <span class="sample-label">Looks most like</span>
+        <strong class="sample-title">Tartar (calculus)</strong>
+        <span class="tag tag-routine">Routine</span>
+      </div>
+      <div class="sample-bars" aria-hidden="true">
+        <span style="--p:.88"></span><span style="--p:.06"></span><span style="--p:.03"></span>
+      </div>
+      <p class="sample-note">Fairly confident (88%). Book a cleaning in the next few months.</p>
+      <dl class="sample-ledger">
+        <div><dt>Scaling and polishing</dt><dd class="num">S$61.00 – 98.00</dd></div>
+        <div><dt>CHAS Blue subsidy</dt><dd class="num save">−S$50.50</dd></div>
+        <div class="sample-total"><dt>You might pay</dt><dd class="num">S$10.50 – 47.50</dd></div>
+      </dl>
+      <p class="sample-src">Sources: MOH Dental Fee Benchmarks 2025; CHAS dental subsidies from 1 Oct 2025. Non-binding estimate.</p>
+    </figure>
+  </section>
+
+  <!-- The check -->
+  <section id="check" class="check" aria-labelledby="check-h">
+    <div class="wrap">
+      <div class="check-head">
+        <h2 id="check-h">Your check</h2>
+        <ol class="stepper" aria-label="Progress">
+          <li data-step-nav="1"><button type="button" disabled><span class="stepper-n">1</span><span class="stepper-l">Photo</span></button></li>
+          <li data-step-nav="2"><button type="button" disabled><span class="stepper-n">2</span><span class="stepper-l">What it might be</span></button></li>
+          <li data-step-nav="3"><button type="button" disabled><span class="stepper-n">3</span><span class="stepper-l">Cost</span></button></li>
+          <li data-step-nav="4"><button type="button" disabled><span class="stepper-n">4</span><span class="stepper-l">Clinics &amp; care</span></button></li>
+        </ol>
+      </div>
+
+      <div class="panel-host">
+
+        <!-- STEP 1: photo -->
+        <section class="panel" data-step="1" aria-labelledby="s1-h">
+          <h3 id="s1-h" class="panel-h" tabindex="-1">Add a photo of the area you're worried about</h3>
+
+          <div class="s1-grid">
+            <div class="s1-main">
+              <fieldset class="safety">
+                <legend>First, do you have any of these right now?</legend>
+                <div id="emergency-list" class="checks"></div>
+              </fieldset>
+
+              <div id="emergency-stop" class="alert alert-danger" role="alert" hidden>
+                <svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg>
+                <div>
+                  <p class="alert-h">Please get care now. Don't wait for a screening.</p>
+                  <p>Call <a href="tel:995"><strong>995</strong></a> or go to the nearest A&amp;E. If you can't get through, ask someone to take you.</p>
+                  <a class="btn btn-danger" href="tel:995"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Call 995</a>
+                </div>
+              </div>
+
+              <div id="photo-area">
+                <div id="drop" class="drop" tabindex="0" role="button" aria-describedby="drop-hint">
+                  <svg class="ic ic-lg" aria-hidden="true"><use href="#i-upload"/></svg>
+                  <p class="drop-h">Drop a photo here or <span class="link-like">choose a file</span></p>
+                  <p id="drop-hint" class="drop-hint">JPG, PNG or HEIC from your phone, up to 15 MB</p>
+                </div>
+                <div class="drop-or">
+                  <label class="btn btn-ghost" for="camera"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg>Take a photo with your camera</label>
+                  <button id="demo-run" class="btn btn-quiet" type="button" hidden>No photo? Run a demo</button>
+                </div>
+                <input id="file" type="file" accept="image/*" hidden>
+                <input id="camera" type="file" accept="image/*" capture="environment" hidden>
+
+                <div id="preview" class="preview" hidden>
+                  <img id="preview-img" alt="Your photo">
+                  <div class="preview-side">
+                    <p id="preview-name" class="preview-name"></p>
+                    <p id="preview-size" class="muted"></p>
+                    <button id="preview-change" class="btn btn-quiet btn-sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>Use a different photo</button>
+                  </div>
+                </div>
+
+                <div id="demo-box" class="demo-box" hidden>
+                  <label for="scenario">Demo scenario</label>
+                  <select id="scenario">
+                    <option value="">Simulated from the photo</option>
+                    <option value="calculus">Tartar (calculus)</option>
+                    <option value="caries">Tooth decay (caries)</option>
+                    <option value="hypodontia">Missing teeth (hypodontia)</option>
+                    <option value="mouth_ulcer">Mouth ulcer</option>
+                    <option value="tooth_discoloration">Tooth discolouration</option>
+                    <option value="normal">No visible condition</option>
+                    <option value="unsure">Low confidence</option>
+                  </select>
+                  <p class="muted small">The trained model isn't loaded on this server, so results are simulated.</p>
+                </div>
+
+                <label class="consent">
+                  <input id="consent" type="checkbox">
+                  <span>I agree to Gigi screening this photo. It's processed in memory and deleted straight after. Nothing is stored or shared. <a href="#privacy">How we handle your data</a></span>
+                </label>
+
+                <p id="s1-error" class="field-error" role="alert" hidden></p>
+
+                <div class="panel-actions">
+                  <button id="analyse" class="btn btn-primary btn-lg" type="button" disabled>Check my photo <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+                  <p id="analyse-why" class="muted small">Add a photo and tick the consent box to continue.</p>
+                </div>
+              </div>
+            </div>
+
+            <aside class="tips" aria-labelledby="tips-h">
+              <h4 id="tips-h">For a clearer result</h4>
+              <ol class="tips-list">
+                <li><span><strong>Good light.</strong> Face a window or turn on your phone's torch.</span></li>
+                <li><span><strong>Get close.</strong> Fill the frame with the teeth or spot you're worried about.</span></li>
+                <li><span><strong>Hold steady.</strong> Tap the screen to focus before you take it.</span></li>
+                <li><span><strong>One area at a time.</strong> Take another photo for a different spot.</span></li>
+              </ol>
+              <p class="tips-foot">Gigi screens for tartar, decay, missing teeth, mouth ulcers and discolouration. It <strong>can't</strong> check for gum disease.</p>
+            </aside>
+          </div>
+        </section>
+
+        <!-- STEP 2: result -->
+        <section class="panel" data-step="2" aria-labelledby="s2-h" hidden>
+          <div id="s2-loading" class="loading" aria-live="polite">
+            <div class="skeleton-row"><span class="sk sk-img"></span><span class="sk-col"><span class="sk sk-h"></span><span class="sk sk-l"></span><span class="sk sk-l short"></span></span></div>
+            <p class="muted">Checking photo quality and screening…</p>
+          </div>
+
+          <div id="s2-retake" hidden>
+            <h3 class="panel-h" tabindex="-1">That photo is hard to screen</h3>
+            <ul id="retake-issues" class="issues"></ul>
+            <div class="panel-actions">
+              <button class="btn btn-primary btn-lg" type="button" data-goto="1"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg>Retake the photo</button>
+            </div>
+          </div>
+
+          <div id="s2-result" hidden>
+            <div class="result-grid">
+              <div class="result-main">
+                <p id="r-kicker" class="r-kicker"></p>
+                <h3 id="s2-h" class="panel-h result-h" tabindex="-1"></h3>
+                <p id="r-short" class="r-short"></p>
+                <div class="r-urgency">
+                  <span id="r-tag" class="tag"></span>
+                  <p id="r-advice"></p>
+                </div>
+
+                <div id="r-abstain" class="alert alert-info" hidden>
+                  <svg class="ic" aria-hidden="true"><use href="#i-info"/></svg>
+                  <div>
+                    <p class="alert-h">Gigi isn't confident enough to give one answer.</p>
+                    <p>This can happen with unclear photos or conditions the model hasn't seen. Try a clearer photo, or ask a dentist. You can still continue using the closest match.</p>
+                  </div>
+                </div>
+
+                <dl id="r-explain" class="explain"></dl>
+
+                <div class="r-home">
+                  <h4>What you can do at home</h4>
+                  <ul id="r-home" class="ticks"></ul>
+                </div>
+              </div>
+
+              <aside class="result-side" aria-label="Screening details">
+                <figure class="thumb">
+                  <img id="r-photo" alt="The photo you screened">
+                  <figcaption id="r-quality" class="thumb-cap"></figcaption>
+                </figure>
+                <div class="spread">
+                  <h4 id="spread-h">How the screening scored each condition</h4>
+                  <ul id="r-spread" class="spread-list" aria-labelledby="spread-h"></ul>
+                  <p class="muted small">These are model scores, not a diagnosis. Below <span id="r-threshold">50%</span> Gigi treats the result as unsure.</p>
+                </div>
+              </aside>
+            </div>
+
+            <p class="cant-see"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><span>A photo can't show gum disease, decay between teeth, or anything below the gumline. Only a dentist can diagnose.</span></p>
+
+            <div class="panel-actions split">
+              <button class="btn btn-quiet" type="button" data-goto="1"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Screen another photo</button>
+              <button class="btn btn-primary btn-lg" type="button" data-goto="3">What might it cost? <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+          </div>
+
+          <div id="s2-error" class="alert alert-danger" role="alert" hidden>
+            <svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg>
+            <div>
+              <p class="alert-h">We couldn't screen that photo.</p>
+              <p id="s2-error-msg"></p>
+              <button class="btn btn-ghost btn-sm" type="button" data-goto="1">Go back</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3: cost -->
+        <section class="panel" data-step="3" aria-labelledby="s3-h" hidden>
+          <h3 id="s3-h" class="panel-h" tabindex="-1">What it might cost you</h3>
+          <p class="panel-sub">Tell us a little about yourself so we can apply the right subsidies. These answers stay in your browser.</p>
+
+          <form id="profile" class="profile" novalidate>
+            <fieldset class="seg-field">
+              <legend>Residency</legend>
+              <div class="seg">
+                <label><input type="radio" name="residency" value="citizen" checked><span>Singapore Citizen</span></label>
+                <label><input type="radio" name="residency" value="pr"><span>Permanent Resident</span></label>
+                <label><input type="radio" name="residency" value="pass"><span>Pass holder</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="seg-field" id="tier-field">
+              <legend>CHAS card</legend>
+              <div class="seg seg-wrap">
+                <label><input type="radio" name="tier" value="pioneer"><span>Pioneer</span></label>
+                <label><input type="radio" name="tier" value="merdeka"><span>Merdeka</span></label>
+                <label><input type="radio" name="tier" value="blue"><span>Blue</span></label>
+                <label><input type="radio" name="tier" value="orange"><span>Orange</span></label>
+                <label><input type="radio" name="tier" value="green"><span>Green</span></label>
+                <label><input type="radio" name="tier" value="none" checked><span>None or not sure</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="seg-field">
+              <legend>Age</legend>
+              <div class="seg">
+                <label><input type="radio" name="age" value="under60" checked><span>Under 60</span></label>
+                <label><input type="radio" name="age" value="60plus"><span>60 or older</span></label>
+              </div>
+            </fieldset>
+          </form>
+
+          <div id="cost-out" class="cost-out" aria-live="polite"></div>
+
+          <div class="panel-actions split">
+            <button class="btn btn-quiet" type="button" data-goto="2"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Back to result</button>
+            <button class="btn btn-primary btn-lg" type="button" data-goto="4">Find a clinic nearby <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          </div>
+        </section>
+
+        <!-- STEP 4: act -->
+        <section class="panel" data-step="4" aria-labelledby="s4-h" hidden>
+          <h3 id="s4-h" class="panel-h" tabindex="-1">Clinics and home care</h3>
+          <p class="panel-sub">Gigi searches for clinics that offer the treatment you might need, puts CHAS clinics first if you have a card, and picks home-care products to match.</p>
+
+          <form id="where" class="where" novalidate>
+            <div class="field">
+              <label for="area">Your town</label>
+              <div class="where-row">
+                <select id="area" name="area"></select>
+                <button id="locate" class="btn btn-ghost" type="button"><svg class="ic" aria-hidden="true"><use href="#i-locate"/></svg><span>Use my location</span></button>
+              </div>
+              <p id="locate-msg" class="muted small" aria-live="polite"></p>
+            </div>
+            <label class="check-inline"><input id="after-hours" type="checkbox"> I can only go in the evening or at weekends</label>
+            <button id="run-agent" class="btn btn-primary btn-lg" type="submit">Find clinics and products <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          </form>
+
+          <div id="agent-out" class="agent-out" aria-live="polite"></div>
+
+          <div class="panel-actions split">
+            <button class="btn btn-quiet" type="button" data-goto="3"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Back to cost</button>
+            <div class="actions-right">
+              <button id="print" class="btn btn-ghost" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-print"/></svg>Print or save summary</button>
+              <button id="restart" class="btn btn-quiet" type="button"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>Start a new check</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reliability -->
+  <section id="reliability" class="reliability wrap" aria-labelledby="rel-h">
+    <div class="rel-intro">
+      <h2 id="rel-h">How reliable is Gigi?</h2>
+      <p>Gigi's screening model is a deep-learning image classifier trained on 4,375 public oral photos in six categories. Here's how it did on photos it had never seen. We show the weak spots too.</p>
+      <div id="rel-summary" class="rel-summary"></div>
+    </div>
+    <div class="rel-table-wrap">
+      <table class="rel-table">
+        <caption>Out of every 100 test photos showing each condition, how many Gigi picked up</caption>
+        <thead><tr><th scope="col">Condition</th><th scope="col">Picked up</th><th scope="col" class="sr-only">Bar</th></tr></thead>
+        <tbody id="rel-rows"></tbody>
+      </table>
+    </div>
+    <ul class="limits">
+      <li><strong>Not from Singapore.</strong> The training photos are not of Singapore patients, so accuracy may differ for you.</li>
+      <li><strong>No gum disease.</strong> The most common problem in Singapore adults isn't a category Gigi can screen.</li>
+      <li><strong>One label per photo.</strong> A mouth can have more than one condition. Gigi only reports the strongest match.</li>
+      <li><strong>Photo quality matters.</strong> <span id="rel-robust">Blurry or low-resolution photos lower accuracy</span>, so Gigi asks for a retake when it can tell.</li>
+    </ul>
+  </section>
+
+  <!-- Privacy -->
+  <section id="privacy" class="privacy" aria-labelledby="priv-h">
+    <div class="wrap privacy-in">
+      <h2 id="priv-h"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>Your privacy</h2>
+      <ul class="privacy-list">
+        <li><strong>Consent first.</strong> Nothing is screened until you tick the consent box.</li>
+        <li><strong>Nothing kept.</strong> Your photo is screened in memory and discarded. It's never saved, logged or used to train the model.</li>
+        <li><strong>Location only when asked.</strong> "Use my location" is optional, and it's only used to sort clinics by distance.</li>
+        <li><strong>Gone when you leave.</strong> Your answers live in this browser tab and disappear when you close it. Handled in line with Singapore's PDPA.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div class="footer-about">
+      <p class="brand-name">gigi</p>
+      <p>A screening and education aid. It doesn't diagnose, prescribe or replace a dentist. All costs are non-binding estimates.</p>
+      <p class="muted small">Prototype for IT2226 AI Innovator and Deep Learning Project, Nanyang Polytechnic. Clinic listings in this prototype are sample data.</p>
+    </div>
+    <div class="footer-src">
+      <p class="footer-h">Sources</p>
+      <ul>
+        <li><a href="https://www.kaggle.com/datasets/jhirshaikh/oral-image-dataset" rel="noopener" target="_blank">Kaggle Oral Image Dataset (CC0)</a></li>
+        <li>MOH Dental Fee Benchmarks 2025; MOH 2024 average fees at public healthcare institutions</li>
+        <li><a href="https://www.chas.sg/News-and-Events/strengthening-support-for-oral-health" rel="noopener" target="_blank">CHAS: Strengthening support for oral health</a></li>
+        <li><a href="https://www.ndcs.com.sg/news/patient-care/tackling-singapore-s-silent-epidemic-of-gum-disease" rel="noopener" target="_blank">NDCS: Singapore's silent epidemic of gum disease</a></li>
+      </ul>
+      <p class="muted small">Fee and subsidy figures checked 13 Sep 2026.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
