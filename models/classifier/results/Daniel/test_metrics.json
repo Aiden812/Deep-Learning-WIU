@@ -1,76 +1,68 @@
 {
-  "experiment": "B_balanced_aug",
-  "temperature": 0.6208215951919556,
+  "experiment": "B_efficientnet_b0",
+  "backbone": "efficientnet_b0",
+  "temperature": 0.5923347473144531,
   "abstain_threshold": 0.5,
   "test": {
-    "acc": 0.9439252336448598,
-    "bal_acc": 0.9191564021686137,
-    "macro_f1": 0.9208864059781887,
-    "recall_calculus": 0.9090909090909091,
-    "recall_caries": 0.76,
-    "recall_hypodontia": 0.9402985074626866,
-    "recall_mouth_ulcer": 0.9696969696969697,
-    "recall_normal": 0.9523809523809523,
-    "recall_tooth_discoloration": 0.9834710743801653,
-    "f1_calculus": 0.9375,
-    "f1_caries": 0.7755102040816326,
-    "f1_hypodontia": 0.9545454545454546,
-    "f1_mouth_ulcer": 0.9411764705882353,
-    "f1_normal": 0.9411764705882353,
-    "f1_tooth_discoloration": 0.9754098360655737
+    "acc": 0.956386292834891,
+    "bal_acc": 0.9408602150537635,
+    "macro_f1": 0.9360911007885448,
+    "recall_calculus": 1.0,
+    "recall_caries": 0.8,
+    "recall_hypodontia": 1.0,
+    "recall_mouth_ulcer": 0.9354838709677419,
+    "recall_normal": 0.95,
+    "recall_tooth_discoloration": 0.9596774193548387,
+    "f1_calculus": 0.9014084507042254,
+    "f1_caries": 0.8333333333333334,
+    "f1_hypodontia": 0.9857142857142858,
+    "f1_mouth_ulcer": 0.9666666666666667,
+    "f1_normal": 0.95,
+    "f1_tooth_discoloration": 0.9794238683127572
   },
-  "test_macro_f1_95ci": "[0.883, 0.953]",
-  "external_test": {
-    "experiment": "B_balanced_aug",
-    "exttest_caries_auroc": 0.6764606400652601,
-    "exttest_caries_recall": 0.3159041394335512,
-    "exttest_false_caries_zenodo": 0.3333333333333333,
-    "exttest_false_caries_dentalai": 0.07042253521126761,
-    "exttest_false_caries_mendeley": 0.04827586206896552,
-    "exttest_false_caries_all": 0.0593607305936073
-  },
+  "test_macro_f1_95ci": "[0.900, 0.965]",
   "robustness": [
     {
       "condition": "original",
-      "macro_f1": 0.9208864059781887,
-      "recall_normal": 0.9523809523809523,
-      "recall_caries": 0.76,
+      "macro_f1": 0.9360911007885448,
+      "recall_normal": 0.95,
+      "recall_caries": 0.8,
       "changed_vs_original": 0.0
     },
     {
       "condition": "low-res 160px + JPEG60",
-      "macro_f1": 0.8532451692231012,
-      "recall_normal": 0.8809523809523809,
-      "recall_caries": 0.64,
-      "changed_vs_original": 0.08722741433021806
+      "macro_f1": 0.836326823187138,
+      "recall_normal": 0.925,
+      "recall_caries": 0.72,
+      "changed_vs_original": 0.11214953271028037
     },
     {
       "condition": "dark (x0.5)",
-      "macro_f1": 0.908611033999266,
-      "recall_normal": 0.9285714285714286,
+      "macro_f1": 0.9312422219149399,
+      "recall_normal": 0.95,
       "recall_caries": 0.72,
-      "changed_vs_original": 0.01557632398753894
+      "changed_vs_original": 0.018691588785046728
     },
     {
       "condition": "bright (x1.6)",
-      "macro_f1": 0.9249904342410088,
-      "recall_normal": 0.9047619047619048,
+      "macro_f1": 0.8849786419805047,
+      "recall_normal": 0.925,
       "recall_caries": 0.72,
       "changed_vs_original": 0.04361370716510903
     },
     {
       "condition": "blur (r=2)",
-      "macro_f1": 0.8710413061085106,
-      "recall_normal": 0.9047619047619048,
-      "recall_caries": 0.76,
-      "changed_vs_original": 0.08411214953271028
+      "macro_f1": 0.8874775589487061,
+      "recall_normal": 0.95,
+      "recall_caries": 0.68,
+      "changed_vs_original": 0.06230529595015576
     },
     {
       "condition": "JPEG q=20",
-      "macro_f1": 0.8808137443552425,
-      "recall_normal": 0.9047619047619048,
-      "recall_caries": 0.6,
-      "changed_vs_original": 0.059190031152647975
+      "macro_f1": 0.9024357462978277,
+      "recall_normal": 0.95,
+      "recall_caries": 0.64,
+      "changed_vs_original": 0.0529595015576324
     }
   ],
   "n_test": 321,

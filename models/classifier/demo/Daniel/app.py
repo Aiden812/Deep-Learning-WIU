@@ -46,7 +46,7 @@ def _load_checkpoint(path: Path) -> dict:
 
 # Final-layer path per backbone, for checkpoints saved before the notebook stored "head" itself.
 _KNOWN_HEADS = {"convnext": "classifier.2", "efficientnet": "classifier.1", "resnet": "fc", "regnet": "fc",
-                "mobilenet_v3": "classifier.3", "swin": "head", "vit": "heads.head"}
+                "mobilenet_v3": "classifier.3", "densenet": "classifier", "swin": "head", "vit": "heads.head"}
 
 
 def _build_model(name: str, n: int, head: str | None = None) -> nn.Module:

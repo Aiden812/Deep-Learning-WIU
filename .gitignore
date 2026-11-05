@@ -52,6 +52,12 @@ desktop.ini
 # --- Local tooling ---
 .playwright-cli/
 .taste-skill/
+# --- Syncthing (results synced from the GPU machine) --------------------
+.stfolder/
+.stignore
+.stversions/
+.syncthing.*
+~syncthing~*
 # --- Logs ---------------------------------------------------------------
 *.log
 # --- Misc ---------------------------------------------------------------
