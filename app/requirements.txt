@@ -1,1 +1,8 @@
-# Fill in once the app stack is chosen (see docs/decisions.md)
+# Backend + condition classifier. TensorFlow needs Python 3.10-3.13 (not 3.14).
+tensorflow>=2.18
+keras==3.13.2        # match the version the model was saved with
+pillow
+pyyaml
+fastapi
+uvicorn[standard]
+python-multipart
