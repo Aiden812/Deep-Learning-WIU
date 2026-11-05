@@ -1,0 +1,13 @@
+# 01_condition_classifier.ipynb + prepare_roboflow_multilabel.py
+# Install PyTorch with CUDA first:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+torch
+torchvision
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+pillow
+opencv-python-headless
+ipykernel
