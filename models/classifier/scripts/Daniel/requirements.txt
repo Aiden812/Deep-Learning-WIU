@@ -1,0 +1,5 @@
+# scrape_web_images.py
+icrawler
+ddgs
+requests
+pillow
