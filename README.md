@@ -32,6 +32,7 @@ Download into `data/raw/<name>/` (see [Dataset links.md](Dataset%20links.md)):
 | `zenodo_full/` | https://zenodo.org/records/14827784 (full dataset) |
 | `dentalai/` | https://datasetninja.com/dentalai |
 | `mendeley_noncaries/` | https://data.mendeley.com/datasets/6zsnhrds9t/1 |
+| `roboflow_oral/` | https://universe.roboflow.com/gilang-pappa-tanto-pambua-zplqr/oral-diseases-rmzuw/dataset/2 (v2, YOLOv11 export zip; CC BY 4.0) |
 
 Then run `python models/yolo_caries/scripts/check_downloads.py` to verify.
 
