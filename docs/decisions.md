@@ -10,7 +10,7 @@ One entry per decision
 
 ## 2026-11-05 — Condition classifier (Aiden): DenseNet-121 backbone
 - **Decision:** Aiden's classifier uses DenseNet-121 (ImageNet-pretrained, two-stage fine-tune).
-- **Alternatives considered:** EfficientNet-B0 (Aiden's run 1), ResNet50 / ConvNeXt-Tiny / EfficientNet-B0 (Daniel's comparison).
+- **Alternatives considered:** EfficientNet-B0 (an earlier run of Aiden's on the Kaggle dataset, dropped), ResNet50 / ConvNeXt-Tiny / EfficientNet-B0 (Daniel's comparison).
 - **Why:** Daniel already compares those three on the same task; a fourth architecture adds a comparison instead of duplicating work.
 - **Owner:** Aiden
 
@@ -20,8 +20,8 @@ One entry per decision
   looked identical were cropped / rotated / recoloured copies of one photo, down to low similarity; only 10 of 1,831 val/test
   images had no close training copy. SIFT keypoint matching on a sample: 92-98% of Roboflow "photos" have a copy filed as a
   different photo. The source dataset already contained augmented copies under new names before Roboflow added 3 per training photo.
-  The Kaggle oral dataset (run 1) is almost entirely contained in the Roboflow set (90-100% of its disease photos match),
-  so it cannot serve as an external test set, and run 1's test score (macro-F1 0.964) was most likely inflated by the same copies.
+  The Kaggle oral dataset (used by that earlier EfficientNet run) is almost entirely contained in the Roboflow set (90-100% of its disease photos match),
+  so it cannot serve as an external test set, and that run's test score (macro-F1 0.964) was most likely inflated by the same copies.
 - **Alternatives considered:** keep Roboflow's split (scores would measure memory, not recognition); group with global
   embeddings only (DenseNet and DINOv2 similarities of copies and of different photos overlap, and grouping chains
   into one cluster holding 73-98% of images).
@@ -30,9 +30,14 @@ One entry per decision
   RANSAC. >= 40 matching keypoints = same original photo (checked by eye; at 20, groups chain different mouths:
   `models/classifier/results/Aiden/figures/copy_groups_*.png`). >= 10 keypoints links photos into split groups, which are
   split 70/15/15 (at <= 8 they chain into one group of 1,278+ photos). 9,155 Roboflow photos = 2,164 original photos.
-  Val 324 / test 324 images, one per original photo, 37-147 positives per condition; no train/val-test candidate pair
-  has >= 10 matching keypoints. 720 pairs with 5-9 remain: random different photos reach up to ~20, so some are copies
-  that slipped through (`cross_split_pairs_below_threshold.png`). Residual leakage is small but not zero.
+  Val/test keep one image per split group, so they hold no copies of each other either: val 156 / test 119 images,
+  24-79 positives per condition (60/20/20 was tried, but Gingivitis and Hypodontia gain nothing and training loses 14% of
+  its photos, so 70/15/15 was kept). No train/val-test candidate pair has >= 10 matching keypoints. Most Gingivitis and
+  Hypodontia photos are copies inside one 470-photo split group, which must stay in train. 424 pairs with 5-9 remain:
+  random different photos reach up to ~20, so some are copies that slipped through
+  (`cross_split_pairs_below_threshold.png`). Residual leakage is small but not zero.
+  Run 1 kept one image per original photo instead (val/test 324/324, with weaker copies inside test): test macro AP 0.829.
+  Run 2, on the stricter set: 0.859. Within-test copies were not inflating scores, so the stricter set is kept.
 - **Owner:** Aiden
 
 ## 2026-11-05 — Condition classifier (Aiden): multi-label instead of single-label
