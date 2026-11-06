@@ -38,4 +38,4 @@ reported when its sigmoid probability is at or above its threshold.
 |---|---|
 | `notebooks/Aiden/01_condition_classifier.ipynb` | EDA, leakage checks, training, thresholds, test metrics, Grad-CAM, experiment log |
 | `scripts/Aiden/prepare_roboflow_multilabel.py` | Roboflow zip → `classifier_multilabel/` + `manifest.csv` (file, split, group, one 0/1 column per condition) |
-| `scripts/Aiden/filter_images.py`, `prepare_classifier_data.py` | Earlier pipeline (no longer used): quality filter + cleaning for the Kaggle oral dataset |
+| `scripts/Aiden/filter_images.py` | Quality check for a folder of images (tiny / dark / blurry / greyscale / duplicate flags + review sheets); used on Daniel's scraped images |

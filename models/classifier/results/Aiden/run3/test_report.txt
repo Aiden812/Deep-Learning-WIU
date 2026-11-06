@@ -1,0 +1,23 @@
+                     precision    recall  f1-score   support
+
+           Calculus      0.569     0.806     0.667        36
+             Caries      0.634     0.918     0.750        49
+         Gingivitis      0.729     0.814     0.769        43
+         Hypodontia      0.944     0.586     0.723        29
+Tooth_Discoloration      0.906     0.762     0.828        63
+        Mouth_Ulcer      0.964     0.964     0.964        28
+
+          micro avg      0.747     0.810     0.778       248
+          macro avg      0.791     0.808     0.784       248
+       weighted avg      0.784     0.810     0.782       248
+        samples avg      0.812     0.844     0.790       248
+
+average precision (threshold-free):
+            Calculus  0.751
+              Caries  0.814
+          Gingivitis  0.887
+          Hypodontia  0.845
+ Tooth_Discoloration  0.901
+         Mouth_Ulcer  0.972
+            macro AP  0.862
+exact match (all 6 answers right): 0.412
