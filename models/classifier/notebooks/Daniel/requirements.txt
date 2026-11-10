@@ -17,3 +17,6 @@ opencv-python
 pyyaml
 tqdm
 ipykernel
+
+# qwen_clean_and_label.ipynb (also uses numpy, pandas, scipy, pillow, matplotlib, tqdm above)
+requests
