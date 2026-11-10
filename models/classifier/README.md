@@ -14,7 +14,7 @@ A photo can have several. **No Normal class.** Why multi-label and why the data 
 
 **Data.** Roboflow *oral-diseases* v2 (see the main README). Its own split leaks copies of training photos into test, so
 the prep script groups every copy of an original photo (DINOv2 candidates confirmed by SIFT keypoint matching) and splits
-70/15/15 by group; val/test keep one image per original photo. Labels = box classes + folder class, unioned over copies.
+70/15/15 by group; val/test keep one image per split group (no copies of each other). Labels = box classes + folder class, unioned over copies.
 
 ```bash
 # 1. environment (CUDA build of PyTorch first)
@@ -38,4 +38,4 @@ reported when its sigmoid probability is at or above its threshold.
 |---|---|
 | `notebooks/Aiden/01_condition_classifier.ipynb` | EDA, leakage checks, training, thresholds, test metrics, Grad-CAM, experiment log |
 | `scripts/Aiden/prepare_roboflow_multilabel.py` | Roboflow zip → `classifier_multilabel/` + `manifest.csv` (file, split, group, one 0/1 column per condition) |
-| `scripts/Aiden/filter_images.py`, `prepare_classifier_data.py` | Run 1 pipeline: quality filter + cleaning for the Kaggle oral dataset |
+| `scripts/Aiden/filter_images.py` | Quality check for a folder of images (tiny / dark / blurry / greyscale / duplicate flags + review sheets); used on Daniel's scraped images |

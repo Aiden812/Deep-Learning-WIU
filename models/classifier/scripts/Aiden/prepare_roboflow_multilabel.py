@@ -14,9 +14,9 @@ Why this is more than unzipping:
   Pairs with >= GROUP_INLIERS (checked by eye: below ~20, groups start chaining different mouths together) and
   Roboflow's own copy groups are joined into groups; one group = one original photo. Copies show the same mouth, so
   every image gets the union of its group's labels.
-- Split. Groups are split 70/15/15, balancing each condition. Val and test keep one image per group (preferring a
-  copy Roboflow did not augment), so each test image is a distinct original photo. Weaker copies are handled by
-  dropping any val/test photo that has >= LEAK_INLIERS matching keypoints with a training image.
+- Split. Weaker copies (>= LEAK_INLIERS keypoints) link groups into split groups; split groups are split 70/15/15,
+  balancing each condition, so not even a weak copy crosses between train, val and test. Val and test keep one image
+  per split group (preferring a copy Roboflow did not augment), so no two val/test images are copies of each other.
 
 Slow steps are cached in <out>/_cache (DINOv2 embeddings, pair inlier counts); delete it to recompute.
 Writes <out>/<split folders>/images/*.jpg and <out>/manifest.csv (file, split, group, one 0/1 column per class).
@@ -214,9 +214,9 @@ def main(zip_path, out):
     sizes = df.groupby("split_group").group.nunique().sort_values(ascending=False)
     print(f"{len(sizes)} split groups (photos linked by >= {LEAK_INLIERS} keypoints) | photos in largest: {sizes.iloc[:5].tolist()}")
     df["split"] = df.split_group.map(split_groups(df.groupby("split_group")[CLASSES].max(), df.groupby("split_group").group.nunique()))
-    # val/test: one image per group, preferring one Roboflow did not augment
+    # val/test: one image per split group (also drops weaker copies of each other), preferring one Roboflow did not augment
     df["augmented"] = df.rf_split == "train"
-    keep = (df.split == "train") | ~df.sort_values("augmented").duplicated("group").reindex(df.index)
+    keep = (df.split == "train") | ~df.sort_values("augmented").duplicated("split_group").reindex(df.index)
     df = df[keep].drop(columns=["augmented"])
 
     split_of = df.split.reindex(range(n)).values   # NaN = val/test copy not kept

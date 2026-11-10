@@ -1,0 +1,17 @@
+frozen  1  train loss 0.629 AP 0.772 | val loss 0.768 AP 0.769
+frozen  2  train loss 0.500 AP 0.839 | val loss 0.791 AP 0.765
+frozen  3  train loss 0.469 AP 0.857 | val loss 0.806 AP 0.774
+frozen  4  train loss 0.452 AP 0.864 | val loss 0.848 AP 0.772
+frozen  5  train loss 0.442 AP 0.868 | val loss 0.932 AP 0.769
+finetune  1  train loss 0.218 AP 0.962 | val loss 1.159 AP 0.851
+finetune  2  train loss 0.085 AP 0.994 | val loss 1.709 AP 0.850
+finetune  3  train loss 0.057 AP 0.997 | val loss 1.667 AP 0.832
+finetune  4  train loss 0.043 AP 0.998 | val loss 1.371 AP 0.857
+finetune  5  train loss 0.036 AP 0.999 | val loss 1.529 AP 0.853
+finetune  6  train loss 0.024 AP 0.999 | val loss 1.558 AP 0.859
+finetune  7  train loss 0.019 AP 1.000 | val loss 1.675 AP 0.867
+finetune  8  train loss 0.022 AP 0.999 | val loss 1.777 AP 0.859
+finetune  9  train loss 0.024 AP 0.999 | val loss 1.683 AP 0.856
+finetune 10  train loss 0.014 AP 1.000 | val loss 1.535 AP 0.865
+finetune 11  train loss 0.013 AP 1.000 | val loss 2.127 AP 0.851
+finetune 12  train loss 0.016 AP 1.000 | val loss 1.680 AP 0.862
