@@ -5,3 +5,6 @@ torch
 torchvision>=0.20
 numpy
 pillow
+# mouth gate (mouth_gate.py)
+transformers
+opencv-python

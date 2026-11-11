@@ -39,7 +39,12 @@
 
       <div id="preview-card" class="card hidden">
         <div class="preview-row">
-          <img id="preview" alt="Uploaded photo">
+          <div class="preview-wrap">
+            <img id="preview" alt="Uploaded photo">
+            <svg id="mouth-box" class="mouth-box hidden" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">
+              <polygon points="" vector-effect="non-scaling-stroke"/>
+            </svg>
+          </div>
           <div class="preview-side">
             <p id="file-name" class="mono small"></p>
             <p id="file-size" class="muted small"></p>
@@ -62,7 +67,7 @@
       <h2 class="sec">Prediction</h2>
 
       <div id="idle" class="card empty">
-        <p>The model returns a probability for each of six conditions. Upload a photo to see them.</p>
+        <p id="idle-text">The gate scores each photo for a dental issue that needs attention. Upload a photo to see the probability.</p>
       </div>
 
       <div id="loading" class="card empty hidden">
@@ -73,6 +78,14 @@
       <div id="error" class="card error hidden">
         <strong>Could not classify the image</strong>
         <p id="error-msg" class="small"></p>
+      </div>
+
+      <div id="rejected" class="card reject hidden">
+        <strong id="rej-title">No mouth to classify</strong>
+        <p id="rej-msg" class="small"></p>
+        <h3 class="card-h">What the photo looks like</h3>
+        <div id="rej-bars" class="bars"></div>
+        <p class="tiny mono" id="rej-latency"></p>
       </div>
 
       <div id="result" class="hidden">
@@ -88,11 +101,17 @@
             </div>
           </div>
           <div id="abstain" class="notice hidden">
-            Confidence is below the abstention threshold (<span id="abstain-thresh"></span>).
-            The model is not confident enough to answer — a retake with better lighting and focus,
-            or a dental visit, is the safer next step.
+            <span id="abstain-body">Confidence is below the abstention threshold. The model is not confident
+            enough to answer — a retake with better lighting and focus, or a dental visit, is the safer next step.</span>
           </div>
-          <p class="small muted">Runner-up: <span id="top2">—</span></p>
+          <p class="small muted" id="subline">—</p>
+          <div id="gate-row" class="gate-row hidden">
+            <figure id="gate-crop" class="gate-crop hidden">
+              <img alt="Mouth crop sent to the model">
+              <figcaption class="tiny muted">Model input</figcaption>
+            </figure>
+            <p id="gate-msg" class="small"></p>
+          </div>
           <p class="tiny mono" id="latency"></p>
         </div>
 
@@ -113,13 +132,13 @@
     <h2 class="sec">About this model</h2>
     <div class="strip-grid">
       <div>
-        <h3 class="card-h">Test performance (n=321)</h3>
+        <h3 class="card-h" id="perf-h">Test performance</h3>
         <table class="tbl" id="metrics-tbl">
           <tbody></tbody>
         </table>
       </div>
       <div>
-        <h3 class="card-h">Per-class test F1</h3>
+        <h3 class="card-h" id="f1-h">Test sensitivity &amp; specificity</h3>
         <div id="f1-bars" class="bars"></div>
       </div>
       <div>
@@ -129,9 +148,9 @@
         </table>
       </div>
     </div>
-    <p class="disclaimer">Trained on 4,375 images from the Kaggle oral-image dataset (group-aware splits,
-       class-balanced sampling, strong augmentation). Test macro-F1 0.921 [0.883, 0.953] on 321 held-out photos.
-       Confidence is temperature-scaled (T=0.62); predictions under the abstention threshold are flagged.</p>
+    <p class="disclaimer" id="disclaimer">Trained on 4,375 images from the Kaggle oral-image dataset (group-aware splits,
+       class-balanced sampling, strong augmentation). Confidence is temperature-scaled; predictions under the
+       abstention threshold are flagged.</p>
   </section>
 
 </main>

@@ -1,7 +1,15 @@
 """Web demo for the oral-condition classifier checkpoint.
 
-Serves a single-page uploader on top of models/classifier/weights/Daniel/best.pt.
-Same inference contract as the notebook's predict_image() / src/predict.py:
+Serves a single-page uploader on top of models/classifier/weights/Daniel/binary/best.pt
+— the Stage-1 issue gate (override the file with DEMO_WEIGHTS, e.g. point it at the
+six-class models/classifier/weights/Daniel/best.pt). The checkpoint is self-describing
+and the demo adapts to its `task`:
+  - "binary" (the default file): p(issue) at/above `threshold` flags the photo for a
+    dental check.
+  - "multiclass" (default task when absent): the 6-condition classifier; a top-class
+    probability below `abstain_threshold` is flagged as an abstention.
+Inference follows the checkpoint's own metadata (backbone, head, classes, mean/std,
+temperature, threshold), the same preprocessing as the notebook's predict_image():
 EXIF-orient -> RGB -> thumbnail <=384px -> squash-resize to img_size -> ImageNet
 normalise -> logits / temperature -> softmax.
 
@@ -11,8 +19,10 @@ Then open the printed URL in a browser.
 
 from __future__ import annotations
 
+import base64
 import io
 import json
+import os
 import time
 from pathlib import Path
 
@@ -28,7 +38,9 @@ from torchvision.transforms import v2
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]  # .../Deep-Learning-WIU
-WEIGHTS = REPO / "models" / "classifier" / "weights" / "Daniel" / "best.pt"
+WEIGHTS = Path(os.environ.get("DEMO_WEIGHTS") or
+               REPO / "models" / "classifier" / "weights" / "Daniel" / "binary" / "best.pt")
+# results/Daniel/{test_metrics.json,binary/test_metrics.json} — set below once the task is known.
 METRICS = REPO / "models" / "classifier" / "results" / "Daniel" / "test_metrics.json"
 
 MAX_UPLOAD_MB = 20
@@ -76,9 +88,36 @@ IMG_SIZE = int(ckpt.get("img_size", 224))
 MEAN = tuple(ckpt.get("mean", (0.485, 0.456, 0.406)))
 STD = tuple(ckpt.get("std", (0.229, 0.224, 0.225)))
 TEMPERATURE = float(ckpt.get("temperature", 1.0))
-ABSTAIN_THRESHOLD = float(ckpt.get("abstain_threshold", 0.0))
 NOTES = ckpt.get("notes", "")
 CACHE_MAX_SIDE = int((ckpt.get("config") or {}).get("cache_max_side", 384))
+
+# Two checkpoint schemas come out of the notebooks:
+#   multiclass — 6 conditions, stores "abstain_threshold" (answer only above it);
+#   binary     — Stage-1 normal-vs-issue gate, stores "threshold" (p(issue) cut)
+#                and "positive_class". Both keep working through one code path.
+TASK = str(ckpt.get("task", "multiclass"))
+POSITIVE = ckpt.get("positive_class")
+POS_IDX = CLASSES.index(POSITIVE) if POSITIVE in CLASSES else len(CLASSES) - 1
+if TASK == "binary":
+    ABSTAIN_THRESHOLD = float(ckpt.get("threshold", 0.5))  # decision cut on p(issue)
+else:
+    ABSTAIN_THRESHOLD = float(ckpt.get("abstain_threshold", 0.0))
+TARGET_SENSITIVITY = ckpt.get("target_sensitivity")
+
+# The matching test report lives next to the task's checkpoints (results/Daniel/binary/...).
+METRICS = Path(os.environ["DEMO_METRICS"]) if os.environ.get("DEMO_METRICS") else \
+    REPO / "models" / "classifier" / "results" / "Daniel" / ("binary" if TASK == "binary" else "") / "test_metrics.json"
+
+
+def _load_metrics() -> dict | None:
+    if not METRICS.exists():
+        return None
+    try:
+        # parse_constant maps NaN/Infinity (the binary report writes them for
+        # single-class per-source slices) to null so browsers can parse the JSON.
+        return json.loads(METRICS.read_text(encoding="utf-8"), parse_constant=lambda _: None)
+    except Exception:
+        return None
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL = _build_model(BACKBONE, len(CLASSES), ckpt.get("head"))
@@ -105,17 +144,54 @@ def _warmup():
 
 _warmup()
 
+# Mouth gate (mouth_gate.py): routes each upload as an intraoral close-up (classified
+# as-is), a face photo (mouth located and cropped first) or no usable mouth (rejected
+# before the classifier runs). DEMO_MOUTH_GATE=0 turns it off; if it can't load
+# (e.g. offline on first run, before CLIP is cached) the demo classifies whole images.
+GATE = None
+GATE_ERROR = None
+if os.environ.get("DEMO_MOUTH_GATE", "1") != "0":
+    try:
+        from mouth_gate import CLIP_NAME, MouthGate
+        GATE = MouthGate(DEVICE, HERE / "assets")
+        GATE(Image.new("RGB", (320, 240), (128, 128, 128)))  # warm-up, like _warmup()
+    except Exception as e:  # noqa: BLE001 — the demo must still start without the gate
+        GATE_ERROR = f"{type(e).__name__}: {e}"
+        print(f"mouth gate disabled ({GATE_ERROR})")
+# Decode large enough that a mouth cropped out of a face photo still has detail.
+WORK_SIDE = 1280 if GATE else CACHE_MAX_SIDE
+
+
+def _jpeg_data_url(im: Image.Image, side: int = 320) -> str:
+    im = im.copy()
+    im.thumbnail((side, side), Image.LANCZOS)
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=85)
+    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+
 
 @torch.no_grad()
 def predict_bytes(data: bytes) -> dict:
     try:
         im = Image.open(io.BytesIO(data))
         if im.format == "JPEG":
-            im.draft("RGB", (CACHE_MAX_SIDE, CACHE_MAX_SIDE))
+            im.draft("RGB", (WORK_SIDE, WORK_SIDE))
         im = ImageOps.exif_transpose(im).convert("RGB")
-        im.thumbnail((CACHE_MAX_SIDE, CACHE_MAX_SIDE), Image.LANCZOS)
+        im.thumbnail((WORK_SIDE, WORK_SIDE), Image.LANCZOS)
     except Exception:
         raise HTTPException(400, "Could not decode that file as an image.")
+
+    gate = None
+    if GATE is not None:
+        t0 = time.perf_counter()
+        g = GATE(im)
+        gate = g.as_dict() | {"gate_ms": round((time.perf_counter() - t0) * 1000.0, 1)}
+        if g.route == "rejected":
+            return {"rejected": True, "gate": gate}
+        im = g.image
+        if g.route == "face_crop":
+            gate["crop_image"] = _jpeg_data_url(im)
+    im.thumbnail((CACHE_MAX_SIDE, CACHE_MAX_SIDE), Image.LANCZOS)
     x = _TF(im)[None].to(DEVICE)
     t0 = time.perf_counter()
     logits = MODEL(x).float() / TEMPERATURE
@@ -124,17 +200,31 @@ def predict_bytes(data: bytes) -> dict:
 
     order = probs.argsort()[::-1]
     k = int(order[0])
-    return {
+    out = {
         "class_id": k,
         "class_name": CLASSES[k],
         "display_name": DISPLAY.get(CLASSES[k], CLASSES[k]),
         "confidence": float(probs[k]),
-        "abstain": bool(probs[k] < ABSTAIN_THRESHOLD),
         "top2": [{"class": CLASSES[i], "display_name": DISPLAY.get(CLASSES[i], CLASSES[i]),
                   "prob": float(probs[i])} for i in order[:2]],
         "probs": {CLASSES[i]: float(probs[i]) for i in range(len(CLASSES))},
         "inference_ms": round(ms, 1),
+        "rejected": False,
+        "gate": gate,
     }
+    if TASK == "binary":
+        # Verdict = p(issue) vs the tuned decision threshold, not argmax: the band
+        # between 0.5 and the cut is argmax-issue but deliberately left unflagged.
+        p_issue = float(probs[POS_IDX])
+        flagged = p_issue >= ABSTAIN_THRESHOLD
+        k = POS_IDX if flagged else 1 - POS_IDX
+        out.update({"class_id": k, "class_name": CLASSES[k], "display_name": DISPLAY.get(CLASSES[k], CLASSES[k]),
+                    "confidence": float(probs[k]),
+                    "task": "binary", "p_issue": p_issue, "flagged": flagged,
+                    "threshold": ABSTAIN_THRESHOLD, "abstain": flagged})
+    else:
+        out["abstain"] = bool(probs[k] < ABSTAIN_THRESHOLD)
+    return out
 
 
 app = FastAPI(title="Oral condition classifier demo", docs_url="/api/docs", openapi_url="/api/openapi.json")
@@ -150,15 +240,10 @@ async def no_store(request, call_next):
 
 @app.get("/api/meta")
 def meta():
-    metrics = None
-    if METRICS.exists():
-        try:
-            metrics = json.loads(METRICS.read_text(encoding="utf-8"))
-        except Exception:
-            metrics = None
-    return {
+    out = {
         "weights": str(WEIGHTS),
         "backbone": BACKBONE,
+        "task": TASK,
         "experiment": ckpt.get("experiment"),
         "classes": [{"id": i, "name": c, "display_name": DISPLAY.get(c, c)} for i, c in enumerate(CLASSES)],
         "temperature": TEMPERATURE,
@@ -167,8 +252,15 @@ def meta():
         "device": str(DEVICE),
         "created": ckpt.get("created"),
         "notes": NOTES,
-        "metrics": metrics,
+        "metrics": _load_metrics(),
+        "mouth_gate": {"enabled": GATE is not None, "clip": CLIP_NAME if GATE else None,
+                       "error": GATE_ERROR},
     }
+    if TASK == "binary":
+        out["decision_threshold"] = ABSTAIN_THRESHOLD
+        out["positive_class"] = POSITIVE
+        out["target_sensitivity"] = TARGET_SENSITIVITY
+    return out
 
 
 @app.post("/api/predict")
@@ -190,12 +282,16 @@ app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
 
 
 if __name__ == "__main__":
-    import os
-
     import uvicorn
 
     port = int(os.environ.get("DEMO_PORT", "8712"))
-    print(f"model: {BACKBONE} ({len(CLASSES)} classes) on {DEVICE} | "
-          f"T={TEMPERATURE:.3f} abstain<{ABSTAIN_THRESHOLD:.2f}")
+    if TASK == "binary":
+        print(f"model: {BACKBONE} binary gate on {DEVICE} | "
+              f"T={TEMPERATURE:.3f} flag p(issue)>={ABSTAIN_THRESHOLD:.2f}")
+    else:
+        print(f"model: {BACKBONE} ({len(CLASSES)} classes) on {DEVICE} | "
+              f"T={TEMPERATURE:.3f} abstain<{ABSTAIN_THRESHOLD:.2f}")
+    print(f"weights: {WEIGHTS}")
+    print("mouth gate: " + (f"on (YuNet + {CLIP_NAME})" if GATE else f"off ({GATE_ERROR or 'DEMO_MOUTH_GATE=0'})"))
     print(f"demo: http://127.0.0.1:{port}")
     uvicorn.run(app, host="127.0.0.1", port=port, log_level="warning")
