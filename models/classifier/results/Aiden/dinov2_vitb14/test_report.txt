@@ -1,0 +1,10 @@
+STAGE-1 GATE: has an issue or healthy. Threshold 0.874 (catches 95% of clean-val issues)
+
+clean test (1141)            AUROC 0.9925  AP 0.8941  sensitivity 0.944  specificity 0.991  precision 0.949  accuracy 0.983
+                             AUROC 95% CI 0.9872-0.9971, sensitivity 95% CI 0.907-0.976
+                             confusion: {'tp': 168, 'fn': 10, 'fp': 9, 'tn': 954}
+person-labelled only (237)   AUROC 0.9822  AP 0.9732  sensitivity 0.944  specificity 0.983  precision 0.994  accuracy 0.954
+full test, leaky (3410)      AUROC 0.9926  AP 0.9902  sensitivity 0.927  specificity 0.991  precision 0.996  accuracy 0.945
+clean val (1135)             AUROC 0.9950  AP 0.9594  sensitivity 0.953  specificity 0.992  precision 0.967  accuracy 0.985
+
+passed on to YOLO, per condition (clean test): Calculus 100.0% of 6, Caries 95.7% of 23, Hypodontia 96.9% of 32, Mouth_Ulcer 95.6% of 90, Tooth_Discoloration 88.6% of 35

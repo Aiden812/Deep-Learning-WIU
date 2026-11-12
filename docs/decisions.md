@@ -50,3 +50,33 @@ One entry per decision
 - **Consequences:** no Normal class (the app can only say "no condition above threshold"); unboxed conditions count as absent,
   so some negatives are really unlabelled positives; the app's single-class `predict.py` contract needs a multi-label version.
 - **Owner:** Aiden
+
+## 2026-11-11 — Condition classifier (Aiden): train on Daniel's oral_dataset, evaluate on a leak-free subset
+- **Decision:** DenseNet-121 and DINOv2 ViT-B are trained and compared on Daniel's `oral_dataset` (from
+  `qwen_clean_and_label.ipynb`), as asked by the team. Five yes/no outputs (Calculus, Caries, Hypodontia, Mouth_Ulcer,
+  Tooth_Discoloration); healthy = none flagged. Gingivitis is dropped because the dataset has no gingivitis label.
+  Training uses Daniel's train split as it is. Val and test are Daniel's, but only images with no copy in train are used
+  for thresholds, calibration and the headline score; the score on his full test set is reported next to it.
+- **Evidence:** `scripts/Aiden/find_leaks.py` reuses the SIFT copy matching from 2026-11-05 on the roboflow_oral
+  images (every val/test image with a condition). An image is leaked when it shares a copy group (>= 40 keypoints or the
+  same Roboflow photo name) with a training image, or matches one directly with >= 20 keypoints. Leaked: 2,089 of
+  2,301 val and 2,269 of 2,447 test images with a condition. Daniel's grouping (Roboflow name + perceptual hash) misses
+  cropped / rotated copies. Clean test: 178 images with a condition (Calculus 6, Caries 23, Hypodontia 32,
+  Mouth_Ulcer 90, Tooth_Discoloration 35) + 963 healthy.
+- **Alternatives considered:** re-split leak-free (clean, but the classifier would no longer share a test set with the
+  YOLO detector); use Daniel's split as is (test scores inflated by memorised copies).
+- **Consequences:** Calculus (6) and, to a lesser degree, Caries (23) have too few clean test images to judge; the
+  report marks conditions with < 20. The models are now trained on real healthy mouths (7,358 in train).
+  Single train/val run per model instead of 5-fold cross-validation: the clean val set (1,135 images) is large enough.
+- **Owner:** Aiden
+
+## 2026-11-12 — Classifier role: binary stage-1 gate in front of YOLO
+- **Decision:** The DenseNet-121 / DINOv2 classifier is a binary gate (`has_issue`: healthy vs has an issue). Photos it
+  flags go to the YOLO detector, which says which condition and where. Replaces the 5-condition multi-label head
+  from 2026-11-11 (same data, same clean val/test, same training recipe; one output instead of five).
+- **Threshold:** the highest threshold that still catches 95% of the issues in the clean val set. A missed issue never
+  reaches YOLO, while a false alarm only costs one YOLO run, so the gate is tuned for sensitivity.
+- **Reported:** AUROC, AP, sensitivity, specificity, precision on the clean test (plus person-labelled only, Daniel's full
+  leaky test, clean val), and the share of each condition the gate passes on to YOLO.
+- **Consequence:** the classifier no longer names conditions; the app needs YOLO for that.
+- **Owner:** Aiden

@@ -1,4 +1,4 @@
-# 01_condition_classifier.ipynb + prepare_roboflow_multilabel.py
+# 01_gate_classifier.ipynb, scripts/Aiden/*.py (train, report, find_leaks, prepare_roboflow_multilabel)
 # Install PyTorch with CUDA first:
 #   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
 torch
