@@ -108,6 +108,11 @@ function buildCkpt(m) {
     rows.push(["Target sensitivity", Number(m.target_sensitivity).toFixed(2)]);
   const mg = m.mouth_gate || {};
   rows.push(["Mouth gate", mg.enabled ? "on (YuNet + CLIP)" : "off" + (mg.error ? " — failed to load" : "")]);
+  const dt = m.detector || {};
+  rows.push(["Detector", dt.enabled
+    ? dt.run + " · boxes ≥ " + Number(dt.conf).toFixed(2) + (dt.metrics && dt.metrics.mAP50 != null
+      ? " · test mAP50 " + num3(dt.metrics.mAP50) : "")
+    : "off" + (dt.error ? " — failed to load" : "")]);
   rows.push(["Created", m.created]);
   $("ckpt-tbl").innerHTML = rows.map((r) => `<tr><td>${r[0]}</td><td>${r[1] ?? "—"}</td></tr>`).join("");
 }
@@ -146,6 +151,13 @@ function buildFooter(m) {
       (met.n_test != null ? met.n_test : "held-out") + " held-out photos. " +
       "Probabilities are temperature-scaled (T=" + T + "); predictions under the abstention threshold (" + thr +
       ") are flagged.";
+  }
+  const dt = m.detector || {};
+  if (dt.enabled) {
+    const dm = dt.metrics || {};
+    text += " Flagged photos are passed to a YOLO detector (" + dt.run + ") that outlines calculus, caries, " +
+      "hypodontia, mouth ulcers and tooth discoloration" +
+      (dm.mAP50 != null ? " (test mAP50 " + num3(dm.mAP50) + ", mAP50-95 " + num3(dm.mAP50_95) + ")" : "") + ".";
   }
   $("disclaimer").textContent = text;
 }
@@ -318,13 +330,102 @@ function renderResult(r, wallMs, file, thumbUrl) {
   const names = Object.keys(r.probs).sort((a, b) => r.probs[b] - r.probs[a]);
   names.forEach((name, i) => bars.appendChild(barRow(displayName(name), r.probs[name], i === 0)));
 
-  $("raw-json").textContent = JSON.stringify(r, null, 2);
+  renderDetection(r);
+  // The detector's image is a large data URL; keep it out of the JSON viewer.
+  const shown = r.detection ? { ...r, detection: { ...r.detection, image: "(data URL omitted)" } } : r;
+  $("raw-json").textContent = JSON.stringify(shown, null, 2);
   $("idle").classList.add("hidden");
   $("error").classList.add("hidden");
   $("result").classList.remove("hidden");
 
   if (file.name !== "(from history)") addHistory(r, thumbUrl);
 }
+
+/* ---------- stage-2 detector ---------- */
+
+// Okabe-Ito, the same colours as the detector notebook's figures.
+const DET_COLORS = {
+  Calculus: "#E69F00",
+  Caries: "#D55E00",
+  Hypodontia: "#0072B2",
+  Mouth_Ulcer: "#CC79A7",
+  Tooth_Discoloration: "#009E73",
+};
+const detColor = (c) => DET_COLORS[c] || "#475569";
+let detCurrent = null;
+
+function renderDetection(r) {
+  const card = $("det-card");
+  detCurrent = r.detection || null;
+  if (!detCurrent) {
+    card.classList.add("hidden");
+    return;
+  }
+  const d = detCurrent;
+  const weak = d.boxes.length - d.n_confident;
+  $("det-img").src = d.image;
+  // Nothing confident: the best guesses are always drawn (no toggle), so a flagged photo is outlined.
+  $("det-weak-wrap").classList.toggle("hidden", weak === 0 || d.n_confident === 0);
+  $("det-weak").checked = false;
+  drawDetection();
+  card.classList.remove("hidden");
+}
+
+function drawDetection() {
+  const d = detCurrent;
+  if (!d) return;
+  const showWeak = $("det-weak").checked || d.n_confident === 0;
+  const boxes = d.boxes.filter((b) => b.confident || showWeak);
+  const layer = $("det-boxes");
+  layer.innerHTML = "";
+  // Weakest first so the strongest boxes (and their tags) are drawn on top.
+  [...boxes].reverse().forEach((b) => {
+    const [x1, y1, x2, y2] = b.box;
+    const el = document.createElement("div");
+    el.className = "det-box" + (b.confident ? "" : " weak") + (y1 < 0.06 ? " top-edge" : "") +
+      (x2 > 0.7 ? " right-edge" : "");
+    el.style.setProperty("--c", detColor(b.class));
+    Object.assign(el.style, {
+      left: x1 * 100 + "%", top: y1 * 100 + "%",
+      width: (x2 - x1) * 100 + "%", height: (y2 - y1) * 100 + "%",
+    });
+    el.innerHTML = `<span class="det-tag">${b.display_name} ${Math.round(b.conf * 100)}%</span>`;
+    layer.appendChild(el);
+  });
+
+  // One chip per condition: count and strongest confidence.
+  const byClass = {};
+  boxes.forEach((b) => {
+    const k = byClass[b.class] || (byClass[b.class] = { n: 0, max: 0, confident: false, name: b.display_name });
+    k.n += 1;
+    k.max = Math.max(k.max, b.conf);
+    k.confident = k.confident || b.confident;
+  });
+  $("det-list").innerHTML = Object.entries(byClass)
+    .sort((a, b) => b[1].max - a[1].max)
+    .map(([c, k]) =>
+      `<span class="det-chip${k.confident ? "" : " weak"}" style="--c:${detColor(c)}"><i></i>${k.name}` +
+      `${k.n > 1 ? " ×" + k.n : ""} <span class="mono">${fmtPct(k.max)}</span></span>`)
+    .join("");
+
+  const note = $("det-note");
+  const thr = Math.round(d.conf * 100) + "%";
+  note.classList.toggle("warn", d.n_confident === 0);
+  if (d.n_confident === 0 && d.boxes.length === 0) {
+    note.textContent = "The photo was flagged, but the detector found nothing to outline — the issue may be " +
+      "outside its five conditions (e.g. gum disease), too subtle at this resolution, or the flag a false alarm.";
+  } else if (d.n_confident === 0) {
+    note.textContent = "No finding reached the detector's " + thr + " threshold, so the dashed boxes are its " +
+      "best guesses for where the flagged issue is — low confidence, so treat them as hints. On test photos, " +
+      "most flagged images without a confident box were healthy (classifier false alarms).";
+  } else {
+    note.textContent = d.n_confident + (d.n_confident === 1 ? " finding" : " findings") + " at ≥ " + thr +
+      " confidence" + (showWeak && boxes.length > d.n_confident ? "; dashed boxes are weaker candidates" : "") +
+      ". Boxes show where to look, not a diagnosis. · detector " + d.detector_ms + " ms";
+  }
+}
+
+$("det-weak").addEventListener("change", drawDetection);
 
 let DISPLAY = {};
 async function loadDisplay() {
@@ -349,11 +450,14 @@ function addHistory(r, thumbUrl) {
     const rej = h.r.rejected;
     const name = rej ? REJECT_TITLE[(h.r.gate || {}).reason] || "Not classified" : displayName(h.r.class_name);
     const crop = !rej && h.r.gate && h.r.gate.route === "face_crop" ? " · mouth cropped" : "";
+    const nd = !rej && h.r.detection ? h.r.detection.n_confident : null;
+    const found = nd == null ? "" : " · " + (nd ? nd + (nd === 1 ? " finding" : " findings")
+      : h.r.detection.boxes.length ? "best guess only" : "no box");
     div.innerHTML = `
       <img src="${h.thumbUrl}" alt="">
       <div class="hist-main">
         <div class="hist-name">${name}</div>
-        <div class="hist-sub">${h.when.toLocaleTimeString()}${crop}</div>
+        <div class="hist-sub">${h.when.toLocaleTimeString()}${crop}${found}</div>
       </div>
       ${rej
         ? `<span class="hist-conf hist-reject">skipped</span>`

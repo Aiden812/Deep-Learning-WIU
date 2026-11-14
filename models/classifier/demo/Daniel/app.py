@@ -13,6 +13,10 @@ temperature, threshold), the same preprocessing as the notebook's predict_image(
 EXIF-orient -> RGB -> thumbnail <=384px -> squash-resize to img_size -> ImageNet
 normalise -> logits / temperature -> softmax.
 
+Anomalies (flagged by the gate, or a non-"normal" top class) are then localised by the
+YOLO detector from models/yolo_caries/notebooks/Daniel/yolo_oral_detector.ipynb
+(detector.py; DEMO_DETECTOR=0 disables it).
+
 Run:  python models/classifier/demo/Daniel/app.py   (or run.bat)
 Then open the printed URL in a browser.
 """
@@ -109,15 +113,30 @@ METRICS = Path(os.environ["DEMO_METRICS"]) if os.environ.get("DEMO_METRICS") els
     REPO / "models" / "classifier" / "results" / "Daniel" / ("binary" if TASK == "binary" else "") / "test_metrics.json"
 
 
-def _load_metrics() -> dict | None:
-    if not METRICS.exists():
+def _load_json(path: Path) -> dict | None:
+    if not path.exists():
         return None
     try:
         # parse_constant maps NaN/Infinity (the binary report writes them for
         # single-class per-source slices) to null so browsers can parse the JSON.
-        return json.loads(METRICS.read_text(encoding="utf-8"), parse_constant=lambda _: None)
+        return json.loads(path.read_text(encoding="utf-8"), parse_constant=lambda _: None)
     except Exception:
         return None
+
+
+def _load_metrics() -> dict | None:
+    return _load_json(METRICS)
+
+
+def _detector_metrics() -> dict | None:
+    # Just the test-set numbers the page shows (the full report also holds the training config).
+    d = _load_json(DETECTOR_METRICS)
+    if not d:
+        return None
+    t = d.get("test_all") or {}
+    return {"mAP50": t.get("mAP50"), "mAP50_95": t.get("mAP50_95"),
+            "per_class_AP50": {k: v.get("AP50") for k, v in (t.get("per_class") or {}).items()},
+            "screening": ((d.get("image_level") or {}).get("screening") or {}).get("all test images")}
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL = _build_model(BACKBONE, len(CLASSES), ckpt.get("head"))
@@ -158,8 +177,26 @@ if os.environ.get("DEMO_MOUTH_GATE", "1") != "0":
     except Exception as e:  # noqa: BLE001 — the demo must still start without the gate
         GATE_ERROR = f"{type(e).__name__}: {e}"
         print(f"mouth gate disabled ({GATE_ERROR})")
-# Decode large enough that a mouth cropped out of a face photo still has detail.
-WORK_SIDE = 1280 if GATE else CACHE_MAX_SIDE
+# Stage-2 detector (detector.py): when the photo is flagged (binary gate) or the top class
+# isn't "normal" (6-class checkpoint), the YOLO model from yolo_oral_detector.ipynb boxes
+# the conditions. DEMO_DETECTOR=0 turns it off, or points at another weights file.
+DETECTOR_WEIGHTS = REPO / "models" / "yolo_caries" / "weights" / "Daniel" / "best.pt"
+DETECTOR = None
+DETECTOR_ERROR = None
+if os.environ.get("DEMO_DETECTOR", "1") != "0":
+    try:
+        from detector import ConditionDetector
+        _dw = os.environ.get("DEMO_DETECTOR", "1")
+        DETECTOR = ConditionDetector(Path(_dw) if _dw != "1" else DETECTOR_WEIGHTS, DEVICE)
+    except Exception as e:  # noqa: BLE001 — the classifier demo must still start without it
+        DETECTOR_ERROR = f"{type(e).__name__}: {e}"
+        print(f"condition detector disabled ({DETECTOR_ERROR})")
+DETECTOR_METRICS = REPO / "models" / "yolo_caries" / "results" / "Daniel" / "test_metrics.json"
+NORMAL_CLASSES = {"normal"}
+
+# Decode large enough that a mouth cropped out of a face photo still has detail
+# (and the detector, which runs at 640 px, gets a full-resolution input).
+WORK_SIDE = 1280 if (GATE or DETECTOR) else CACHE_MAX_SIDE
 
 
 def _jpeg_data_url(im: Image.Image, side: int = 320) -> str:
@@ -191,6 +228,8 @@ def predict_bytes(data: bytes) -> dict:
         im = g.image
         if g.route == "face_crop":
             gate["crop_image"] = _jpeg_data_url(im)
+    full = im  # what the detector sees, before the classifier's thumbnail
+    im = im.copy()
     im.thumbnail((CACHE_MAX_SIDE, CACHE_MAX_SIDE), Image.LANCZOS)
     x = _TF(im)[None].to(DEVICE)
     t0 = time.perf_counter()
@@ -224,6 +263,21 @@ def predict_bytes(data: bytes) -> dict:
                     "threshold": ABSTAIN_THRESHOLD, "abstain": flagged})
     else:
         out["abstain"] = bool(probs[k] < ABSTAIN_THRESHOLD)
+
+    # Anomaly => localise it with the detector.
+    anomaly = out["flagged"] if TASK == "binary" else CLASSES[k].lower() not in NORMAL_CLASSES
+    out["anomaly"] = bool(anomaly)
+    out["detection"] = None
+    if anomaly and DETECTOR is not None:
+        t0 = time.perf_counter()
+        boxes = DETECTOR(full, always=3)  # flagged => always outline something
+        out["detection"] = {
+            "boxes": boxes,
+            "n_confident": sum(b["confident"] for b in boxes),
+            "conf": DETECTOR.conf,
+            "detector_ms": round((time.perf_counter() - t0) * 1000.0, 1),
+            "image": _jpeg_data_url(full, 720),  # boxes are fractions of this image
+        }
     return out
 
 
@@ -255,6 +309,8 @@ def meta():
         "metrics": _load_metrics(),
         "mouth_gate": {"enabled": GATE is not None, "clip": CLIP_NAME if GATE else None,
                        "error": GATE_ERROR},
+        "detector": DETECTOR.info() | {"metrics": _detector_metrics()} if DETECTOR
+        else {"enabled": False, "error": DETECTOR_ERROR},
     }
     if TASK == "binary":
         out["decision_threshold"] = ABSTAIN_THRESHOLD
@@ -293,5 +349,7 @@ if __name__ == "__main__":
               f"T={TEMPERATURE:.3f} abstain<{ABSTAIN_THRESHOLD:.2f}")
     print(f"weights: {WEIGHTS}")
     print("mouth gate: " + (f"on (YuNet + {CLIP_NAME})" if GATE else f"off ({GATE_ERROR or 'DEMO_MOUTH_GATE=0'})"))
+    print("detector: " + (f"on ({DETECTOR.run}, conf>={DETECTOR.conf:.2f}) {DETECTOR.weights}" if DETECTOR
+                          else f"off ({DETECTOR_ERROR or 'DEMO_DETECTOR=0'})"))
     print(f"demo: http://127.0.0.1:{port}")
     uvicorn.run(app, host="127.0.0.1", port=port, log_level="warning")

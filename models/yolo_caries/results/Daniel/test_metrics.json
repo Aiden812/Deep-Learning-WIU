@@ -1,0 +1,347 @@
+{
+  "chosen": "yolo11s",
+  "selection": "highest val mAP50-95 (data.yaml); ties within 0.005 -> fewest GFLOPs",
+  "deploy": {
+    "run": "yolo11s",
+    "weights": "models/yolo_caries/weights/Daniel/best.pt",
+    "classes": [
+      "Calculus",
+      "Caries",
+      "Hypodontia",
+      "Mouth_Ulcer",
+      "Tooth_Discoloration"
+    ],
+    "imgsz": 640,
+    "conf": 0.317,
+    "iou": 0.7,
+    "trained": "2026-11-14",
+    "dataset": "data/raw/oral_dataset/oral_dataset",
+    "ultralytics": "8.4.211"
+  },
+  "cfg": {
+    "seed": 42,
+    "cache_max_side": 1024,
+    "imgsz": 640,
+    "sweep": [
+      "yolo11s"
+    ],
+    "epochs": 80,
+    "patience": 15,
+    "batch": 32,
+    "workers": 8,
+    "tie_margin": 0.005,
+    "pred_conf": 0.05,
+    "retrain": [],
+    "quick": false,
+    "quick_epochs": 2,
+    "quick_fraction": 0.03
+  },
+  "train_args": {
+    "task": "detect",
+    "mode": "train",
+    "model": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\weights\\Daniel\\pretrained\\yolo11s.pt",
+    "data": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\data\\interim\\Daniel\\yolo_oral_1024\\data.yaml",
+    "epochs": 80,
+    "time": null,
+    "patience": 15,
+    "batch": 32,
+    "imgsz": 640,
+    "save": true,
+    "save_period": -1,
+    "cache": false,
+    "device": "0",
+    "workers": 8,
+    "project": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\results\\Daniel\\runs",
+    "name": "yolo11s",
+    "exist_ok": true,
+    "pretrained": true,
+    "cls_remap": true,
+    "optimizer": "auto",
+    "verbose": true,
+    "seed": 42,
+    "deterministic": true,
+    "single_cls": false,
+    "rect": false,
+    "cos_lr": false,
+    "close_mosaic": 10,
+    "resume": false,
+    "amp": true,
+    "fraction": 1.0,
+    "profile": false,
+    "freeze": null,
+    "multi_scale": 0.0,
+    "compile": false,
+    "channels_last": null,
+    "overlap_mask": true,
+    "mask_ratio": 4,
+    "dropout": 0.0,
+    "val": true,
+    "split": "val",
+    "save_json": false,
+    "conf": null,
+    "iou": null,
+    "max_det": 300,
+    "quantize": null,
+    "dnn": false,
+    "plots": true,
+    "nms": null,
+    "tile": false,
+    "source": null,
+    "vid_stride": 1,
+    "stream_buffer": false,
+    "visualize": false,
+    "augment": false,
+    "agnostic_nms": false,
+    "classes": null,
+    "retina_masks": false,
+    "embed": null,
+    "show": false,
+    "save_frames": false,
+    "save_txt": false,
+    "save_conf": false,
+    "save_crop": false,
+    "show_labels": true,
+    "show_conf": true,
+    "show_boxes": true,
+    "line_width": null,
+    "format": "torchscript",
+    "optimize": false,
+    "dynamic": false,
+    "simplify": true,
+    "opset": null,
+    "workspace": null,
+    "lr0": 0.01,
+    "lrf": 0.01,
+    "momentum": 0.937,
+    "weight_decay": 0.0005,
+    "warmup_epochs": 3.0,
+    "warmup_momentum": 0.8,
+    "warmup_bias_lr": 0.1,
+    "distill_model": null,
+    "dis": 6.0,
+    "box": 7.5,
+    "cls": 0.5,
+    "cls_pw": 0.0,
+    "dfl": 1.5,
+    "pose": 12.0,
+    "kobj": 1.0,
+    "rle": 1.0,
+    "angle": 1.0,
+    "dlog": 1.0,
+    "dgrad": 0.5,
+    "dlam": 1.0,
+    "nbs": 64,
+    "hsv_h": 0.005,
+    "hsv_s": 0.5,
+    "hsv_v": 0.3,
+    "degrees": 0.0,
+    "translate": 0.1,
+    "scale": 0.5,
+    "shear": 0.0,
+    "perspective": 0.0,
+    "flipud": 0.0,
+    "fliplr": 0.5,
+    "bgr": 0.0,
+    "mosaic": 1.0,
+    "mixup": 0.0,
+    "cutmix": 0.0,
+    "copy_paste": 0.0,
+    "copy_paste_mode": "flip",
+    "auto_augment": "randaugment",
+    "erasing": 0.4,
+    "cfg": null,
+    "tracker": "tracktrack.yaml",
+    "save_dir": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\results\\Daniel\\runs\\yolo11s"
+  },
+  "val": {
+    "yolo11s": {
+      "model": "yolo11s",
+      "train_images": 26032,
+      "epochs_run": 78,
+      "best_epoch": 62,
+      "min_per_epoch": 2.1940833333333294,
+      "params_M": 9.429727,
+      "GFLOPs": 21.6750592,
+      "inference_ms": 2.0718921794274565,
+      "val_P": 0.7768419220848584,
+      "val_R": 0.7866862291415805,
+      "val_mAP50": 0.8250709532886944,
+      "val_mAP50_95": 0.44459231883778844,
+      "val_person_mAP50_95": 0.4450682498492421
+    }
+  },
+  "test_all": {
+    "run": "yolo11s",
+    "data": "data.yaml",
+    "split": "test",
+    "precision": 0.7895168912651003,
+    "recall": 0.7773802581493661,
+    "mAP50": 0.8140997472321425,
+    "mAP50_95": 0.4299968900740878,
+    "f1_conf": 0.3863863863863864,
+    "f1_max": 0.7835960073379755,
+    "inference_ms": 2.0105597752500746,
+    "params_M": 9.429727,
+    "GFLOPs": 21.6750592,
+    "per_class": {
+      "Calculus": {
+        "P": 0.6787370200704386,
+        "R": 0.5815699658703072,
+        "AP50": 0.6438213469512295,
+        "AP50_95": 0.2990550324346949
+      },
+      "Caries": {
+        "P": 0.8195161178656328,
+        "R": 0.7682197379241518,
+        "AP50": 0.811849553609093,
+        "AP50_95": 0.43682087109308243
+      },
+      "Hypodontia": {
+        "P": 0.7602957132946547,
+        "R": 0.8075187969924812,
+        "AP50": 0.8005338788231736,
+        "AP50_95": 0.3471964577894757
+      },
+      "Mouth_Ulcer": {
+        "P": 0.882684109111159,
+        "R": 0.9031451096347972,
+        "AP50": 0.9218329977246601,
+        "AP50_95": 0.4876948022287668
+      },
+      "Tooth_Discoloration": {
+        "P": 0.8063514959836162,
+        "R": 0.8264476803250931,
+        "AP50": 0.8924609590525565,
+        "AP50_95": 0.5792172868244194
+      }
+    }
+  },
+  "test_person": {
+    "run": "yolo11s",
+    "data": "data_person.yaml",
+    "split": "test",
+    "precision": 0.7899371113266644,
+    "recall": 0.7775679007886882,
+    "mAP50": 0.815198899371374,
+    "mAP50_95": 0.4305298189607389,
+    "f1_conf": 0.3863863863863864,
+    "f1_max": 0.7839736678132636,
+    "inference_ms": 2.21352203052884,
+    "params_M": 9.429727,
+    "GFLOPs": 21.6750592,
+    "per_class": {
+      "Calculus": {
+        "P": 0.6770474412263934,
+        "R": 0.5815699658703072,
+        "AP50": 0.644177306134623,
+        "AP50_95": 0.2992125698150166
+      },
+      "Caries": {
+        "P": 0.8232481944186096,
+        "R": 0.7689787616555649,
+        "AP50": 0.8153333069932506,
+        "AP50_95": 0.438754783212597
+      },
+      "Hypodontia": {
+        "P": 0.7607060074857226,
+        "R": 0.8075187969924812,
+        "AP50": 0.8016133208609356,
+        "AP50_95": 0.34766868937286316
+      },
+      "Mouth_Ulcer": {
+        "P": 0.8827019961762919,
+        "R": 0.9033011768551343,
+        "AP50": 0.9219543820332657,
+        "AP50_95": 0.4875416977779442
+      },
+      "Tooth_Discoloration": {
+        "P": 0.805981917326305,
+        "R": 0.8264708025699531,
+        "AP50": 0.8929161808347948,
+        "AP50_95": 0.5794713546252733
+      }
+    }
+  },
+  "image_level": {
+    "conf": 0.3173173173173173,
+    "screening": {
+      "all test images": {
+        "issue_images": 2315.0,
+        "normal_images": 621.0,
+        "sensitivity": 0.9900647948164147,
+        "false_alarm_rate": 0.02254428341384863
+      },
+      "person-labelled": {
+        "issue_images": 2315.0,
+        "normal_images": 59.0,
+        "sensitivity": 0.9900647948164147,
+        "false_alarm_rate": 0.01694915254237288
+      }
+    },
+    "per_condition": {
+      "Calculus": {
+        "images_with": 401.0,
+        "recall": 0.8354114713216958,
+        "precision": 0.8524173027989822,
+        "F1": 0.8438287153652393
+      },
+      "Caries": {
+        "images_with": 837.0,
+        "recall": 0.8972520908004779,
+        "precision": 0.9375780274656679,
+        "F1": 0.9169719169719169
+      },
+      "Hypodontia": {
+        "images_with": 335.0,
+        "recall": 0.9402985074626866,
+        "precision": 0.9264705882352942,
+        "F1": 0.9333333333333335
+      },
+      "Mouth_Ulcer": {
+        "images_with": 543.0,
+        "recall": 0.9760589318600368,
+        "precision": 0.9869646182495344,
+        "F1": 0.9814814814814814
+      },
+      "Tooth_Discoloration": {
+        "images_with": 898.0,
+        "recall": 0.9220489977728286,
+        "precision": 0.8761904761904762,
+        "F1": 0.898534997287032
+      }
+    },
+    "false_alarm_by_source": [
+      {
+        "dataset": "dentalai",
+        "label_by": "person (caries) + qwen (other conditions)",
+        "images": 90,
+        "false_alarm_rate": 0.07777777777777778
+      },
+      {
+        "dataset": "external_clean",
+        "label_by": "qwen",
+        "images": 6,
+        "false_alarm_rate": 0.0
+      },
+      {
+        "dataset": "kaggle_oral",
+        "label_by": "person",
+        "images": 59,
+        "false_alarm_rate": 0.01694915254237288
+      },
+      {
+        "dataset": "mendeley_noncaries",
+        "label_by": "qwen",
+        "images": 460,
+        "false_alarm_rate": 0.006521739130434782
+      },
+      {
+        "dataset": "zenodo",
+        "label_by": "person (caries) + qwen (other conditions)",
+        "images": 6,
+        "false_alarm_rate": 0.5
+      }
+    ]
+  },
+  "ablation_test_person": null
+}
