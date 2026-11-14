@@ -1,8 +1,5 @@
 @echo off
-cd /d "%~dp0backend"
-if not exist .venv (
-  python -m venv .venv
-  .venv\Scripts\python -m pip install -r requirements.txt
-)
-.venv\Scripts\python app.py
+rem Launch the SmileCheck SG prototype on Daniel's models.
+cd /d "%~dp0..\.."
+python "prototype\Daniel\server.py"
 pause

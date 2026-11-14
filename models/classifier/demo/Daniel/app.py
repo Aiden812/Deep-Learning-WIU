@@ -207,16 +207,21 @@ def _jpeg_data_url(im: Image.Image, side: int = 320) -> str:
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-@torch.no_grad()
 def predict_bytes(data: bytes) -> dict:
     try:
         im = Image.open(io.BytesIO(data))
         if im.format == "JPEG":
             im.draft("RGB", (WORK_SIDE, WORK_SIDE))
         im = ImageOps.exif_transpose(im).convert("RGB")
-        im.thumbnail((WORK_SIDE, WORK_SIDE), Image.LANCZOS)
     except Exception:
         raise HTTPException(400, "Could not decode that file as an image.")
+    return predict_image(im)
+
+
+@torch.no_grad()
+def predict_image(im: Image.Image) -> dict:
+    """Runs one RGB image (a decoded photo or a video frame) through the pipeline."""
+    im.thumbnail((WORK_SIDE, WORK_SIDE), Image.LANCZOS)
 
     gate = None
     if GATE is not None:
