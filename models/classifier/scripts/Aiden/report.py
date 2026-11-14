@@ -2,7 +2,8 @@
 
     python models/classifier/scripts/Aiden/report.py      # rebuild from whatever models have been trained
 
-Reads results/Aiden/<model>/metrics.json, val_predictions.csv and test_predictions.csv (written by train.py), and
+Reads results/Aiden/<model>/metrics.json and *_predictions.csv (written by train.py), plus Daniel's gate results for the
+cross-source comparison, and
 rewrites results/Aiden/comparison_report.txt and results/Aiden/figures/comparison_*.png. train.py calls write_all()
 after every training run, so the report and graphs always match the latest models.
 """
@@ -18,6 +19,7 @@ import pandas as pd  # noqa: E402
 from sklearn.metrics import precision_recall_curve, roc_curve  # noqa: E402
 
 RESULTS = Path(__file__).resolve().parents[2] / "results" / "Aiden"
+DANIEL = RESULTS.parent / "Daniel" / "binary" / "test_metrics.json"   # his gate, scored on the same xsrc_test
 # Categorical slots 1-2 of the default palette, validated with the dataviz skill's checker (CVD dE 24.7, contrast >= 3:1)
 COLORS = {"densenet121": "#2a78d6", "dinov2_vitb14": "#eb6834"}
 EXTRA = ["#1baf7a", "#eda100"]   # slots 3-4, only if more models are trained
@@ -34,8 +36,8 @@ def load(root):
     runs = []
     for m in sorted(root.glob("*/metrics.json")):
         r = json.loads(m.read_text())
-        if r.get("task") != "binary gate: has_issue":
-            continue   # an older multi-label run: not comparable
+        if r.get("task") != "binary gate: has_issue" or "xsrc_test" not in r:
+            continue   # an older run (multi-label, or before the cross-source sets): not comparable
         r["color"] = COLORS.get(r["arch"]) or EXTRA[len(runs) % len(EXTRA)]
         for name in ("val", "test"):
             f = m.parent / f"{name}_predictions.csv"
@@ -100,9 +102,10 @@ def overview(root, runs):
             ("Specificity (healthy cleared)", "specificity"), ("Precision (flags right)", "precision"), ("Accuracy", "accuracy")]
     dots(ax[0], [n for n, _ in rows], [[r[k] for r in runs] for _, k in rows], runs, (0.0, 1.02))
     ax[0].set_title(f"Clean test ({r0['n_test']} images), higher is better")
-    rows = [("Clean test", None), ("Person-labelled only", "person"), ("Full test (leaky)", "full_test"), ("Clean val", "val")]
-    dots(ax[1], [n for n, _ in rows], [[(r[k]["auroc"] if k else r["auroc"]) for r in runs] for _, k in rows], runs,
-         (min(min(r["auroc"], r["person"]["auroc"], r["full_test"]["auroc"], r["val"]["auroc"]) for r in runs) - 0.01, 1.002), fmt="{:.4f}")
+    rows = [("Clean test", None), ("Cross-source test", "xsrc_test"), ("Person-labelled only", "person"),
+            ("Full test (leaky)", "full_test"), ("Clean val", "val"), ("Cross-source val", "xsrc_val")]
+    v = [[(r[k]["auroc"] if k else r["auroc"]) for r in runs] for _, k in rows]
+    dots(ax[1], [n for n, _ in rows], v, runs, (min(map(min, v)) - 0.01, 1.002), fmt="{:.4f}")
     ax[1].set_title("AUROC on each evaluation set")
     conds = list(r0["passed_to_yolo"])
     labels = [f"{c} (n={r0['passed_to_yolo'][c]['n']}{', too few' if r0['passed_to_yolo'][c]['n'] < FEW else ''})" for c in conds]
@@ -195,6 +198,14 @@ def training_curves(root, runs):
     plt.close(fig)
 
 
+def daniel():
+    """Daniel's gate on xsrc_test at his threshold, or None if his results aren't in the repo."""
+    if not DANIEL.exists():
+        return None
+    m = json.loads(DANIEL.read_text())
+    return dict(m["test_at_threshold"]["xsrc_test"], backbone=m["backbone"], target=m["target_sensitivity"])
+
+
 def write_all(root=RESULTS):
     runs = load(root)
     if not runs:
@@ -239,13 +250,17 @@ def write_comparison(root, runs):
         overlap = a_["auroc_ci"][0] <= b_["auroc_ci"][1] and b_["auroc_ci"][0] <= a_["auroc_ci"][1]
         add(f"AUROC on the clean test: {a_['name']} {a_['auroc']:.4f}, {b_['name']} {b_['auroc']:.4f}. The 95% intervals "
             + ("overlap, so this gap alone is not conclusive." if overlap else "do not overlap."))
-        add(f"At thresholds set to catch {r0['settings']['target_sensitivity']:.0%} of clean-val issues: {a_['name']} catches "
+        add(f"At thresholds set to catch {r0['settings']['target_sensitivity']:.0%} of issues in clean val and cross-source val: {a_['name']} catches "
             f"{a_['sensitivity']:.1%} of test issues and clears {a_['specificity']:.1%} of healthy mouths; {b_['name']} "
             f"{b_['sensitivity']:.1%} and {b_['specificity']:.1%}.")
         missed = {r["name"]: r["confusion"]["fn"] for r in runs}
         add("Issues missed by the gate (never reach YOLO): " + ", ".join(f"{k} {v}" for k, v in missed.items()) + f" of {r0['n_issue']}.")
     else:
         add(f"Only {r0['name']} has been trained so far.")
+    x = [f"{r['name']} {r['xsrc_test']['auroc']:.4f}" for r in runs]
+    d = daniel()
+    add(f"Cross-source test (non-Roboflow photos, both classes from the same sources): AUROC {', '.join(x)}"
+        + (f"; Daniel's gate ({d['backbone']}) {d['auroc']:.4f} on the same images." if d else "."))
     add("")
     add("2. METHOD (identical for every model; only the backbone and its learning rate differ)")
     add("-" * 100)
@@ -253,14 +268,16 @@ def write_comparison(root, runs):
         "Pipeline  Stage 1 (this model): has an issue, or healthy? Flagged photos go to stage 2, YOLO (which condition, where).",
         "Data      Daniel's oral_dataset (data/raw/oral_dataset), target has_issue. Sources: roboflow_oral, zenodo, dentalai,",
         "          kaggle_oral, mendeley_noncaries, screened web images; labelled by people or Qwen (labels.csv: label_by).",
-        f"Split     Daniel's split. Train: {r0['n_train']} images, used as is. Val/test: only images with no copy of a training",
-        "          photo (find_leaks.py: SIFT keypoint matching on roboflow_oral). About 90% of the val/test images with an",
-        f"          issue were copies. Clean val: {r0['n_val']} images. Clean test: {r0['n_test']} of {r0['n_test_full']}, used once at the end.",
+        f"Split     Daniel's binary split (manifests/Daniel/binary_classifier_split.csv). Train: {r0['n_train']} images (his train",
+        "          minus two cross-source sets carved from non-Roboflow photo groups: xsrc_val, xsrc_test). Val/test: only images",
+        "          with no copy of a training photo (find_leaks.py: SIFT keypoint matching on roboflow_oral). About 90% of the",
+        f"          val/test images with an issue were copies. Clean val: {r0['n_val']} images. Clean test: {r0['n_test']} of "
+        f"{r0['n_test_full']}. Both test sets used once at the end.",
         "Training  One sigmoid output. Fixed number of epochs (no epoch picked on validation), AdamW wd 0.05, one-cycle cosine,",
         "          mixed precision, BCE with pos_weight + label smoothing 0.05, each photo group equally likely per epoch.",
         "          Augmentation: random resized crop 0.5-1.0, flip, rotation 20, brightness/contrast 0.2 (no hue: discolouration is a colour).",
-        f"Decision  Probability calibrated on the clean val set. Threshold: the highest that still catches "
-        f"{r0['settings']['target_sensitivity']:.0%} of clean-val issues,",
+        f"Decision  Probability calibrated on clean val + cross-source val. Threshold: the highest that still catches "
+        f"{r0['settings']['target_sensitivity']:.0%} of issues in each,",
         "          because a missed issue never reaches YOLO while a false alarm only costs one YOLO run. Test predictions",
         "          average the image and its mirror.",
     ]:
@@ -294,6 +311,26 @@ def write_comparison(root, runs):
     row(f"  Daniel's full test (leaky, {r0['n_test_full']})", [f"{r['full_test']['auroc']:.4f}" for r in runs])
     row(f"  clean val ({r0['n_val']}, used for the threshold)", [f"{r['val']['auroc']:.4f}" for r in runs])
     add("")
+    xs = r0["xsrc_test"]["confusion"]
+    add(f"3b. RESULTS, CROSS-SOURCE TEST ({sum(xs.values())} non-Roboflow images: {xs['tp'] + xs['fn']} with an issue, "
+        f"{xs['tn'] + xs['fp']} healthy)")
+    add("-" * 100)
+    add("The clean test has every issue photo from Roboflow and every healthy one from elsewhere, so it can't tell disease")
+    add("from photo style. This set has both classes from the same non-Roboflow sources (Daniel's xsrc_test), and Daniel's")
+    add("gate is scored on the same images, so this is the fairest comparison with his model.")
+    d = daniel()
+    row("", [r["name"] for r in runs] + (["Daniel's gate"] if d else []))
+    for label, k, f in [("AUROC", "auroc", "{:.4f}"), ("Average precision", "ap", "{:.4f}"),
+                        ("Sensitivity (issues caught)", "sensitivity", "{:.1%}"), ("Specificity (healthy cleared)", "specificity", "{:.1%}")]:
+        row(label, [f.format(r["xsrc_test"][k]) for r in runs] + ([f.format(d[k])] if d else []))
+    row("  AUROC 95% CI", [f"{r['xsrc_test']['auroc_ci'][0]:.4f}-{r['xsrc_test']['auroc_ci'][1]:.4f}" for r in runs] + (["-"] if d else []))
+    add("AUROC within one source (both classes are the same kind of photo; the cleanest 'disease, not source' check):")
+    for src, v in r0["xsrc_per_source"].items():
+        row(f"  {src} ({v['n_issue']} issue, {v['n_healthy']} healthy)",
+            [("n/a" if r["xsrc_per_source"][src]["auroc"] is None else f"{r['xsrc_per_source'][src]['auroc']:.4f}") for r in runs])
+    if d:
+        add(f"Daniel's numbers are at his own threshold (also set to catch {d['target']:.0%} of issues; backbone {d['backbone']}), from {DANIEL.relative_to(RESULTS.parents[3]).as_posix()}.")
+    add("")
     add("4. WHAT REACHES YOLO, PER CONDITION (clean test)")
     add("-" * 100)
     add("Share of images with each condition that the gate flags. A miss here is a miss for the whole pipeline.")
@@ -305,6 +342,8 @@ def write_comparison(root, runs):
     add("-" * 100)
     few = [f"{c} {v['n']}" for c, v in r0["passed_to_yolo"].items() if v["n"] < FEW]
     for line in [
+        "- In the clean test every issue photo is from Roboflow, so it mostly measures 'Roboflow photo or not'; read it",
+        "  together with the cross-source test (3b). mendeley_noncaries only has healthy photos, even there.",
         f"- The clean test is small for some conditions ({', '.join(few) if few else 'none under 20'} images), "
         "because copies of training photos fill Daniel's val/test.",
         "- Most healthy val/test photos were judged healthy by Qwen, not a person, so a few may hide a small finding.",
@@ -326,7 +365,7 @@ def write_comparison(root, runs):
         ("<model>/metrics.json", "numbers in this report"),
         ("<model>/test_report.txt", "full test report for that model"),
         ("<model>/train_log.txt", "training log"),
-        ("<model>/val_predictions.csv, test_predictions.csv", "calibrated probabilities on the clean val / test images"),
+        ("<model>/val_, test_, xsrc_test_predictions.csv", "calibrated probabilities on clean val / clean test / cross-source test"),
         ("../../../data/processed/oral_dataset_leaks.csv", "which val/test images are copies of training photos"),
     ]:
         add(f"  {f:<52s}{what}")

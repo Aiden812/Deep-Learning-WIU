@@ -80,3 +80,26 @@ One entry per decision
   leaky test, clean val), and the share of each condition the gate passes on to YOLO.
 - **Consequence:** the classifier no longer names conditions; the app needs YOLO for that.
 - **Owner:** Aiden
+
+## 2026-11-12 — Gate and YOLO retrained on Daniel's cleaned release, with a cross-source test
+- **Decision:** both gate models and YOLO11n are retrained on the cleaned `oral_dataset` (33,843 images; unchecked
+  "healthy" zenodo photos dropped). The gate trains on the `train` role of `manifests/Daniel/binary_classifier_split.csv`
+  (his train minus two cross-source sets, `xsrc_val`/`xsrc_test`, from non-Roboflow photos). Platt calibration uses clean
+  val + `xsrc_val`; the threshold is the lower of the two thresholds that catch 95% of issues, so it isn't tuned only on
+  Roboflow-style photos. Reason: in the clean test every issue photo is Roboflow and every healthy one is not.
+- **Results (gate):** clean test AUROC DenseNet-121 0.9946, DINOv2 0.9957 (CIs overlap); both catch 98.9% of issues
+  (2 of 178 missed). Cross-source test AUROC 0.9798 / 0.9839 vs Daniel's gate 0.9797 on the same images. Within one source
+  AUROC falls to 0.86-0.99 (dentalai ~0.90, zenodo ~0.86-0.88, kaggle ~0.98).
+- **Results (YOLO11n, 40 epochs):** Daniel's full test mAP50 0.798 / mAP50-95 0.414 (team comparison); clean test
+  0.697 / 0.384 (honest). Weakest on clean test: Calculus AP50 0.40, Hypodontia 0.53.
+- **Open:** DenseNet vs DINOv2 not chosen yet (near tie; DenseNet ~10x smaller). Several top "healthy" false positives
+  look mislabelled: to report to Daniel.
+- **Owner:** Aiden
+
+## 2026-11-14 — Tuning runs (gate) and longer YOLO training
+- **Gate tuning:** DenseNet-121 with backbone lr 5e-5 and 2e-4 (base 1e-4) and stronger colour jitter (0.4 vs 0.2).
+  Cross-source val AUROC 0.9818 / 0.9811 / 0.9808 vs base 0.9801: all within ~0.002, inside the CI. The base settings
+  are kept (choice made on val, not test). The limit is the data: within-source AUROC stays ~0.90 on dentalai.
+- **YOLO11n 100 epochs** (was 40; patience 20): Daniel's full test mAP50 0.798 -> 0.829, mAP50-95 0.414 -> 0.443;
+  clean test mAP50 0.697 -> 0.752. Best epoch = 100, so still improving slowly; a larger model (yolo11s) is the next step.
+- **Owner:** Aiden

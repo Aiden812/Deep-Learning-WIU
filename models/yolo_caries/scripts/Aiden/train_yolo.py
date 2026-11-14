@@ -117,7 +117,8 @@ def main():
 
     # team log: one row per member + model, replaced on every run
     f, c = results["full"], results["clean"]
-    row = dict(run_id=f"aiden_{tag}", date=date.today().isoformat(), member="Aiden", model=tag, data_version="oral_dataset 2026-11-11",
+    row = dict(run_id=f"aiden_{tag}", date=date.today().isoformat(), member="Aiden", model=tag,
+               data_version=f"oral_dataset 2026-11-11 ({len(pd.read_csv(DATA / 'labels.csv', usecols=['md5']))} images)",
                imgsz=a.imgsz, epochs=len(hist), batch=a.batch, lr0=model.ckpt.get("train_args", {}).get("lr0", "") if model.ckpt else "",
                mAP50=round(f["map50"], 4), mAP50_95=round(f["map50_95"], 4), precision=round(f["precision"], 4), recall=round(f["recall"], 4),
                weights_path=best.relative_to(REPO).as_posix(),

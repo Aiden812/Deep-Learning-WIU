@@ -1,10 +1,16 @@
-STAGE-1 GATE: has an issue or healthy. Threshold 0.595 (catches 95% of clean-val issues)
+STAGE-1 GATE: has an issue or healthy. Threshold 0.631 (catches 95% of issues in clean val and cross-source val)
 
-clean test (1141)            AUROC 0.9953  AP 0.9744  sensitivity 0.949  specificity 0.989  precision 0.939  accuracy 0.982
-                             AUROC 95% CI 0.9917-0.9982, sensitivity 95% CI 0.913-0.979
-                             confusion: {'tp': 169, 'fn': 9, 'fp': 11, 'tn': 952}
-person-labelled only (237)   AUROC 0.9958  AP 0.9987  sensitivity 0.949  specificity 1.000  precision 1.000  accuracy 0.962
-full test, leaky (3410)      AUROC 0.9959  AP 0.9979  sensitivity 0.936  specificity 0.989  precision 0.995  accuracy 0.951
-clean val (1135)             AUROC 0.9934  AP 0.9660  sensitivity 0.953  specificity 0.978  precision 0.910  accuracy 0.974
+clean test (777)             AUROC 0.9946  AP 0.9698  sensitivity 0.989  specificity 0.960  precision 0.880  accuracy 0.967
+                             AUROC 95% CI 0.9896-0.9983, sensitivity 95% CI 0.970-1.000
+                             confusion: {'tp': 176, 'fn': 2, 'fp': 24, 'tn': 575}
+person-labelled only (238)   AUROC 0.9793  AP 0.9844  sensitivity 0.989  specificity 0.850  precision 0.951  accuracy 0.954
+full test, leaky (3046)      AUROC 0.9944  AP 0.9978  sensitivity 0.992  specificity 0.960  precision 0.990  accuracy 0.986
+cross-source test (1166)     AUROC 0.9798  AP 0.9730  sensitivity 0.936  specificity 0.944  precision 0.945  accuracy 0.940
+  dentalai                   AUROC 0.8971  issues 187, healthy 92
+  external_clean             AUROC 0.9303  issues 41, healthy 7
+  kaggle_oral                AUROC 0.9787  issues 94, healthy 15
+  mendeley_noncaries         AUROC n/a  issues 0, healthy 454
+  zenodo                     AUROC 0.8772  issues 270, healthy 6
+clean val (852)              AUROC 0.9935  AP 0.9669  sensitivity 1.000  specificity 0.955  precision 0.880  accuracy 0.966
 
-passed on to YOLO, per condition (clean test): Calculus 83.3% of 6, Caries 95.7% of 23, Hypodontia 100.0% of 32, Mouth_Ulcer 97.8% of 90, Tooth_Discoloration 85.7% of 35
+passed on to YOLO, per condition (clean test): Calculus 100.0% of 6, Caries 95.7% of 23, Hypodontia 100.0% of 32, Mouth_Ulcer 100.0% of 90, Tooth_Discoloration 97.1% of 35

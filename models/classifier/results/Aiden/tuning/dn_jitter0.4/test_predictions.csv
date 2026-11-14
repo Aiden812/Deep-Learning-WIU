@@ -1,0 +1,778 @@
+image,label_by,dataset,has_issue,Calculus,Caries,Hypodontia,Mouth_Ulcer,Tooth_Discoloration,p_issue
+images/test/0034e071f4eefa4e97172215e3588fbc.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00050583633
+images/test/01c511c24ca3505d1fcd51bcdd238820.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00043469638
+images/test/01e78622e97b4bc2b5dfb53a560da9ce.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,6.847659e-05
+images/test/0216d5fcf05146af4bfc6073428ce3bb.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,5.3185173e-05
+images/test/02890511f75b148a9316f483c38a450a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005636689
+images/test/02d78d3e9d8deb9a15233367d2c0c218.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.04032328
+images/test/032265159d21a6f4754ca77abb6a58fd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00028807178
+images/test/03328d72b0e3bcd9a6f15f8f1226222f.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9036718
+images/test/03ec22b3611e2cb7ebd58e3e302b8949.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0010039423
+images/test/046d1112aec145c034d808d5090c0817.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9621367
+images/test/04abb8fcea537234b65a01980061383b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006559019
+images/test/04f4c57e99f5f84955a3ba108390d2dc.jpg,person,kaggle_oral,0,0,0,0,0,0,0.97095865
+images/test/0522488277bac8335bea8ed6ce87ce07.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9160878
+images/test/056079eb5f35395c51ccf0f604f6a7c9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.008237921
+images/test/06a2d0d1d1b19ec29468177a5c779f08.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002922609
+images/test/06b83f1d29efb5db5ea43254ac7008f6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.007163691
+images/test/07133c3d5fa48130c65cfb33f70c98e6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,8.2022896e-05
+images/test/07463fa05b78e0c221136670acd1f254.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00017888566
+images/test/0748ab5afd0b55a25e82cdc7ae1da72a.jpg,person,kaggle_oral,0,0,0,0,0,0,0.00016404023
+images/test/083ce1202287f6a1d18f0c5f01e94c9e.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.17963617
+images/test/08890888864a81269b1e3bbc6d6c8ceb.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,7.968783e-05
+images/test/08c1c23b3ec25ef19cfd8e3eed4b51ca.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.20838557
+images/test/093185418fed5930c55c073abd18cf48.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007100858
+images/test/09ec58b660267a2b7b3e9f7449f524e9.jpg,person,roboflow_oral,1,0,0,0,1,0,0.89619696
+images/test/0a6c571b50a18aca9b2ce813d1a8d3c4.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0021021604
+images/test/0a76ebed1deed3dab2afda63053fcfd4.jpg,person,roboflow_oral,1,0,0,0,1,0,0.96553224
+images/test/0aeb89bb5bc84dbd4fb632ef2b750feb.jpg,person,kaggle_oral,0,0,0,0,0,0,0.872851
+images/test/0af4584f2466e0bcd8948be5782f7df9.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00012289388
+images/test/0cbb60da3bf17c6d53498f0b4bbf43c5.jpg,person,roboflow_oral,1,0,0,0,1,0,0.96885186
+images/test/0cbe3f3183fc0e4a3bc6bb92f2bbb9d2.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.035091195
+images/test/0cd4fc73a79d2dcb5ae0fe0264cf0f3d.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9620708
+images/test/0d34c6a3d2ccedb85114f39820511ce9.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.025786033
+images/test/0da3f4e9058205b9f97b63ad12830278.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9113935
+images/test/0da96b03efb73a75b810a27bc4ab2f33.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.066899024
+images/test/0dbc21b84ee1a8288731a81366a8c183.jpg,person,roboflow_oral,1,0,0,1,0,0,0.99158746
+images/test/0e097c6328315f4274a2725dddd04cc1.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00038450025
+images/test/0e25ef80f90d1230f3cb37e50d673627.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00027586106
+images/test/0e73186d49aad5894f8489100d3615b5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006559019
+images/test/0ef4d5467208aaa2f621457196229a1e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006465039
+images/test/0f45a22daacfef4e81d8cee1161d3df3.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.006117911
+images/test/0f76bb53644e235351488373cf8b5a60.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9866638
+images/test/0f8793382f5af046e3d809de55d688c7.jpg,person,roboflow_oral,1,0,0,0,1,0,0.94277984
+images/test/0f9541096da5c802e4915f2f5e026640.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0020946006
+images/test/0fbf396670b74b9ab629fa136ae5708d.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.008568808
+images/test/0fdea868913fd5279de52d3dd1d34225.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0020424342
+images/test/0ff545b76004eec96320ccd9265fa35e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0027541025
+images/test/100f23552726188cf25e37cc557229b6.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0020059682
+images/test/10247da343b243582994722b92165153.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006582729
+images/test/106860453b124bc647f2585387cbf6e3.jpg,person,kaggle_oral,0,0,0,0,0,0,4.0423136e-05
+images/test/1116fda09e225cd3e1431dc68279eed0.jpg,person,roboflow_oral,1,0,0,0,0,1,0.979289
+images/test/119214c063cbe8540be2672f04dbbdb7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00083826645
+images/test/119299be774ac416ec2c4949a9eee50a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00054763013
+images/test/11c19bad6f3ea2125d61ccd0e75f5ff7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.019443074
+images/test/1303c5f79904157153ae37f981efe4a4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00046219962
+images/test/13bdfcd3e77058efb1c862be627d75d2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0010947139
+images/test/151876cb895b6fe271704f3100811b9f.jpg,person (caries) + qwen (other conditions),zenodo,0,0,0,0,0,0,0.7971537
+images/test/1523c20a073c7d7d29639aa2d3f31363.jpg,qwen,external_clean,0,0,0,0,0,0,0.0004315702
+images/test/15721e9040b592adf15b934f807fc3f8.jpg,person,roboflow_oral,1,0,1,0,0,0,0.8534765
+images/test/1590b02710f1cc394e58e8a388261260.jpg,person,roboflow_oral,1,0,0,0,1,0,0.96147346
+images/test/1659c324c1a024fcdba9902b7d32f31e.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.52486575
+images/test/16810fb1109b7aad1953c3434e098eb1.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.09972565
+images/test/16fb1a9d5684eefadf80922aa1ae4020.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.011487197
+images/test/17a800861c68e4d4ad4aebeb9003765d.jpg,person,roboflow_oral,1,0,0,0,1,0,0.92455256
+images/test/191398ab306883a08a28dc6dc5af5c1a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,6.604855e-05
+images/test/193904a9d4b9cf7a2251a811c7b7f817.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002922609
+images/test/19be031c7092e8dbdd4d143700cdd328.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,2.420943e-05
+images/test/19ef4ae210e4829e161541ee3f146cbd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0019072834
+images/test/1af3e19e70c6d52c87294b3a5c631d71.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.002300271
+images/test/1b24826aecce073f891aedb0132ef9ee.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9383412
+images/test/1bb0e037551b469063127fa6aa40ed16.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00974656
+images/test/1bbf2471909cb2171380232a67a05cbd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00028807178
+images/test/1bc6adbe5a4f3054164139b3cc84307c.jpg,person,roboflow_oral,1,0,0,0,0,1,0.95955694
+images/test/1bd0ae56d98c03ed944195b337b521f7.jpg,person,roboflow_oral,1,0,1,0,0,0,0.9494877
+images/test/1c04b8bd543e8f8d3d6427ecf8cf1db0.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,5.0930223e-05
+images/test/1c33aa36d773ff87cecd91697096a994.jpg,person,roboflow_oral,1,0,0,0,0,1,0.96949893
+images/test/1c4c3d974c80553c16955c9fae7c8767.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9878442
+images/test/1c5950f712f077fde8c17a675ccad1a9.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.16139485
+images/test/1c6a743ef9c78f2a716ab54348256890.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0025719823
+images/test/1c7ec821b6d2e8bc8561dc8a16f2918a.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00092069025
+images/test/1ccd0abf2c417b7ccf1e46f7d0bac150.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00033281298
+images/test/1cf155dbb64a9ae4015bbc52ef54f477.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.1610287
+images/test/1d9004240e0ee31c5f7c3edd8d0d40dd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00031413833
+images/test/1e490d1c0e576ab681ee31e2a53e421d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00013894224
+images/test/1e6819efe229554d7e31bf51df2227d1.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00035515171
+images/test/1ec035be1c603ff0587b8629d95d1c09.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.8738494
+images/test/1f6fef9b496530dcedec21561a68931a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000260381
+images/test/1fb5ba5d996187148aa5ef8825f9f94c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00045393457
+images/test/1fb6987a1872296d6b63031b358efbb9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.824863e-05
+images/test/1fc9562c2b51b8d6930ed45181db9989.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00024934375
+images/test/200a349d24b8070b39e2469e862b28eb.jpg,person,kaggle_oral,0,0,0,0,0,0,2.4561577e-05
+images/test/2028617dd025c7d6fa58818a677f4890.jpg,person,roboflow_oral,1,0,0,0,1,0,0.97367746
+images/test/20443fb09bd704cf2f4f69824354ff89.jpg,person,roboflow_oral,1,0,0,1,0,0,0.977851
+images/test/204e3572bccb5cce3d9c17d95f98075c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003187064
+images/test/208608b0160bc385e27d48671649bdb7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0009614162
+images/test/20c2cd487bca69d65e297e5574f29c60.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005907394
+images/test/211cf900bc8b910ee37d4b81a6f24c52.jpg,person,kaggle_oral,0,0,0,0,0,0,0.15035392
+images/test/216812b42a5003ecb61a08363895d811.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.89244384
+images/test/21735d835f7d11deb03947a250f819cb.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9797238
+images/test/217c443a619c52c6cae4214538d8a988.jpg,person,roboflow_oral,1,0,0,0,1,0,0.955829
+images/test/217c98bf416ec9dc070833f0545cb36c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007100858
+images/test/21aba457f1eb45a77aace8aa85e983b8.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.054673698
+images/test/2227cc240af52d5446e8c427b245f2c5.jpg,person,kaggle_oral,0,0,0,0,0,0,0.68375415
+images/test/2302280df851dbf4f82029cc2c7dfb1e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.051146984
+images/test/2394fb54f6a2a9426fdc3ab7de74e345.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,8.4426305e-05
+images/test/254f5d9ed3542af11e2312aca56319f5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00083224004
+images/test/255d5bcdcd71e04872f31d6ab740fa55.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000260381
+images/test/255e842fbe4af3870822daaeb16125c7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006654365
+images/test/2568ccef2fe6ae9e9359869f384580af.jpg,person,kaggle_oral,0,0,0,0,0,0,2.5464533e-05
+images/test/2578f7ef0d3675bb6f0ae7504ee6039d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007335207
+images/test/25fbf611c101edf21cbac12b221cbf18.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0075053503
+images/test/261797c2c9d41ad0496be6f9d14ddf79.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00013020118
+images/test/262fc9b905404d976a7335bd4e87cf47.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.025876883
+images/test/2650a542ea9663b91468c7b3a74ebd63.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000119395525
+images/test/26fd0fc1685fdd1c5dda61e4447c036b.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9545934
+images/test/27035802beea79796b2e31b856de57d9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.076242976
+images/test/273ebf37786e4e6e88ec1d72398da2b6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00016286029
+images/test/276410260f14ed8e2dba1affe3c6f160.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9346931
+images/test/27c27afabae263881e4cfe647349832c.jpg,person,roboflow_oral,1,0,0,0,1,0,0.93589485
+images/test/28c2a9de900623d9c92a76ce4ea52c4c.jpg,person,roboflow_oral,1,0,0,0,1,0,0.94826174
+images/test/290fd50dbf7cc0cb7ee02706a035874a.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9758094
+images/test/29225327b592c101b3c4d08383c6aa05.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001246813
+images/test/29b57d8b41b63d5ff116b9f756d87f61.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00016168866
+images/test/2a32d9d4922dadf05f8ad0b8db3e1727.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0009683768
+images/test/2a547752e1223bb21446f4602b06b83d.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9667137
+images/test/2a72523df0d14138a01a1058120a6fb4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0012600266
+images/test/2a95ee3bae55f5cba4a6bc3ff3294b7b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00012741136
+images/test/2ad4a2ddaa854480bd22a4592d4e8180.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002422467
+images/test/2b0421b510b3e3b16f5f8cef550354ab.jpg,person,roboflow_oral,1,0,0,0,0,1,0.3365973
+images/test/2b52ba8468e0960597b0aa8ccfc441fd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.001048347
+images/test/2b6c8424dd56a8166749adf33624d683.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007256247
+images/test/2b7791233a17e61590f7ee4a437d3c71.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007441828
+images/test/2c14bcfab9b5907b9e4605a6a0a1f68c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.026615001
+images/test/2c17d30e0f03c200154a000ebc7cfd64.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0012875844
+images/test/2c1d0a02c422ebd6b6e4c05802f7ac03.jpg,person (caries) + qwen (other conditions),zenodo,0,0,0,0,0,0,0.3101446
+images/test/2c4f44e7e1f1213e3cfd2505fa57f965.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.006139902
+images/test/2c5f736cb048d2490834e0baa8f388a3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.04457572
+images/test/2c8116dd3809c9fe194f5da43f733854.jpg,person,roboflow_oral,1,0,0,1,0,0,0.966128
+images/test/2c87087e9470ebebd3ced1d8ddf96a4c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00012289388
+images/test/2cfbb3190f43499d0cc54bf96b28f153.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006349452
+images/test/2cfd3642cf140d2d75516a9024896cde.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0009476448
+images/test/2d215b25c7a4beed7d8a3c24b77d131f.jpg,person,roboflow_oral,1,0,0,0,1,0,0.93578637
+images/test/2da1359ffcffa7633f0177cf08512401.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.016054345
+images/test/2e40dcc2d1eb7a93128ba82f164b2759.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9253046
+images/test/2e4ce5ed92c6d159ae73a392a8dae797.jpg,qwen,external_clean,0,0,0,0,0,0,0.10102975
+images/test/3010231eb0b7e6e8a64501d808a568b0.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.009204525
+images/test/3024399ec3383309065ddb376101ec80.jpg,person,roboflow_oral,1,0,1,0,0,0,0.97831535
+images/test/306e185b4efd670dbbc10b47241c894e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0011106202
+images/test/30cf0063f4ca8a883c8f4cfdf9efd186.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9562085
+images/test/313367374fdf4c4a4164f01b405d2a17.jpg,person,roboflow_oral,1,0,0,0,1,0,0.94914025
+images/test/31b823d0a79a1399a58b8d6ca8004129.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002778595
+images/test/31cf34e84702e50345dce24238f241e6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00037626375
+images/test/31ee95b6603a9c813bcbe734c2a24b4a.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0014607621
+images/test/321a453f0ebc95e87462bcb6a50ee503.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0015143834
+images/test/333ea37f2e7d06cbed806b7a1fda1d8d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.064462155
+images/test/33d62093f17829b700b15eb345e14696.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0064330506
+images/test/33f8ba759f8c6944db6aadfc45b2cccc.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0010829334
+images/test/33fa4f6b6fa9dac298e535b44c4b1086.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001110791
+images/test/3426e5e9376e7777a67fa43e47e0dd29.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,4.807169e-05
+images/test/3452eeb5ab33b049118a93b597ec5d3c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.01599741
+images/test/3456527d9c63bafad574f910aba45af3.jpg,person,roboflow_oral,1,0,0,0,1,0,0.92990965
+images/test/35c801229499b63020869c627ff03112.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00052442285
+images/test/35f04e3d53f67118ce262b975b462d2f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.006161974
+images/test/36071f412c241bfc4096d5b8bb936aa3.jpg,person,roboflow_oral,1,0,0,0,0,1,0.93686265
+images/test/363cf1b438ec060a5ce1ec8d2e841cee.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00035772455
+images/test/36c4d65183b271c56784ed76d05d66f8.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9669453
+images/test/37b038b878ee4f2150c726c901fe37e9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00029651096
+images/test/3805e7864b0d084f926e212894e3a689.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0005718638
+images/test/3851734707045e57e6d0e44d8c5636de.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0009895622
+images/test/38664be0fc2f8b191c17a6167f5ecc35.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.019720322
+images/test/389989c172b23ffde4996faa406f163f.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9589928
+images/test/38bc518e16e0d1bf4516767464b75528.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002422467
+images/test/38cd01f56a9e32f25986a49dcb52bc86.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00025480276
+images/test/38ec0b0569f34d0a149fe1643e125483.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.5937165
+images/test/39557d69d730b0f993b32472c46ddbe4.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9334705
+images/test/3a00ecbc257f878a3936626960afc58e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006372404
+images/test/3a0b1801600f2e36a3323bdc15827190.jpg,person,roboflow_oral,1,1,0,0,0,0,0.9477277
+images/test/3a2deebcaf308535e135f8e837c3bd1c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0267087
+images/test/3a707c0e153eb26a709d7e98c8af2171.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.408334e-05
+images/test/3ac1d1da89657f23485e0787d7ca13b8.jpg,person,kaggle_oral,0,0,0,0,0,0,0.073369734
+images/test/3b0e359940369aa626c805e659d1c825.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0005843794
+images/test/3b2b0c22617b2d6d87243f287e01c7f8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00012113207
+images/test/3b7e1dc1477e5e970446dcecccba3826.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.340645e-05
+images/test/3b83c7a13b73251b2e343c0a397cd125.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.011528268
+images/test/3baeb9538df9431eb2f8d638cd5eea12.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00045229946
+images/test/3bf0e4ef2779b57fa3152a8345cf56f5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.092969894
+images/test/3c0e1edef766224aa0b4b16553a4c28a.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0003187064
+images/test/3c23766cd0ae8e2c85e25dcd80ee866c.jpg,person,roboflow_oral,1,0,1,0,0,1,0.88785505
+images/test/3c288fdcf6712f691c320636397ceec1.jpg,person,roboflow_oral,1,1,0,0,0,1,0.9166412
+images/test/3c8e2b6d745008392e6d9f7df81c8a93.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.001492703
+images/test/3cc5ad773657219f7e276e132c0aaa91.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,8.6274915e-05
+images/test/3defe08ef0df667eca5567518cff8f9c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0010259047
+images/test/3df2bb20d530d41112ce5c01bf870890.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004672307
+images/test/3e0ad52641a6b89d40be915790fae8e3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00014614464
+images/test/3e55baef12572cba3c3e827e2eae688b.jpg,person,roboflow_oral,1,0,0,0,1,0,0.92160475
+images/test/3e86821164d6d9286a1b533acd1dcad4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.088794366
+images/test/3ea6ffa9eeef6689cd843a18abe1933d.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9500046
+images/test/3f794d5696de1854868b580dfa5bf934.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00158133
+images/test/3ff516be530732ec2ad5b6761702d60d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00036820368
+images/test/40543cf77243404f1a61e8cd737f29df.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9657717
+images/test/40795b3a305318614a361c547d7a73b7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0029811007
+images/test/408202b9efc55502910cb5e08cd9b8d2.jpg,person,roboflow_oral,1,0,0,0,1,0,0.93176895
+images/test/4104900ea3021aaa30a99caf2d4fed55.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00024934375
+images/test/41774356b0416bd31be85504f0b77bd0.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0016334717
+images/test/42b0ac3ca9c5ad60a971e98ab3051ac2.jpg,person,roboflow_oral,1,0,0,1,0,0,0.91935873
+images/test/430ba074fefba8e6a4ff469565ebadff.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00022214423
+images/test/43adbe2d50c1c78189d7b1c6ca5a4cee.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0013838639
+images/test/43fb67b0c167cdc6559dc2d796f5c326.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00084738724
+images/test/44c42f916cd0bf1c7ffbc80c59e5faef.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.001273731
+images/test/44d6a31c861efd1ac88137730364514a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007361721
+images/test/450f64bb83c51b368d2b3cf06bd9a550.jpg,person,roboflow_oral,1,0,0,0,0,1,0.8124608
+images/test/454fa8f0928fc999738b88cae3694a1d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0024018749
+images/test/4581002356dc7cd4a8115fd945a9300b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00021895987
+images/test/45b38b8aa03e30a9acdd44a2c538426a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0010333316
+images/test/461ff36b6b168b8830bb04634c7c27d8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000853523
+images/test/46f9d25bc350f55438013e72169ff657.jpg,person,roboflow_oral,1,1,0,0,0,0,0.969069
+images/test/470daf5c299355196d3b49d07b5e6d4f.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.567791
+images/test/4747684e874eb958c6a0975f1ceb3830.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005359011
+images/test/47d77c0675495823c3e815a2268f1093.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00054763013
+images/test/4807edbee9d04d328f4e9e5cbe8daf45.jpg,qwen,external_clean,0,0,0,0,0,0,0.48698008
+images/test/48750aa8786bd9655ab28029e8011b4f.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9091823
+images/test/48b446c6636caf4746411e741ba8825e.jpg,person (caries) + qwen (other conditions),zenodo,0,0,0,0,0,0,0.41596895
+images/test/496841ed5115614316a40bb80b9f7985.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,4.251878e-05
+images/test/49a1f7404585b087dac969aff97b9f3c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.004062107
+images/test/49eb2d78976e9ce064963ebfcb56b603.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00032804278
+images/test/4a0c0daf7fb3462312687ec66da7ec87.jpg,person,roboflow_oral,1,0,0,0,1,0,0.98070395
+images/test/4a60a6b60b4f06f3cd6af34d3a44026f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007771075
+images/test/4a6451cc6b5fe8d7a6eb517cc415621b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0015927714
+images/test/4b568e7210145fa03f24675cc7ee6984.jpg,person,kaggle_oral,0,0,0,0,0,0,3.677144e-06
+images/test/4b60e6a306a9197722cf79953fee3408.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00014404955
+images/test/4b892ec58eb0691f6ed7208441232c4d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,8.690013e-05
+images/test/4bbb2b454697ff84877cc00515709c45.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006191095
+images/test/4be1ca8343a2accdb0edaf0b8a536c0c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00015042664
+images/test/4bf33b0e63f31a496bc2c0c8f6b1c826.jpg,person,roboflow_oral,1,0,0,0,0,1,0.98907834
+images/test/4c1eb5a37c8638436c87898a7bcc3931.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9253046
+images/test/4cb54c517057ca1495c4dc31c4876ec8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.7541866e-05
+images/test/4d15a82992e69d58ca38124246ace5fe.jpg,person,kaggle_oral,0,0,0,0,0,0,0.00014404955
+images/test/4d5a6d20019ffe694124937187b8c201.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007969817
+images/test/4d8487139c0d99be576645eacef7f245.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.004656666
+images/test/4e8407a7047904d6af5ff087dc24b2c7.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0005436922
+images/test/4ede8f631aad789eb8be89a4be5d00ed.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.5532285
+images/test/4f1e5608dbe01692f81b9f970d63a888.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0016393696
+images/test/4fde676583071504d09c501cad141580.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9355691
+images/test/500498e01968dac7db03c30026f7ef53.jpg,person,roboflow_oral,1,0,0,0,1,0,0.95396334
+images/test/502d7d5eac0c6b0748d49ac70a371796.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,3.0282823e-05
+images/test/503b31c7e5f3cbc8cb4c6aedae0f80d4.jpg,person,kaggle_oral,0,0,0,0,0,0,0.9126968
+images/test/506a535486900379917e1479380d98c8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00013596527
+images/test/50c765984fdda0f996a2444ed89bfaf6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.021016622
+images/test/50d3a5662bbb62abf2ce52d08f3e4189.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0016812587
+images/test/50d682c6f88ef35b2469eca882d3079e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00038728557
+images/test/51667ecf817986c6805c99d6ea0587e8.jpg,person,kaggle_oral,0,0,0,0,0,0,2.0504971e-05
+images/test/518a3e022a37261a5a415054aab0b01c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00025296985
+images/test/5199ec4d8f61a55720c5380f5211839a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00023877426
+images/test/51e8c1dc997750ff46a456ca3df2de18.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.9253046
+images/test/52089156d68e950db2bb8b94240c9b03.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0026567022
+images/test/527a5bf7ad586c64fa187bf80771bd96.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00060149387
+images/test/52ba5e768d6c81e0d9b1f979ff1b1e61.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000679999
+images/test/545e98b5cb355b626d62dbc98acab104.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.019101884
+images/test/546412c0e7d451f1f154ceecdeb5ad20.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004315702
+images/test/546b407c6f724a508bd3a7af9bbf2a84.jpg,person,roboflow_oral,1,0,0,1,0,0,0.90398556
+images/test/549d9a27745044f9ba369ac40ca7f30e.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9182815
+images/test/56bd70bcd18270959d360e6b11ac5418.jpg,person,roboflow_oral,1,0,0,0,1,0,0.95941657
+images/test/56ed8c7ef40fd44dd98a2711a4f82e25.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00019227774
+images/test/57687e49448a510f77cd4c5308908eaa.jpg,person,roboflow_oral,1,0,1,0,0,0,0.9529216
+images/test/57b0ed60902fa631a030593ce475cd6c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0054540345
+images/test/58158fb635d25425073a69e1b258fd91.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9138407
+images/test/583feeb3c716114f84de8d83c63156ba.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9480843
+images/test/59417efa1094b89f1e8d31b6c0abc5a5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.16311246
+images/test/5be3c272e699cf4c7248cdce77c4ed8f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00023535136
+images/test/5c5fd31dd1f64fe9d1f5bfc6b07f5ac1.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.18775584
+images/test/5cd95041c20fd046a71dca52e5951679.jpg,person,roboflow_oral,1,0,0,0,1,0,0.95308334
+images/test/5d550f72c1c9125e2d490390e758a12a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00035772455
+images/test/5da7a33e013f12d4315afa038aa23ec3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003030023
+images/test/5dee55c7831cb093df3388a5f5cb76ce.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.1438991
+images/test/5e086684dd86d61b80f1d9cf9a702c3c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0045902063
+images/test/5e333b60a1b1abda5dc98b21183943ba.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9571808
+images/test/5edf8955127cc57f07190d2925e3d29d.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9606631
+images/test/5f727fc84103b8720ba4e449ebe73529.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00021738475
+images/test/5f72c57f813ce6b8d861bf215537ac43.jpg,person,roboflow_oral,1,0,1,0,0,0,0.96412337
+images/test/5f8fa3ee4ec8e83bd706742f915f869b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0030243334
+images/test/5fc8109bd166778f02c0f586e88c7ef7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00027190693
+images/test/5fe28f8b8271fd5ef96f2d6f07af4fc6.jpg,person,roboflow_oral,1,0,1,0,0,0,0.96659744
+images/test/5ff0fc29d7f7fd98f0c8256a7ff9be44.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9649264
+images/test/60507430cd754832a396f86de559a362.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.09653074
+images/test/6077e6b22cac0bb2385190ae65007ada.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.008033985
+images/test/60ec2dfe814f28b512ff3e2646671f44.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007998618
+images/test/6150fd57de273ef0f30df8eaf2a125de.jpg,person (caries) + qwen (other conditions),zenodo,0,0,0,0,0,0,0.031713523
+images/test/6298b20e66a39bcdb0dfdfbfe3631644.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9218653
+images/test/62cca55597d9ea15fc0103dbe744b287.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0022673653
+images/test/62f18eb7fa8730feadef348bdd46b228.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9392745
+images/test/631b3fe67711591748a44322397196a6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.001368976
+images/test/634585832babb3c430254c57328db23c.jpg,person,roboflow_oral,1,0,1,0,0,0,0.93739444
+images/test/63dde3277689dd4f2b37445cd7b42913.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00018952142
+images/test/6432195fb16d12b06342957a42c65461.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005843794
+images/test/6438cde502aed95e1e15fbff46d3a7de.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.012875937
+images/test/6498b64da7e08a37d6be4427faf1574b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00063954364
+images/test/6505956399ccc589014e4337f853fdfc.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00071522803
+images/test/6548edc4c11b7adae52eacb14845f102.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00020518564
+images/test/65c93a53b14160f09339224eeaba1731.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00024576962
+images/test/6628ffa7cad233543000cc3533d25d7b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0026759035
+images/test/665f0a708824cc03c42f68d5d73e9671.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.030144762
+images/test/66cdac1157a628aba7d842aa3e2225d7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00039291714
+images/test/6704b9b275988f987c80434e7230ec24.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007335207
+images/test/67cab07dada530d61a1da0a643633e63.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00032101516
+images/test/6813bd03177c298042f128cb1ef11132.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0008085654
+images/test/681a3857eb55e0afa6e5223cc5f9bcc2.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.9705486
+images/test/68339c30eb6c43c5e643c729c2780655.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003233409
+images/test/68426dce920cefdc8a018e6df2c6719e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0009931376
+images/test/68da6cc5b1942584a0033c267126280a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0061841216
+images/test/6960f1e83443eaf186c9db9b45850921.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0017682691
+images/test/6a0e6f6fa3f44f16268c6ae7cf43ebde.jpg,person,roboflow_oral,1,0,0,0,1,0,0.883096
+images/test/6bba10063ec252fe63d3bcbd2502c94e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.340645e-05
+images/test/6c0013ec7097baa188648744f2c2c01c.jpg,person,kaggle_oral,0,0,0,0,0,0,0.65988165
+images/test/6c289e42cb756458eea336887eedd4f2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0009442331
+images/test/6d19f7ffb188b65472c7c8a5aae8fbc9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00064185547
+images/test/6d66bc674e91bece9370d4bb3e7d96d8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00045722286
+images/test/6d9d089fc1f2f1b301f99b964a63ab71.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00029865923
+images/test/6dce408908a06eb813af19da07fc2d96.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.059936207
+images/test/6de356942c73d9204955226a5b7b6e06.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005169077
+images/test/6dfa2f62dea9636e1a39c3d2210e9832.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006898837
+images/test/6e148aec3c2e7afa04a2f910b109a884.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0021714382
+images/test/6e34078db71f84175cdf0d05aef4eda4.jpg,person,roboflow_oral,1,0,0,0,0,1,0.97729695
+images/test/6e427f9893851fd7ccde6b8589004ad9.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00018546078
+images/test/6f0a78932a4571010deec34ab0d37400.jpg,person,roboflow_oral,1,0,0,0,1,0,0.94450766
+images/test/6f35f47a70d22f0504f55aece644f264.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.013777594
+images/test/6f47893942f4d18cb5935d2ea8fb9302.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.044116706
+images/test/6f7da87f2d347df0e37580825c0e135a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00014614464
+images/test/6fa8fa710f06fc703c9c023b1c59772a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00048091594
+images/test/6fae61a1cd3b8480f393cbe8c01f2478.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,3.3991477e-05
+images/test/6fbc28e89a0a6cf435687d990f6ab150.jpg,person,kaggle_oral,0,0,0,0,0,0,0.27379552
+images/test/706906565ee34b8e5f0e7b68fe8af1c5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002819002
+images/test/7087e5a5dce67708dbf309b3a904842e.jpg,person,kaggle_oral,0,0,0,0,0,0,0.011405492
+images/test/70918fb01a509eb590d9b4a7a0e9ef17.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00095450564
+images/test/70cae4fda00e40d661c9c9748af35937.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0066919317
+images/test/70f64c2653b388da42f2b38dafc75fac.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00011433381
+images/test/70f6cbca0eb666343a373d5b869dbe19.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0050942884
+images/test/70f77aeca37422ae7e2570354c208f97.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002511504
+images/test/717f2e75c4610a20f3f7bbb3a5535577.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00030082278
+images/test/7218aeb63f9b5ad338b5d7cff04cde2c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0013493745
+images/test/72fb52e47741d3c880135445f847f3c4.jpg,person,roboflow_oral,1,0,0,0,1,0,0.93917143
+images/test/73043d4d39c93a320ddf7c405fd9ad32.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,8.565429e-05
+images/test/736fafcf086b74426ebe5ab91b3698ac.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00052442285
+images/test/73711f180693ffb94d9fcbb576b5a921.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00018412678
+images/test/747aa3b8c1dd00ec6c14db2b86deaab8.jpg,person,roboflow_oral,1,0,0,0,1,0,0.95710677
+images/test/74b052cff3d26c87c8a43ffd5ebf2bac.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0011431294
+images/test/74eeb40eeedc55db6e19b49e899cf8bd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.024806932
+images/test/7517bb706b388401f2afa2ea974b0943.jpg,person,kaggle_oral,0,0,0,0,0,0,0.11959307
+images/test/75d6a983d6cab660d9d67508b0a6bc5d.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.010320181
+images/test/7624673e74f594ffe08576d1f8c25622.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0030026394
+images/test/764e207500296f46bedf880a3c5f1973.jpg,person,kaggle_oral,0,0,0,0,0,0,0.073369734
+images/test/767d60415da88e2141e5805beaeea76b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,3.117021e-05
+images/test/76f44feb8b98551df4cd741bc5c60a76.jpg,person,roboflow_oral,1,0,0,1,0,0,0.94682616
+images/test/76f4a8fe829985dfb68d1a0bef48a1c5.jpg,qwen,external_clean,0,0,0,0,0,0,0.40221035
+images/test/76fd9ec391503c5b6d074274d78edecd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00054763013
+images/test/7707ddea9d00845efd58e9aedb2f7487.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006465039
+images/test/77513415771d34f642f48631fdb49b77.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00031413833
+images/test/776fff3e1896bcc4401adc1d267e9682.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00077991624
+images/test/79219f4fb01e909fac152f84362ed106.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00092069025
+images/test/79b6870ca9b4be0431ad77a78d0be37e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00046053476
+images/test/79ec29e8f2ad553562dee5ce361c1e49.jpg,person,roboflow_oral,1,0,1,0,0,0,0.9304956
+images/test/7a4d409462e9c115b3fe2496568fe461.jpg,person,roboflow_oral,1,0,0,1,0,0,0.966128
+images/test/7af3447b07655a5101d02b50de29ad3b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,7.2026494e-05
+images/test/7af985f603808d4541f66adb23b7afbc.jpg,person,kaggle_oral,0,0,0,0,0,0,0.00015937079
+images/test/7b433521392860019128d190eafb86dd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00082031736
+images/test/7beaf2de2e0a1681b952f6a8cfeb2e43.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.074856155
+images/test/7c18c2075dc83b52c0b423ed80d0b523.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.000119395525
+images/test/7cf1c64e92bff3eef2febb185e1cbd33.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0078070443
+images/test/7d2fb6a46349ec783cc8e7c405fd5ad9.jpg,person,kaggle_oral,0,0,0,0,0,0,0.00015937079
+images/test/7d6875be85a3fe733f12f913c24827f2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00034256245
+images/test/7d692ecb8c973ac693811ab011790b80.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.013826741
+images/test/7de8b217b8fa7ea9e0f48163ee0fec59.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.009204525
+images/test/7e0b41c2fecbc88a1b779dd865462bb0.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0024367291
+images/test/7e4cc0be29a3c4fa3932d806e98581a2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0026759035
+images/test/7e5103eced18843f95857b6f2faf194c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00070752867
+images/test/7e8078bd8d416f4a158b0caf13e92bf6.jpg,person,kaggle_oral,0,0,0,0,0,0,0.09465796
+images/test/7e980190263ee622825e1563bfb25c05.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9565099
+images/test/7e9b9141083e4d5bf6aadeaf6c04de05.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0002943784
+images/test/7f08c6096a8b9ca8c09e967950c6f0dd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.11575118
+images/test/7f1b16dfb32c43d6f59c0398d3e65a4c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,2.3016186e-05
+images/test/7fd21aadeb0d31874859518698ac7eb4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,6.279326e-05
+images/test/7feb4f5c61f8db10c4b396320cb71d3c.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.89278996
+images/test/800174411916fa48e5ac46f9a9583de9.jpg,person,roboflow_oral,1,0,1,0,0,0,0.9513588
+images/test/80168d151c4f15a486e8056783023a02.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00052442285
+images/test/805d8b5d08f604d7d3daed62eb3423aa.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00018815804
+images/test/8085b00297c17b75c18094e699d37ecb.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,7.8545374e-05
+images/test/8139fa60a05f670c90c5332b207dd81b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004706151
+images/test/816a059f76739443aebf6c4ecc61c993.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.017544208
+images/test/819e9ff570cb10f995819659e82493a1.jpg,person,roboflow_oral,1,0,0,1,0,0,0.95628405
+images/test/8251a534afb5da61f4d905078d68d03d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001526146
+images/test/829ec5758465f82487a0f6113b02aec4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.005818117
+images/test/82e6cb5592535a2d6f451733a27011c9.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9753796
+images/test/82f3e4d765077425b962f44a397ad4f9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00017130215
+images/test/831aa74a2a7f197a51bb04c695ef5c94.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9280036
+images/test/83289216ba8cc8d45ba078f340a480d7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00024576962
+images/test/839f403264de2ef1ea114b1282f0a4ff.jpg,person,kaggle_oral,0,0,0,0,0,0,0.61657274
+images/test/83b34f4fbf5aded164e11dd5a4f0fd61.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00021738475
+images/test/83c46b8f4a3b860105feae7e2f2d5e70.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.001492703
+images/test/848d661e32e7d45a20068b00ec99d32c.jpg,person,kaggle_oral,0,0,0,0,0,0,0.059530653
+images/test/84aafa940929941973bcb2ce79e9234f.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.012558637
+images/test/851659134d8a1dc45cc830e8c4c67a19.jpg,person,roboflow_oral,1,0,0,0,1,0,0.94682616
+images/test/85caadbf0219b44bd606b7ccac798e39.jpg,person,roboflow_oral,1,0,0,0,1,0,0.958277
+images/test/85d23a72bdc1a0774191f2aa9f6977a4.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00012289388
+images/test/85db4c7f7cdc767a3fba69e46f5d59ce.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.020214858
+images/test/85e08d99b25e7fb0191c42197531d122.jpg,person,kaggle_oral,0,0,0,0,0,0,0.012875937
+images/test/862484f4bfcbdae03c8f481c3eae9b6d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,3.8154267e-05
+images/test/8675541d0d8a2d94c636a0f354b08cf6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0008690572
+images/test/86b0e733eeb7e07f14c25c3559637452.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0063414
+images/test/86b1deacb920f253673819de080c4857.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00027190693
+images/test/8738853b0f56f320dc6015a5a3885048.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00652602
+images/test/87444c0c26e0bd09d3a2ef854eabe298.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00023197774
+images/test/87ae28bebc90e06189e871e25979c741.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001349871
+images/test/8894abf94bfd719ab0b7d76f3ee482b6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0011349141
+images/test/88cae2188d946e84adc7af88925c648f.jpg,person,roboflow_oral,1,0,0,0,1,0,0.93750036
+images/test/88ebb2b9e18fc7170154261cbbba244f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.8960605e-05
+images/test/89054278ae185ed0f30990f61771ce28.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00045887573
+images/test/8917063e030b5d0ba0d704f2a5b28c7b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00088807143
+images/test/8af574056ea91285b211da85de8bfb23.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.009781465
+images/test/8b17222e8bc2b7500a0a698b628e3d14.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.9606631
+images/test/8b5e236180b2d95fe43b6883df13d81b.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9532445
+images/test/8b6a43e290daedcdc47b73e6de13f6e9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005843794
+images/test/8b9c3e5ec52c7b11aa60b4b158625d97.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.4193717
+images/test/8ba24c1e3a580bd6cbe8f3e11d45562d.jpg,person,roboflow_oral,1,0,1,0,0,0,0.98163754
+images/test/8c5c081ba454d9e771307d02af27fd39.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0009753881
+images/test/8cbad3a322a18842561afbed260b8344.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.009677114
+images/test/8cdfc63063d7fed0d70bd3907d80349f.jpg,person,roboflow_oral,1,0,1,0,0,0,0.9290816
+images/test/8ce489e03f3dd75ceca628efe628119f.jpg,person,kaggle_oral,0,0,0,0,0,0,0.35125944
+images/test/8d20d67c20bddcc35677cc66760e15fa.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,5.514031e-05
+images/test/8d6da64e743603a10b8118abf39badab.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,4.807169e-05
+images/test/8e71afb614c26358aa76799153315f6a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0014819793
+images/test/8e7fcb473ce208302dbe459a6207ad20.jpg,person,kaggle_oral,0,0,0,0,0,0,0.027373586
+images/test/8f39686c86f326f6c7bbcc687c3b1306.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9587078
+images/test/90109695817c825a00d5267badd4d134.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003051973
+images/test/904e471116dd5e67320af15df70799e9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0015985233
+images/test/906c44630548ef5b83b61c0d4ada579e.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9470982
+images/test/91e44730c5037bd75c799f7a4952a9fb.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.016517034
+images/test/929c4ae9978b95fe8077db1872d9f604.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0008566076
+images/test/92aa992012bd83239b3ff971b7dacdb0.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001763213
+images/test/9378497c0391ec106b9009ea67540f6e.jpg,person,kaggle_oral,0,0,0,0,0,0,0.40778384
+images/test/9396f91b0eb1b44b0343d3494ab56a92.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003629264
+images/test/9399d5786f317c6c6a627f3ca61d7039.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00034256245
+images/test/93bf798450cb8e66db976a367fc2e84b.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0072152307
+images/test/93d0dcdac869869a96a72bd359892021.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00407674
+images/test/93de6a8f29914ef6457276e81f77a85f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00017505285
+images/test/941890dcb1a9f45c64e79ecfd5dcb380.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,7.2026494e-05
+images/test/9477ccf484b32537a325b0ce71c162a1.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.000260381
+images/test/94bad6fb9de1f1127af9baaba656508a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00011516222
+images/test/953dd2e9839c7973aa4970dc60b0eb86.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00026800946
+images/test/95d0bd34f78b9b7c8df866d34f08de4d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.048748884
+images/test/95f642704163739c441628e6f517a765.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007969817
+images/test/95fa7e342833d50bd5d7e49cce3afb54.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00029651096
+images/test/962a9dd4ae63aee0e560fb50b025088a.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.011694001
+images/test/9691895b5e5557c64123723aac36a41f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.019408686
+images/test/9708b3a91658f0b6d5f923f503065268.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001246813
+images/test/972f8bff67faab7baf52787b1342c916.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9880164
+images/test/973934bfa108f399ae1fe997f43cc602.jpg,person,roboflow_oral,1,0,0,0,1,0,0.87874097
+images/test/9804462d2a4c87338dd1ed8dba1b4517.jpg,person,roboflow_oral,1,0,0,0,1,0,0.937606
+images/test/9824ab6fa1ed78fafba97c1ce9dd6ac3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.011735798
+images/test/986fe76261d9c54c61a804f9e166e2ae.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00012649472
+images/test/9880a3ee9e47abb4da0a910825315d97.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00027586106
+images/test/9925a3096e7dcec47dabcdf56fbc8937.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.006296063
+images/test/99266c07db4bb276662c1fe7fb42052f.jpg,person,roboflow_oral,1,0,0,1,0,0,0.92225444
+images/test/99a536d91d920cde8c62e3a86f37e4b8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.004062107
+images/test/99f3f0deb7771478449b5d4978b95470.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001340161
+images/test/99fb372b34b8e33929723f428385f9ec.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003051973
+images/test/9aa0d89c064d977e54118a09793d3c43.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005003898
+images/test/9aadd5b64a6ebe9f8047829e1531c6d6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00013596527
+images/test/9ab55822e0835530c953f4553b860149.jpg,person,roboflow_oral,1,0,0,1,0,0,0.96004444
+images/test/9b1ad957b68c78f36cade22c8fbcbe7b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00011853655
+images/test/9b588473a7ff64a5473127734c44604f.jpg,person,roboflow_oral,1,0,0,0,0,1,0.94887817
+images/test/9b6f2eaa4886a6d623ea047e72c43a73.jpg,person,kaggle_oral,0,0,0,0,0,0,0.34180677
+images/test/9bf54f51312b168b942b2712b8bbdca0.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005886119
+images/test/9d2e36ff132c5de55a715de1600441c8.jpg,person,kaggle_oral,0,0,0,0,0,0,0.004879345
+images/test/9d71975e2608e959442d92b4f38a446c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00020967808
+images/test/9dca058191a64fcb717c9d060b643296.jpg,person,roboflow_oral,1,1,1,0,0,1,0.9527594
+images/test/9e74c72398dd55f54277d34a8d633a07.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00039291714
+images/test/9fb1c926d552f63b10c2d11d4ae6aa2a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006441757
+images/test/9ff771abcb734ef691d827a4fb305e64.jpg,person,roboflow_oral,1,0,0,0,1,0,0.896029
+images/test/a03e8ca9650af63a56cb3eda45e6f6e7.jpg,person,roboflow_oral,1,0,0,0,1,0,0.92379355
+images/test/a042db70669ab0cc502ac75c1efb37a8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001908947
+images/test/a05a0440233fde089e7d8040474ed226.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.20853452
+images/test/a145a318182b39ac3023093c3a4c526c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0017810608
+images/test/a16f122a6d22a301773033e0906fed4d.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9568093
+images/test/a1f6937f599f795fe30e82545ec27cb2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00013020118
+images/test/a27a6510d1f800833d7833ef6bb71e02.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.7541866e-05
+images/test/a282650dd1006357799929c13d4c86a1.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006948797
+images/test/a34a4800d1535c50b2d6a4bc0d13c9ef.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005169077
+images/test/a418b1521718b2f5d950bc91c357316f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0011349141
+images/test/a46dc6798dfa77431e9965b22e0aa6da.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.01663474
+images/test/a4e894c02f345c123aeb2d49ae29e5b1.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.18885952
+images/test/a508a2babc1ed7940f03aabb1963542e.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9618728
+images/test/a534a7e75a4aa8266b159e86096f4763.jpg,person,roboflow_oral,1,0,0,0,1,0,0.95544636
+images/test/a55f05fde51372a541cbc4b17bdb1b72.jpg,person,kaggle_oral,0,0,0,0,0,0,0.00863037
+images/test/a56c73481e9b9357361555ec1a3104c5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00045722286
+images/test/a6178f043c24388716221e3381387713.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9163649
+images/test/a62656831da6b78fc2a7cd72854c9a9c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00035772455
+images/test/a6693dc7e954d0cf0907d0c49d0847c9.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.5974124
+images/test/a677a9f3573ec65ac58ac49587b9b63a.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9768113
+images/test/a6b84f2ebb56ba4045595711f45d0365.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00040151796
+images/test/a74a520e1ff93f034da41f537f32df93.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.050105862
+images/test/a8007cbb47fd847194e66a3fe5422ee5.jpg,person,roboflow_oral,1,0,0,1,0,0,0.970133
+images/test/a87c66876b33b1b4b339d80397f97448.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.054116573
+images/test/a88ca0a972bf2ffcd49031548a7beeed.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0008292434
+images/test/a8b403ce05a0c441a334c29860ea05b2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0028345818
+images/test/a965dd20dd5137e17cae477564706664.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9295559
+images/test/a9b9f7cd19fbf9b51d080b147998b7e7.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0005698039
+images/test/a9d7a1499efaeda94a16b79c1e9e611e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,3.2083597e-05
+images/test/aa20b4fe18ef45f5124c38699ac6f19e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00050583633
+images/test/aa736c659433f631fb4aefe2a08f4238.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006191095
+images/test/aa75fab0b63404727b027ac213571ce2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,7.630937e-05
+images/test/aa7b9bc26d6c595ba29636b6e8c37921.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9351325
+images/test/aa7ffc529fca424a76667bd4487c3491.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00035259742
+images/test/aaccd42eabeecc36cae3842602fe9cb3.jpg,person,roboflow_oral,1,0,0,0,0,1,0.43338877
+images/test/ab1e70b01712cf834cae932a90e09c5c.jpg,person,kaggle_oral,0,0,0,0,0,0,0.58201766
+images/test/ab5b9c256f492e783652e0769cdc877b.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9094799
+images/test/ab7c5914ccb02de180480ed05ab91dae.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0028448042
+images/test/abba58e1257c8214c24c7da7fdd4f713.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00011768386
+images/test/abd0c7c2d56fa20057b7146d5653cbb8.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.7878034
+images/test/ac0750484ed23cc430f9cb4a95b63354.jpg,person,roboflow_oral,1,0,0,0,1,0,0.97044533
+images/test/ac29c9552d1c82dcdb7c23b6b6742b74.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0023336534
+images/test/ac45bc2aa984f468e571167d5e2dd6f2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000853523
+images/test/ac9f784a9e7e196dd9995f616e2704c8.jpg,person,roboflow_oral,1,0,1,0,0,1,0.97136307
+images/test/acd123248569cfdec118d6cd9ffc2339.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004774575
+images/test/acd254c405bca273715df8906aaa13a2.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.17372824
+images/test/acf752e64b85ea84648360ff14612108.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00017888566
+images/test/ad4d0d093ddab5d45caa168950515f0b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004672307
+images/test/ad8652dc0e44abfeb72de7f3b28ebaea.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007969817
+images/test/ad9f3d460c4c28255c5c64e2c3873905.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0017682691
+images/test/ae4e9fa7538f404387ca3e37f73a72ac.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005576002
+images/test/aef7e1f385ef0da6d9e0db9408f96333.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.92629665
+images/test/af0008eb9c4e665b06f1d8bd2c2a2d35.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00051504595
+images/test/b046964976f0e60abbee88ba89f0de0e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0017874909
+images/test/b0a17fba964a9ccc605f1bbcad4e8db9.jpg,qwen,external_clean,0,0,0,0,0,0,0.0014713325
+images/test/b0ac8996ba632057cdce0ca736b11349.jpg,person,roboflow_oral,1,0,0,1,0,0,0.8873147
+images/test/b0ac8f80ade37c57d360eaa9dd2810b7.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9349131
+images/test/b172c7566dcec5d0e682467576ac6ca7.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0303035
+images/test/b17dc1936c8e2a8587da9bb13e65e861.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.26010913
+images/test/b18bb7d739489990fb55963f68abd25b.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00095450564
+images/test/b1902fe42789f39c46c85ccdd867cce7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004706151
+images/test/b1e146d844e101bafd2a57a6aa645a44.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00016052545
+images/test/b1f337a16f059e0fb85a992dd45953f9.jpg,person,kaggle_oral,0,0,0,0,0,0,0.001536378
+images/test/b2a50c369fae4b02225763f6ab313c3d.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.95927584
+images/test/b2a6f981b07a7113259a34368326121a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0014398482
+images/test/b2de5f68aa50ad0e731092da5700637d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00021119716
+images/test/b312f8fdd82a6298b2f029353a3eec79.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00024050412
+images/test/b4393c94035937fafa16ff68e239a29e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00012741136
+images/test/b4dab96b965295975f719fa123785f04.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00035515171
+images/test/b4e72676e7e03c852bba44b9879e067b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0018134457
+images/test/b5462aff3758955a4f5a3561cb152d07.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0013396791
+images/test/b71d13c84380442c7aa1ded89ba0f2fe.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00022865248
+images/test/b781e0890dbd767860ed684683ca8909.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9545151
+images/test/b79d3e7d562a953598b7a290d9e4c658.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0004073562
+images/test/b7e592c67d7e4c7ff03ee3ba44e46208.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00028394265
+images/test/b85677717b34509bbbd628380929011c.jpg,person,roboflow_oral,1,0,0,1,0,0,0.97906816
+images/test/b871afd4a32d169c3ea33d49ab0e3be8.jpg,person,kaggle_oral,0,0,0,0,0,0,0.008386725
+images/test/b8ecf9949be0b3f1b575550bf812c938.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.22413732
+images/test/b9237e7da27e9035f9a53dcaa66a7c1d.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00863037
+images/test/b95808b18073be7c9436926a50a2bb83.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00013695039
+images/test/b996063a4e1e815759a3aec105ce60c1.jpg,person,roboflow_oral,1,0,0,0,0,1,0.95348525
+images/test/b9c1ed49efe16b85ba0450b0162e7277.jpg,qwen,external_clean,0,0,0,0,0,0,0.00024576962
+images/test/ba1f1706bea96d6f15a225959c4dd85b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,1.9354067e-05
+images/test/ba2b8ee00916a478ee8a4ff9ef529452.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.34511414
+images/test/ba2bfee49b8ca1cff8cea451f5dfc752.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001419845
+images/test/ba3020f88becb149e567c40be5dc9ed8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0031578196
+images/test/ba6355147f56b34c6ab2864f22db118c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004073562
+images/test/ba6abc67f9fa42171e20ff9bc20ced11.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,8.880299e-05
+images/test/bb3c19933ecb57a8910e7e4f814a9cdf.jpg,person,roboflow_oral,1,0,0,0,0,1,0.97597927
+images/test/bb3ee2152043c6666f539054187d5663.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000679999
+images/test/bc35fcbee9ca3874cf1176c2efdfea34.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9782386
+images/test/bd212bdba643a097772bd8ff27d93660.jpg,person,roboflow_oral,1,0,0,1,0,0,0.944413
+images/test/be02d6aabc16d97723608aef8959829b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00016168866
+images/test/be1ddaf4681bbf150d67b35992ee25ad.jpg,person,roboflow_oral,1,0,0,0,1,0,0.969069
+images/test/be2ba599008db5537f1674b2b2f441f6.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9606631
+images/test/be92bced18b96e16e210d0a0034e7563.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00016052545
+images/test/befc2bd6c2a2b072737ebf51ec7c87af.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0015035041
+images/test/bf9fbb70483cf7f8162511b865d1254e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003376525
+images/test/bfdf55ddc5052d2c737eb48ae1d759cc.jpg,person,kaggle_oral,0,0,0,0,0,0,0.613688
+images/test/c02813c6106c655b2be1cf061cf9704d.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9606631
+images/test/c116dff0f8f64aac33112a5f126d9daa.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0037262023
+images/test/c137cbc95f337d51e3213a6686a4e108.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0008566076
+images/test/c142934527deaef19f7d9daec5b42d11.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00075228105
+images/test/c17d731bf22e63d1c0a9b7579d0a307f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00018412678
+images/test/c251f499d7de597c4b1a72c341a79da3.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9344724
+images/test/c27fe76d20f2b5ea5ec36c8ed3ebf21a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00021272746
+images/test/c2e943b32f18798ce3cbe8dccc8d5c4a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0022510889
+images/test/c30c606514382bf72723f9c565e4b532.jpg,person,roboflow_oral,1,0,0,0,1,0,0.94799536
+images/test/c33f98c9b4db5ba31de4465fdd272f50.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0064100167
+images/test/c3577b83af0edfc0913f8d1feb4b969f.jpg,person,roboflow_oral,1,0,0,0,1,0,0.98675853
+images/test/c376a4e688554ac7bf8eb0f009bd5f78.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.005902249
+images/test/c37877763478c14efcdf0f3e4c2ec78f.jpg,person,kaggle_oral,0,0,0,0,0,0,0.00059287495
+images/test/c3b10ea8fd8d4a77313d9f61e642b7ef.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.476505e-05
+images/test/c3fb49d9fa5b3e279a8941acc2b9cd4b.jpg,person (caries) + qwen (other conditions),zenodo,0,0,0,0,0,0,0.03742435
+images/test/c406f88eef713cc5666032be3a4bb6c2.jpg,person,roboflow_oral,1,1,0,0,0,1,0.969177
+images/test/c40a232f9a2ba1f17d3fc8d5d09859cc.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0018935872
+images/test/c42434b11ef77f60cd376e76cb7e022f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0007604674
+images/test/c4bf1997dfe681db873a00d56817642b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001908947
+images/test/c4fd1d1f6e7627e649e0e0fade76849e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00020370958
+images/test/c513859ce5de5ce829c4bd865d66ea75.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,8.2022896e-05
+images/test/c5566afb4a94d40adef38854fc225ece.jpg,person,roboflow_oral,1,0,0,0,1,0,0.95210516
+images/test/c5746a8b22a4dacbbfada5ffbf226845.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9749424
+images/test/c610c25eabafb53629f93a9901c8a2a5.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9586363
+images/test/c620164c34f64d14196945073362e2bb.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00019507411
+images/test/c71224e4b88b0825160d4969cf4abdd1.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9519402
+images/test/c716ca8ab53dd7fccecf6d1e143e9369.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00018680464
+images/test/c741ba2d34be28220dfaf2d44ad565bd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0014502675
+images/test/c78dfea9c324fa8272bd78519958e271.jpg,person,roboflow_oral,1,0,1,0,0,0,0.97235054
+images/test/c82673265399d810e3f9713336dbbfbc.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00019507411
+images/test/c885db4e007e65e9bf13fc48533fbfde.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000670256
+images/test/c88ea2dd0f4a9ca134049caa9acfc6c3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.003890546
+images/test/c90a428a55a2e7eb33fd3b1706ab7e77.jpg,person,kaggle_oral,0,0,0,0,0,0,0.000853523
+images/test/c92139ecdc7e0ea8eb46f8790f52dfc3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0068620355
+images/test/c9b5b98a66b686de1363136438bbe2a4.jpg,person,roboflow_oral,1,0,0,0,1,0,0.92492944
+images/test/ca67711cd9d832058b4e4bd15547c62d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00010791693
+images/test/cac3d47864d72b23b5fbdf1493bd483a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0049322206
+images/test/cae90593225a3585402b33926e73d72d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0016042955
+images/test/cb59ced1e0ae1183943a92c6bf1aae07.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0018134457
+images/test/cb69bcc79e69515a9b0829dac074a632.jpg,person,roboflow_oral,1,0,1,0,0,0,0.95805985
+images/test/cb75a7671add9375d221719fbcb0646d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00024050412
+images/test/cb94cc27b9b345220f68e2242ebb3498.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00030963542
+images/test/cbfd76e1d78af101b39628b1ad3f9311.jpg,person,roboflow_oral,1,0,0,0,0,1,0.9668297
+images/test/cc11a7de361f0f8a8006edfbcaad0559.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00016642602
+images/test/cc180552a4b18131727f7d94961036fd.jpg,person,roboflow_oral,1,0,0,0,1,0,0.94914025
+images/test/cc329487f4e97f6fc682fb1d2f231f12.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.01181984
+images/test/cc346a195170f52707bfa17316f4b1d2.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9303788
+images/test/cc6cf5e4daddb80363f45514bd8753f3.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9546715
+images/test/ccbc113bb44b0a10faa6aabd6715967c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00021272746
+images/test/cd1b41219d38974544674f2a3062dcc6.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9108087
+images/test/cd6474f7c9e11b9df39b627b613826a4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00014614464
+images/test/cdee5e27cdb66610b022bf2d5c682564.jpg,person,roboflow_oral,1,0,1,0,0,0,0.33962718
+images/test/ce51bc9f20ed014caf3dd74efd0b22ac.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0017746531
+images/test/cfc290b6c21531303dba7bfd893a8efe.jpg,person,roboflow_oral,1,0,1,0,0,1,0.97283167
+images/test/cff3928220765f520cd1390b92011e67.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.97254395
+images/test/d00c4494a0e61225198f661d04d0dc1c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00049144233
+images/test/d06d392601f44b9c0e8d671648d1b103.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0029811007
+images/test/d081452d9267d7fbf9b7f905c7de136f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00013020118
+images/test/d08d9723cb9759d10a8e1457133281d9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00020078945
+images/test/d12fbf9b0657fd81cb3302a8094330b2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000119395525
+images/test/d16f89d6c7c3154c50caf5a6f9033a05.jpg,person,kaggle_oral,0,0,0,0,0,0,5.837279e-06
+images/test/d180018c169a63d93ee065084fb03841.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00021582117
+images/test/d29729170141db1d3278b505cca8a854.jpg,person,roboflow_oral,1,0,0,0,0,1,0.93875766
+images/test/d297e7579a9c04d5680f0582c9fa4b75.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.01903435
+images/test/d2bcd73e77d20576bdef5679edd9d3d0.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00034256245
+images/test/d2e7aeca84900fc540cb99977d364825.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001814873
+images/test/d3c3be579d2943ced42ab80e851cebed.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9565099
+images/test/d42358e3d7b326e79cca843b55456da5.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00022865248
+images/test/d431df3ceb7275fe9eb8a2d8b72db308.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001763213
+images/test/d433b805390cc6edf10d65c1a3fdee68.jpg,person,roboflow_oral,1,0,0,0,0,1,0.96841305
+images/test/d4465fdad17f2464439ace6fdc93c09e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00023197774
+images/test/d451d673e12cb98b5222e5deb0a72601.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9733984
+images/test/d458b18a0458dbc1dd22e79264f9c1d3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0036466434
+images/test/d4f33e1ab9cadd6fe39e751ee220bf8d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0017366895
+images/test/d4f941be7aa8c74a9d7b9aa5f2417187.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0010112104
+images/test/d5b02f97198d451ebf495befd9f42258.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005636689
+images/test/d5b5c48be79c04111be42a92f21caff0.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9302618
+images/test/d65fbd1e00a2245cb931529bed3cd62a.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00040151796
+images/test/d67438ff64e005c0c676c65b62fe35b5.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9075293
+images/test/d67667f8a0f843f896e2531b8f731cf6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004284665
+images/test/d6a2439db6ddd27e6f6848f67945c632.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.003890546
+images/test/d79218d1219c172d484c141dd0dbae06.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0045573316
+images/test/d89b729fc741cc09dc68ffa2271ab29f.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9675175
+images/test/d8be249cede78ee041c4566379d82e0e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.008149898
+images/test/d8c4848c6a5f92bac9f1f498c8531125.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0026187096
+images/test/d8d2faa0ce03866e803a72efd42b34be.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00069739146
+images/test/d924a296c91a3865917d9d1245e3a414.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0057557994
+images/test/d93b62fe4a54d9a13f1d94038d384522.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.013060787
+images/test/d96faa7c24cc0d1d36355565bdecfbd6.jpg,person,roboflow_oral,1,0,0,0,1,0,0.979142
+images/test/d97b2caa451ec87ef2d10f238c2ef421.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9631749
+images/test/d9a2748530404253cd959d1631ba99eb.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.005818117
+images/test/da5a7e1cb2cf1b9f7ab6c4feb17bb6b6.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000106369815
+images/test/db3288e4d0e96ba64a9dda235de92599.jpg,person (caries) + qwen (other conditions),zenodo,0,0,0,0,0,0,0.18652014
+images/test/dbb6c4ae18461188cd9f299b1d0f901b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.001800422
+images/test/dc00ad9c9e2707c4373588ea32275520.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0011514039
+images/test/dcd62d81e5d10374223eedf2c53f497a.jpg,person,roboflow_oral,1,0,0,1,0,0,0.91095513
+images/test/dd97899618d5dd2542b7a5c6ca1eadcc.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0032971778
+images/test/ddac957f222ddab789ee412ed4fecbe4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00039291714
+images/test/de5516b1c3bbe72e1f990501516db129.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0053762565
+images/test/deb5293bb7202017c0826a07a39d3b02.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0003233409
+images/test/df37d34e6f51f8e8f0e6efc526a61e16.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9091823
+images/test/df4528056b1586b5aeb17971a896e2fd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0047924714
+images/test/df899ecaeb3f4d6d1199106801c4c2ef.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006465039
+images/test/e0217cea9e6f44fd55946f3a74b98429.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00022054641
+images/test/e04e80ebb746761b30dce7d42fa6018e.jpg,person,kaggle_oral,0,0,0,0,0,0,0.5252597
+images/test/e08110567e4afe62eac675f22fafc294.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00022054641
+images/test/e0b9a133b3afb9200b7d5d20bcacbc92.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,2.0504971e-05
+images/test/e16ce6bdbbc355f5a335881543b2ac1b.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.876999
+images/test/e17886ffe1faaf473bbaa8a7b1033252.jpg,person,roboflow_oral,1,0,0,0,1,0,0.95544636
+images/test/e2fcdcbf477601f1efce7f401a15e394.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0023505255
+images/test/e32b7539cb8eb965e44b993986e3534d.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9731165
+images/test/e34919949f02dc9106b59987917d47dc.jpg,person,kaggle_oral,0,0,0,0,0,0,0.7772057
+images/test/e35046a967396fef5491996ae5963dab.jpg,person,roboflow_oral,1,1,0,0,0,1,0.9156705
+images/test/e3e4582104d9d711109b046381fd4df3.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,5.9698395e-05
+images/test/e4a14dfb435c68f8737695b4592a65ea.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006559019
+images/test/e4ecd2673abf17a7e6d72e939cd4bcb8.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.47292876
+images/test/e52838651ff77eba9dc396b8eadd9f56.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0012286203
+images/test/e55a84fcdf842ce7349e7998a6095eb2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00015708612
+images/test/e5a7e727848302b87c513ead4bbe0a33.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.7264869
+images/test/e636c3a8401f112ba5a35243f893d1a5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00038728557
+images/test/e6564a010c25ac2e9c8c22f4135c59e9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,7.360362e-05
+images/test/e6bb39bbe7027f042bf857480f2836ac.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9494011
+images/test/e71ee2ef627fd516793f94534d444530.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.07498127
+images/test/e73d598bafba7f3e5e8a7916ddcf6b66.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00022214423
+images/test/e749da50684d67ed406e874d15a44f14.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.7541866e-05
+images/test/e829e99abc8629c79b6e82851444577f.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00035259742
+images/test/e881f6f7111cffe461958ea779d040bd.jpg,person,roboflow_oral,1,0,0,0,1,0,0.974227
+images/test/e8cefc01abd1706020848cfdb79e6f2f.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0050578215
+images/test/e97873c98deaa44ff8f4c1809036aa4f.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.83522654
+images/test/e99dbd3404c5f3853cf125fae178abe4.jpg,person,roboflow_oral,1,0,1,0,0,0,0.89769864
+images/test/e9f57ae826a4e89c0f8d1eaab36f6857.jpg,person,kaggle_oral,0,0,0,0,0,0,0.027469875
+images/test/ea49c29df82e3a56459601712a38b7bd.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.041455932
+images/test/eacec153ed3cf474573721b967248cf9.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.011610843
+images/test/eb886159c3642ef4b1aeaac99367ec81.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.9517748
+images/test/eb96daff2bb34616a90c55dbb97169f1.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0027343417
+images/test/ebfd5295bfc6dbc0e35ee6e1278d340e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00026800946
+images/test/ec35a60c44ae6ba4ff1a7a9d52c626d5.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0016512304
+images/test/ec61112527a1042c36e4bf85a7cebd0d.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9450727
+images/test/edadd294941696262854c58ef1131dda.jpg,person,roboflow_oral,1,0,1,0,0,0,0.9545151
+images/test/edb00ab98a5306a82b2f0f674e3aae12.jpg,person,roboflow_oral,1,0,0,0,0,1,0.91935873
+images/test/ee261e1c5129e92ef9879a1de2c5fc23.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00019227774
+images/test/ee81abf6664890f4b6f4237ff1d87f11.jpg,person,kaggle_oral,0,0,0,0,0,0,0.014327775
+images/test/eedfe63d2413ada5e2a1b67c0a640bfb.jpg,person,roboflow_oral,1,0,0,0,1,0,0.91312736
+images/test/eef51d2a20ab8b50475db10514e2b0b8.jpg,person,roboflow_oral,1,0,0,0,1,0,0.96011364
+images/test/ef267b977e7e5fcd37a23e5ab9df2b6c.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9421927
+images/test/efa1b908eec95f126df32bd3ee7e7456.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0012154006
+images/test/efbeab1bfafabb85de92188e10e6bca8.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.05301838
+images/test/f01d5659ec4c726c29be1d63c031827b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0025627364
+images/test/f0860d7aabbe015757fd80ff52f3f0f1.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0043026307
+images/test/f0a42bd6dd07b75d181b68317cb95c86.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0009173751
+images/test/f0dfc432aed314f5cf077f8ebd2205dc.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9749424
+images/test/f11c79a2e7482ac1e697b851b1a1f7db.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0004706151
+images/test/f153cf4504926238bc3223c09d60b48f.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9169166
+images/test/f22daa08b360bda40837933586959d3b.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.002472087
+images/test/f2a8f2fd4a8732cf7b04a3879856a66d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0005596157
+images/test/f2d0f4d9ca13af3ea7a9f55e376e79cf.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0042412025
+images/test/f31f0914adc3e4e3fc7a9c25f10f097b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.000103341794
+images/test/f326e988bf5b2d52eebf01b03cff0eef.jpg,person,roboflow_oral,1,0,1,0,0,0,0.8548258
+images/test/f430844dea9769ceec213b28b15192ec.jpg,person,kaggle_oral,0,0,0,0,0,0,0.76881254
+images/test/f44160d0feed279dd78c6e83c1d0840b.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0017874909
+images/test/f49fb183e5a6b5eb6997e40a9e75e048.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0005263188
+images/test/f4a72463f01daa5db03c69262e03d068.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9675175
+images/test/f4d4c2301d51bf50650bc54cda8d9bab.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00018952142
+images/test/f576c6df534888c0400c7f8d23d4d31c.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00863037
+images/test/f5d589d3b9399797bedfac24eb2c0985.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,9.1405054e-05
+images/test/f5d6db14088da1920485480908d92a91.jpg,person,roboflow_oral,1,0,0,0,1,0,0.96774364
+images/test/f6834c1df6cc1e6c5ed124675c0cadcf.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00010791693
+images/test/f6972668ddb37b0d867dd62c47de234f.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.060139958
+images/test/f70970551c47755ff67839471fe78e62.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00032101516
+images/test/f72442b164bac783dc7c86db378a3625.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0003051973
+images/test/f751b0f8d99b91d0025e59529728bcfa.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006349452
+images/test/f7617074f2d63ddbaba1706a893ede50.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,7.2026494e-05
+images/test/f7adb879deb587fc2663472ac0ffaa25.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9440327
+images/test/f7cb649fae5152483cd9a3b0e523e5a7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00020518564
+images/test/f863318183bb611c173fc18cd2f636d1.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00066304015
+images/test/f8b148592bf76f407c6d6c671b9ccb58.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.01663474
+images/test/f92d2538e655c5ab787fbfa8c6a872cc.jpg,person,roboflow_oral,1,0,0,1,0,0,0.9545151
+images/test/f9c0df3de1c30a3ffab299f1e82916fa.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.016054345
+images/test/fa5e61b3a5be3d524b37f389198fbddf.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0036994922
+images/test/fa74652ab596fd80a22ec9cb55e51ca1.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.8240024
+images/test/fb0b465d8bcaafa190bb53849ea6fb0e.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00020967808
+images/test/fbc1b7c093cf7dc0b8751da351896f52.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.013342982
+images/test/fc416dba6e8cba582b555bdf8733422a.jpg,person,roboflow_oral,1,0,1,0,0,0,0.952515
+images/test/fc6555df3a3429aacf43204cb9087c8a.jpg,person,roboflow_oral,1,0,1,0,0,0,0.6467995
+images/test/fc8ec44c6fadceea50d05ef56897bbe2.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,6.700925e-05
+images/test/fc9df8a0fe80b16cfc3160f035bc0130.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0001814873
+images/test/fcc29dafd371cb27069b121986c60798.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.27957577
+images/test/fcd87cbb95df5c2e19b6b7d637704b06.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00034504407
+images/test/fcdbc789cd76d7e7a88330e9ab94035d.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006898837
+images/test/fcfcc6d868b2ce22562e354e74651508.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00027190693
+images/test/fd33ba584790ffc972d4d62cb2c6784a.jpg,person,kaggle_oral,0,0,0,0,0,0,0.00095450564
+images/test/fd6d130da9a1f0b6f87ca868256244c4.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.00023535136
+images/test/fd9c61a9651a15a78d285f38162ce6b7.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0006999119
+images/test/fdc78d2997a11d60c71eca09782ba714.jpg,person,kaggle_oral,0,0,0,0,0,0,0.04247193
+images/test/fdd2114819e555f43464979d3fc822fa.jpg,person,roboflow_oral,1,0,0,0,1,0,0.9663635
+images/test/fdd767bcace333a2f6d2f0c9446452b8.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.0006999119
+images/test/fdf365d7fa27ca0a9f98151448585407.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.44980183
+images/test/fe8fa58b22532ebc4d10cc2cd17c62e0.jpg,person,roboflow_oral,1,0,0,0,0,1,0.16671716
+images/test/fec4f2e8da98c8b96159ccae0a6d4024.jpg,qwen,mendeley_noncaries,0,0,0,0,0,0,0.0012829498
+images/test/ffaedb4f5d26d27733c8a427e12d9f4f.jpg,person,kaggle_oral,0,0,0,0,0,0,0.000316414
+images/test/ffc76e6e6edcab67a4039bac9795ce7a.jpg,person,kaggle_oral,0,0,0,0,0,0,0.0002566487
+images/test/ffc83070d99daefd0e88afdc2e40ddc1.jpg,person (caries) + qwen (other conditions),dentalai,0,0,0,0,0,0,0.00039863033

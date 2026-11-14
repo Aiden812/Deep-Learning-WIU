@@ -9,12 +9,19 @@ says which condition and where. A photo the gate misses never reaches YOLO, so t
 highest threshold that still catches TARGET_SENSITIVITY of the issues in the clean val set.
 
 Data: data/raw/oral_dataset (oral_dataset.zip from Daniel's qwen_clean_and_label.ipynb), target `has_issue`. Training
-uses Daniel's train split as it is. Val and test are his too, but only the images with no copy in train are used for the
-threshold and the headline score ("clean"); the score on his full test set is reported alongside to show how much the
-copies inflate it (see find_leaks.py).
+uses the images Daniel's binary split (manifests/Daniel/binary_classifier_split.csv) gives role "train": his train split
+minus two cross-source check sets carved from non-Roboflow photo groups (xsrc_val, xsrc_test). Val and test are his too,
+but only the images with no copy in train are used ("clean", see find_leaks.py); his full test is reported alongside to
+show how much the copies inflate it.
+
+Why the cross-source sets: in the clean test every issue image is from Roboflow and every healthy one from elsewhere, so
+it can't tell "recognises disease" from "recognises a Roboflow photo". xsrc_test has issue and healthy photos from the
+same non-Roboflow sources, and is the set Daniel's gate is scored on, so the two gates are directly comparable.
+Calibration and the threshold use clean val + xsrc_val: the threshold catches TARGET_SENSITIVITY of the issues in each.
 
 Each model has one folder, results/Aiden/<arch>/, overwritten by every run (model.pt, metrics.json, test_report.txt,
-train_log.txt, val_predictions.csv, test_predictions.csv). After each run report.py rewrites the single comparison
+train_log.txt, val_predictions.csv, test_predictions.csv); --tag writes to results/Aiden/tuning/<tag>/ instead
+(not in the comparison report). After each run report.py rewrites the single comparison
 report and graphs in results/Aiden/.
 """
 import argparse
@@ -39,6 +46,7 @@ from multilabel import NORM, Net, eval_tf   # noqa: E402
 
 DATA = REPO / "data/raw/oral_dataset"
 LEAKS = REPO / "data/processed/oral_dataset_leaks.csv"
+ROLES = REPO / "manifests/Daniel/binary_classifier_split.csv"   # Daniel's train / xsrc_val / xsrc_test
 RESULTS = REPO / "models/classifier/results/Aiden"
 TARGET = "has_issue"
 CONDITIONS = ["Calculus", "Caries", "Hypodontia", "Mouth_Ulcer", "Tooth_Discoloration"]   # for the per-condition breakdown
@@ -100,7 +108,7 @@ def train(frame, a, log, held):
     train_tf = transforms.Compose([
         transforms.RandomResizedCrop(a.img, scale=(0.5, 1.0), ratio=(0.75, 1.33)),
         transforms.RandomHorizontalFlip(), transforms.RandomRotation(20),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2),   # no hue/saturation: discolouration is a colour
+        transforms.ColorJitter(brightness=a.jitter, contrast=a.jitter),   # no hue/saturation: discolouration is a colour
         transforms.ToTensor(), NORM])
     # every photo group (copies of one photo) equally likely, so a photo with 200 copies doesn't outvote the rest
     copies = frame.group.map(frame.group.value_counts()).to_numpy()
@@ -157,6 +165,8 @@ def main():
     p.add_argument("--batch", type=int, default=32)
     p.add_argument("--passes", type=float, default=1, help="draws per epoch = passes x training photo groups")
     p.add_argument("--workers", type=int, default=4)
+    p.add_argument("--jitter", type=float, default=0.2, help="brightness/contrast augmentation strength")
+    p.add_argument("--tag", help="tuning run: write to results/Aiden/tuning/<tag>/ and leave the main results alone")
     a = p.parse_args()
     torch.manual_seed(SEED)
     np.random.seed(SEED)
@@ -164,7 +174,7 @@ def main():
     if sys.platform == "win32":   # keep Windows awake while training
         ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000001)
 
-    out = RESULTS / a.arch
+    out = RESULTS / "tuning" / a.tag if a.tag else RESULTS / a.arch
     out.mkdir(parents=True, exist_ok=True)
     (out / "train_log.txt").unlink(missing_ok=True)
 
@@ -176,26 +186,32 @@ def main():
     df = pd.read_csv(DATA / "labels.csv", keep_default_na=False)
     df = df.merge(pd.read_csv(LEAKS)[["md5", "leaked"]], on="md5", how="left")
     df["leaked"] = df.leaked.fillna(False).astype(bool)
-    tr = df[df.split == "train"]
+    df = df.merge(pd.read_csv(ROLES)[["md5", "role"]], on="md5", how="left")
+    assert df.role.notna().all(), "labels.csv and Daniel's binary_classifier_split.csv are from different dataset versions"
+    tr = df[df.role == "train"]
+    xval, xtest = df[df.role == "xsrc_val"], df[df.role == "xsrc_test"]
     val = df[(df.split == "val") & ~df.leaked]
     test_full = df[df.split == "test"]
     test = test_full[~test_full.leaked]
     log(f"{vars(a)}\ntrain {len(tr)} images ({tr.group.nunique()} photo groups, {int(tr[TARGET].sum())} with an issue) | "
         f"clean val {len(val)} of {(df.split == 'val').sum()} | clean test {len(test)} of {len(test_full)} "
-        f"({int(test[TARGET].sum())} with an issue, {int((test[TARGET] == 0).sum())} healthy)")
+        f"({int(test[TARGET].sum())} with an issue, {int((test[TARGET] == 0).sum())} healthy) | "
+        f"cross-source val {len(xval)}, test {len(xtest)} ({int(xtest[TARGET].sum())} with an issue)")
 
     model, history = train(tr, a, log, held=(DATA / val.image, val[TARGET].values))
     z_val = logits(model, DATA / val.image, a)
     z_full = logits(model, DATA / test_full.image, a)
     z = z_full[~test_full.leaked.to_numpy()]
+    z_xval, z_xtest = logits(model, DATA / xval.image, a), logits(model, DATA / xtest.image, a)
 
-    # Calibration (logit -> probability) and the threshold, both from the clean val set only
-    cal = LogisticRegression().fit(z_val[:, None], val[TARGET].values)
+    # Calibration (logit -> probability) and the threshold, from clean val + cross-source val only
+    cal = LogisticRegression().fit(np.r_[z_val, z_xval][:, None], np.r_[val[TARGET].values, xval[TARGET].values])
     prob = lambda v: cal.predict_proba(v[:, None])[:, 1]
-    p_val, p_test, p_full = prob(z_val), prob(z), prob(z_full)
-    y_val = val[TARGET].to_numpy() == 1
-    # highest threshold that still catches TARGET_SENSITIVITY of the clean-val issues
-    thr = float(np.sort(p_val[y_val])[int(np.floor((1 - TARGET_SENSITIVITY) * y_val.sum()))])
+    p_val, p_test, p_full, p_xval, p_xtest = prob(z_val), prob(z), prob(z_full), prob(z_xval), prob(z_xtest)
+    y_val, y_xval, y_xtest = (f[TARGET].to_numpy() == 1 for f in (val, xval, xtest))
+    # highest threshold that still catches TARGET_SENSITIVITY of the issues in clean val and in cross-source val
+    catch = lambda p, y: float(np.sort(p[y])[int(np.floor((1 - TARGET_SENSITIVITY) * y.sum()))])
+    thr = min(catch(p_val, y_val), catch(p_xval, y_xval))
 
     y, y_full = test[TARGET].to_numpy() == 1, test_full[TARGET].to_numpy() == 1
     person = (test.label_by == "person").to_numpy()
@@ -203,13 +219,21 @@ def main():
     m = gate_metrics(y, p_test, thr)
     metrics = dict(
         arch=a.arch, name=NAMES.get(a.arch, a.arch), task="binary gate: has_issue",
-        settings=dict(img=a.img, epochs=a.epochs, lr=a.lr, batch=a.batch, passes=a.passes, target_sensitivity=TARGET_SENSITIVITY),
+        settings=dict(img=a.img, epochs=a.epochs, lr=a.lr, batch=a.batch, passes=a.passes, jitter=a.jitter, target_sensitivity=TARGET_SENSITIVITY),
         n_train=len(tr), n_val=len(val), n_test=len(test), n_test_full=len(test_full),
         n_issue=int(y.sum()), n_healthy=int((~y).sum()), threshold=thr, **m,
         auroc_ci=ci95(roc_auc_score, y, p_test), sensitivity_ci=ci95(lambda yy, pp: float(((pp >= thr) & yy).sum() / yy.sum()), y, p_test),
         val=gate_metrics(y_val, p_val, thr),
         person=gate_metrics(y[person], p_test[person], thr),
         full_test=gate_metrics(y_full, p_full, thr),
+        xsrc_val=gate_metrics(y_xval, p_xval, thr),
+        xsrc_test=dict(**gate_metrics(y_xtest, p_xtest, thr), auroc_ci=ci95(roc_auc_score, y_xtest, p_xtest)),
+        # within one source both classes are the same kind of photo: the cleanest "disease, not source" check
+        xsrc_per_source={s: dict(n_issue=int(y_xtest[i].sum()), n_healthy=int((~y_xtest[i]).sum()),
+                                 auroc=float(roc_auc_score(y_xtest[i], p_xtest[i])) if 0 < y_xtest[i].sum() < i.sum() else None,
+                                 sensitivity=float((p_xtest[i & y_xtest] >= thr).mean()) if y_xtest[i].any() else None,
+                                 specificity=float((p_xtest[i & ~y_xtest] < thr).mean()) if (~y_xtest[i]).any() else None)
+                         for s in sorted(xtest.dataset.unique()) for i in [(xtest.dataset == s).to_numpy()]},
         # share of images with each condition that the gate passes on to YOLO (a miss here is a miss for the whole pipeline)
         passed_to_yolo={c: dict(n=int(test[c].sum()), share=float(flag[test[c].to_numpy() == 1].mean())) for c in CONDITIONS},
         history=[history])
@@ -217,20 +241,23 @@ def main():
     def line(name, g):
         return (f"{name:<28s} AUROC {g['auroc']:.4f}  AP {g['ap']:.4f}  sensitivity {g['sensitivity']:.3f}  "
                 f"specificity {g['specificity']:.3f}  precision {g['precision']:.3f}  accuracy {g['accuracy']:.3f}")
-    report = (f"STAGE-1 GATE: has an issue or healthy. Threshold {thr:.3f} (catches {TARGET_SENSITIVITY:.0%} of clean-val issues)\n\n"
+    report = (f"STAGE-1 GATE: has an issue or healthy. Threshold {thr:.3f} (catches {TARGET_SENSITIVITY:.0%} of issues in clean val and cross-source val)\n\n"
               + line(f"clean test ({len(test)})", m)
               + f"\n{'':<28s} AUROC 95% CI {metrics['auroc_ci'][0]:.4f}-{metrics['auroc_ci'][1]:.4f}, sensitivity 95% CI "
                 f"{metrics['sensitivity_ci'][0]:.3f}-{metrics['sensitivity_ci'][1]:.3f}"
               + f"\n{'':<28s} confusion: {m['confusion']}\n"
               + line(f"person-labelled only ({int(person.sum())})", metrics["person"]) + "\n"
               + line(f"full test, leaky ({len(test_full)})", metrics["full_test"]) + "\n"
+              + line(f"cross-source test ({len(xtest)})", metrics["xsrc_test"]) + "\n"
+              + "".join(f"  {s:<26s} AUROC {'n/a' if v['auroc'] is None else round(v['auroc'], 4)}  "
+                        f"issues {v['n_issue']}, healthy {v['n_healthy']}\n" for s, v in metrics["xsrc_per_source"].items())
               + line(f"clean val ({len(val)})", metrics["val"])
               + "\n\npassed on to YOLO, per condition (clean test): "
               + ", ".join(f"{c} {v['share']:.1%} of {v['n']}" for c, v in metrics["passed_to_yolo"].items()))
     log(report)
     (out / "test_report.txt").write_text(report, encoding="utf-8")
     (out / "metrics.json").write_text(json.dumps(metrics, indent=1))   # read by report.py and prototype/Aiden
-    for name, frame, v in (("val", val, p_val), ("test", test, p_test)):
+    for name, frame, v in (("val", val, p_val), ("test", test, p_test), ("xsrc_test", xtest, p_xtest)):
         frame[["image", "label_by", "dataset", TARGET, *CONDITIONS]].assign(p_issue=v).to_csv(out / f"{name}_predictions.csv", index=False)
     torch.save(dict(state_dicts=[model.half().state_dict()], arch=a.arch, img_size=a.img, classes=["has_issue"], thresholds=[thr],
                     calib_a=[float(cal.coef_[0, 0])], calib_b=[float(cal.intercept_[0])], multilabel=False, task="gate"),
