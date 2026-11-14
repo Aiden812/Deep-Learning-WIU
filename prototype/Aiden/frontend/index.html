@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Senyum · Mouth photo check for Singapore</title>
+<meta name="description" content="Screen a mouth photo for five common conditions, see what each finding means, what it may cost after CHAS and MediSave, and where to go. A screening aid, not a diagnosis.">
+<meta name="theme-color" content="#17121f">
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<a class="skip" href="#step-photo">Skip to the check</a>
+
+<aside class="emergency" aria-label="Dental emergency">
+  <p><strong>Emergency?</strong> Facial swelling, bleeding that won't stop, or a knocked-out tooth: call <a href="tel:995">995</a> or go to the nearest A&amp;E. Don't wait for this check.</p>
+</aside>
+
+<header class="top">
+  <a class="brand" href="#top" id="top"><span class="brand-mark" aria-hidden="true">◡</span> senyum</a>
+  <nav aria-label="Main">
+    <a href="#reliability">How reliable is it?</a>
+    <a href="#privacy">Privacy</a>
+  </nav>
+  <span id="mode" class="pill" hidden></span>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>One photo. Every finding, what it costs, where to go.</h1>
+    <p class="lede">Senyum screens a photo of your teeth and gums for five common conditions at once, explains each in plain language, estimates what you'd pay after CHAS and MediSave, and finds a clinic near you.</p>
+    <p class="note">A screening and education aid. It does not diagnose and never recommends medication.</p>
+  </section>
+
+  <ol class="steps" aria-label="Progress">
+    <li data-step="photo" aria-current="step">Photo</li>
+    <li data-step="result">Findings</li>
+    <li data-step="plan">Cost &amp; clinics</li>
+  </ol>
+
+  <section id="step-photo" class="card" aria-labelledby="h-photo">
+    <h2 id="h-photo">1 · Take or choose a photo</h2>
+    <details class="soft">
+      <summary>First: do any of these apply to you right now?</summary>
+      <ul id="emergency-signs"></ul>
+      <p><strong>If yes, call <a href="tel:995">995</a> or go to A&amp;E.</strong> This tool is not for emergencies.</p>
+    </details>
+    <ul class="tips">
+      <li>Bright, even light. Face a window or switch on a lamp.</li>
+      <li>Fill the frame with your teeth and gums, lips pulled back.</li>
+      <li>Hold steady and tap to focus before you shoot.</li>
+    </ul>
+    <label class="check">
+      <input type="checkbox" id="consent">
+      <span>I agree to my photo being analysed for this check. It is processed in memory and deleted straight after; nothing is stored. <a href="#privacy">Details</a></span>
+    </label>
+    <div class="row">
+      <label class="btn primary" id="pick-label" aria-disabled="true">
+        <input type="file" id="file" accept="image/*" capture="environment" disabled hidden>
+        Choose or take a photo
+      </label>
+      <button class="btn" id="go" hidden>Screen this photo</button>
+    </div>
+    <img id="preview" alt="Your selected photo" hidden>
+    <p id="photo-msg" class="msg" role="alert" hidden></p>
+    <details class="soft">
+      <summary>No photo? Walk through a simulated result</summary>
+      <p class="note">These are made-up results for demonstration, not from the model.</p>
+      <div class="row" id="demos"></div>
+    </details>
+  </section>
+
+  <section id="step-result" class="card" aria-labelledby="h-result" hidden tabindex="-1">
+    <h2 id="h-result">2 · What the screen found</h2>
+    <div id="result"></div>
+  </section>
+
+  <section id="step-plan" class="card" aria-labelledby="h-plan" hidden>
+    <h2 id="h-plan">3 · Your cost and where to go</h2>
+    <p>Three questions decide your subsidies. Your answers stay in this browser tab.</p>
+    <form id="profile">
+      <label>Residency
+        <select name="residency">
+          <option value="citizen">Singapore Citizen</option>
+          <option value="pr">Permanent Resident</option>
+          <option value="pass">Work / student / other pass</option>
+        </select>
+      </label>
+      <label>CHAS or generation card
+        <select name="tier">
+          <option value="none">None / not sure</option>
+          <option value="pioneer">Pioneer Generation</option>
+          <option value="merdeka">Merdeka Generation</option>
+          <option value="blue">CHAS Blue</option>
+          <option value="orange">CHAS Orange</option>
+          <option value="green">CHAS Green</option>
+        </select>
+      </label>
+      <label>Age
+        <select name="age">
+          <option value="under60">Under 60</option>
+          <option value="60plus">60 or above</option>
+        </select>
+      </label>
+      <label>Search near
+        <select name="area" id="area"></select>
+      </label>
+      <label class="check"><input type="checkbox" name="after_hours"><span>I need evening or weekend opening hours</span></label>
+      <div class="row">
+        <button class="btn primary" type="submit">Estimate my cost and find clinics</button>
+        <button class="btn" type="button" id="locate">Use my location instead</button>
+      </div>
+    </form>
+    <div id="plan" aria-live="polite"></div>
+  </section>
+
+  <section id="reliability" class="card plain" aria-labelledby="h-rel">
+    <h2 id="h-rel">How reliable is it?</h2>
+    <div id="metrics"><p>Model test results appear here once the trained model's <code>metrics.json</code> is present.</p></div>
+    <ul>
+      <li>The model was trained on clinical close-up photos from outside Singapore. Phone selfies in home lighting are harder for it.</li>
+      <li>It screens for five conditions only. Gum disease, the most common problem in Singapore adults, is not one of them, so "nothing flagged" never means your mouth is healthy.</li>
+      <li>A photo can't show decay between teeth, problems under the gumline, or how deep anything goes. Only a dentist can.</li>
+    </ul>
+  </section>
+
+  <section id="privacy" class="card plain" aria-labelledby="h-priv">
+    <h2 id="h-priv">Privacy</h2>
+    <p>Your photo is sent to the screening service, analysed in memory and discarded. It is not saved, logged or used for training. Your residency, card and age answers never leave this browser tab except to compute the estimate, and are not stored. Close the tab and everything is gone. This follows the consent and purpose-limitation obligations of Singapore's PDPA.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Senyum is a student prototype for IT2226 (Nanyang Polytechnic). Clinic listings are samples. Cost figures are non-binding estimates from the sources cited next to them.</p>
+</footer>
+</body>
+</html>

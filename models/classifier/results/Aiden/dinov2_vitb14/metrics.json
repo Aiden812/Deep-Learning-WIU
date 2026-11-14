@@ -1,0 +1,168 @@
+{
+ "arch": "dinov2_vitb14",
+ "name": "DINOv2 ViT-B/14",
+ "task": "binary gate: has_issue",
+ "settings": {
+  "img": 224,
+  "epochs": 10,
+  "lr": 2e-05,
+  "batch": 32,
+  "passes": 1,
+  "target_sensitivity": 0.95
+ },
+ "n_train": 31279,
+ "n_val": 1135,
+ "n_test": 1141,
+ "n_test_full": 3410,
+ "n_issue": 178,
+ "n_healthy": 963,
+ "threshold": 0.8737950325012207,
+ "auroc": 0.9925297816981109,
+ "ap": 0.8940627418837752,
+ "sensitivity": 0.9438202247191011,
+ "specificity": 0.9906542056074766,
+ "precision": 0.9491525423728814,
+ "accuracy": 0.9833479404031551,
+ "confusion": {
+  "tp": 168,
+  "fn": 10,
+  "fp": 9,
+  "tn": 954
+ },
+ "auroc_ci": [
+  0.9872366943632908,
+  0.997063129489804
+ ],
+ "sensitivity_ci": [
+  0.9065848214285714,
+  0.9764774281805745
+ ],
+ "val": {
+  "auroc": 0.9949942762525809,
+  "ap": 0.9594313132920912,
+  "sensitivity": 0.9528301886792453,
+  "specificity": 0.9924160346695557,
+  "precision": 0.9665071770334929,
+  "accuracy": 0.9850220264317181,
+  "confusion": {
+   "tp": 202,
+   "fn": 10,
+   "fp": 7,
+   "tn": 916
+  }
+ },
+ "person": {
+  "auroc": 0.9821938678346982,
+  "ap": 0.9731844935134775,
+  "sensitivity": 0.9438202247191011,
+  "specificity": 0.9830508474576272,
+  "precision": 0.9940828402366864,
+  "accuracy": 0.9535864978902954,
+  "confusion": {
+   "tp": 168,
+   "fn": 10,
+   "fp": 1,
+   "tn": 58
+  }
+ },
+ "full_test": {
+  "auroc": 0.9926075585379941,
+  "ap": 0.9901700836468722,
+  "sensitivity": 0.9268492031058438,
+  "specificity": 0.9906542056074766,
+  "precision": 0.9960474308300395,
+  "accuracy": 0.9448680351906158,
+  "confusion": {
+   "tp": 2268,
+   "fn": 179,
+   "fp": 9,
+   "tn": 954
+  }
+ },
+ "passed_to_yolo": {
+  "Calculus": {
+   "n": 6,
+   "share": 1.0
+  },
+  "Caries": {
+   "n": 23,
+   "share": 0.9565217391304348
+  },
+  "Hypodontia": {
+   "n": 32,
+   "share": 0.96875
+  },
+  "Mouth_Ulcer": {
+   "n": 90,
+   "share": 0.9555555555555556
+  },
+  "Tooth_Discoloration": {
+   "n": 35,
+   "share": 0.8857142857142857
+  }
+ },
+ "history": [
+  [
+   {
+    "epoch": 1,
+    "train_loss": 0.3171217255778127,
+    "heldout_loss": 0.1797783076763153,
+    "heldout_auroc": 0.9967982787873833
+   },
+   {
+    "epoch": 2,
+    "train_loss": 0.2601865531396335,
+    "heldout_loss": 0.12325217574834824,
+    "heldout_auroc": 0.9971790102005356
+   },
+   {
+    "epoch": 3,
+    "train_loss": 0.24639239102767882,
+    "heldout_loss": 0.10310614109039307,
+    "heldout_auroc": 0.9953494552218973
+   },
+   {
+    "epoch": 4,
+    "train_loss": 0.23603598809419182,
+    "heldout_loss": 0.12232933938503265,
+    "heldout_auroc": 0.9995349455221898
+   },
+   {
+    "epoch": 5,
+    "train_loss": 0.2338275230439563,
+    "heldout_loss": 0.11537230014801025,
+    "heldout_auroc": 0.9980861219567039
+   },
+   {
+    "epoch": 6,
+    "train_loss": 0.22399221512736106,
+    "heldout_loss": 0.17279282212257385,
+    "heldout_auroc": 0.9950760440728552
+   },
+   {
+    "epoch": 7,
+    "train_loss": 0.21581627964862865,
+    "heldout_loss": 0.12031790614128113,
+    "heldout_auroc": 0.9974703080602628
+   },
+   {
+    "epoch": 8,
+    "train_loss": 0.2056573963895136,
+    "heldout_loss": 0.1360403299331665,
+    "heldout_auroc": 0.9963408900427236
+   },
+   {
+    "epoch": 9,
+    "train_loss": 0.2000674224132067,
+    "heldout_loss": 0.12431439012289047,
+    "heldout_auroc": 0.9951297042049102
+   },
+   {
+    "epoch": 10,
+    "train_loss": 0.2002930188886752,
+    "heldout_loss": 0.13475926220417023,
+    "heldout_auroc": 0.9949942762525809
+   }
+  ]
+ ]
+}
