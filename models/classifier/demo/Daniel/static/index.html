@@ -115,6 +115,23 @@
           <p class="tiny mono" id="latency"></p>
         </div>
 
+        <div id="det-card" class="card hidden">
+          <div class="det-head">
+            <h3 class="card-h">Where the detector sees it</h3>
+            <label id="det-weak-wrap" class="tiny muted det-toggle">
+              <input id="det-weak" type="checkbox"> weaker candidates
+            </label>
+          </div>
+          <div class="det-frame">
+            <div class="det-stage">
+              <img id="det-img" alt="Photo with detected conditions outlined">
+              <div id="det-boxes" class="det-boxes"></div>
+            </div>
+          </div>
+          <p id="det-note" class="small det-note"></p>
+          <div id="det-list" class="det-list"></div>
+        </div>
+
         <div class="card">
           <h3 class="card-h">Probabilities</h3>
           <div id="bars" class="bars"></div>

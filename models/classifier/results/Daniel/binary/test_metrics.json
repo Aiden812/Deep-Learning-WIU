@@ -1,81 +1,81 @@
 {
   "experiment": "B_mobilenet_v3_large",
   "backbone": "mobilenet_v3_large",
-  "temperature": 0.6655784249305725,
-  "threshold": 0.8473200798034668,
+  "temperature": 0.7064143419265747,
+  "threshold": 0.7285046577453613,
   "target_sensitivity": 0.95,
   "test_at_threshold": {
     "test": {
-      "acc": 0.9826001313197636,
-      "bal_acc": 0.9727802023942642,
-      "macro_f1": 0.9724823482747647,
-      "sensitivity": 0.9889660809154066,
-      "specificity": 0.9565943238731218,
-      "auroc": 0.9866481596831118,
-      "ap": 0.9919927105627754
+      "acc": 0.9822888283378747,
+      "bal_acc": 0.9693262799845577,
+      "macro_f1": 0.9732287396858262,
+      "sensitivity": 0.991792656587473,
+      "specificity": 0.9468599033816425,
+      "auroc": 0.989093046469326,
+      "ap": 0.9951052309737964
     },
     "test_person": {
-      "acc": 0.9848424411647387,
-      "bal_acc": 0.9028163737910366,
-      "macro_f1": 0.8563990786966693,
-      "sensitivity": 0.9889660809154066,
-      "specificity": 0.8166666666666667,
-      "auroc": 0.9024894428551968,
-      "ap": 0.9932371548902171
+      "acc": 0.9890480202190396,
+      "bal_acc": 0.9365742943954314,
+      "macro_f1": 0.8971849285404938,
+      "sensitivity": 0.991792656587473,
+      "specificity": 0.8813559322033898,
+      "auroc": 0.9684116118168172,
+      "ap": 0.9981092750472879
     },
     "xsrc_test": {
-      "acc": 0.9468267581475128,
-      "bal_acc": 0.9469994820604577,
-      "macro_f1": 0.946826132368301,
-      "sensitivity": 0.9358108108108109,
-      "specificity": 0.9581881533101045,
-      "auroc": 0.979722372633958,
-      "ap": 0.97347398610314
+      "acc": 0.9449618966977138,
+      "bal_acc": 0.9454634949973881,
+      "macro_f1": 0.9449579503549608,
+      "sensitivity": 0.9275123558484349,
+      "specificity": 0.9634146341463414,
+      "auroc": 0.9780106079479246,
+      "ap": 0.970561677340378
     }
   },
   "test_at_0_5": {
     "test": {
-      "acc": 0.98456992777413,
-      "bal_acc": 0.9677022663436472,
-      "macro_f1": 0.9751885056240162,
-      "sensitivity": 0.9955046996322027,
-      "specificity": 0.9398998330550918,
-      "auroc": 0.9866481596831117,
-      "ap": 0.9919942396847744
+      "acc": 0.9833106267029973,
+      "bal_acc": 0.9676175471179697,
+      "macro_f1": 0.9746053712753535,
+      "sensitivity": 0.994816414686825,
+      "specificity": 0.9404186795491143,
+      "auroc": 0.9890930464693258,
+      "ap": 0.9951060979945991
     },
     "test_person": {
-      "acc": 0.9896290386916633,
-      "bal_acc": 0.8727523498161014,
-      "macro_f1": 0.8852768899339631,
-      "sensitivity": 0.9955046996322027,
-      "specificity": 0.75,
-      "auroc": 0.9024894428551969,
-      "ap": 0.9932384600193931
+      "acc": 0.991575400168492,
+      "bal_acc": 0.929611597173921,
+      "macro_f1": 0.9158710921165473,
+      "sensitivity": 0.994816414686825,
+      "specificity": 0.864406779661017,
+      "auroc": 0.9684116118168173,
+      "ap": 0.9981098724636366
     },
     "xsrc_test": {
-      "acc": 0.9502572898799314,
-      "bal_acc": 0.950033548356719,
-      "macro_f1": 0.9502149587750295,
-      "sensitivity": 0.964527027027027,
-      "specificity": 0.9355400696864111,
-      "auroc": 0.9797238440531124,
-      "ap": 0.973476173924457
+      "acc": 0.9441151566469094,
+      "bal_acc": 0.9443082733957487,
+      "macro_f1": 0.944093952799821,
+      "sensitivity": 0.9373970345963756,
+      "specificity": 0.9512195121951219,
+      "auroc": 0.9779933872532417,
+      "ap": 0.9705456577161505
     }
   },
   "macro_f1_95ci_at_0_5": {
-    "test": "[0.967, 0.982]",
-    "test_person": "[0.830, 0.931]",
-    "xsrc_test": "[0.936, 0.963]"
+    "test": "[0.967, 0.981]",
+    "test_person": "[0.873, 0.952]",
+    "xsrc_test": "[0.929, 0.957]"
   },
   "per_source": [
     {
       "set": "test",
       "dataset": "dentalai",
-      "images": 92,
+      "images": 90,
       "issue": 0,
-      "normal": 92,
+      "normal": 90,
       "sensitivity": NaN,
-      "specificity": 0.8586956521739131,
+      "specificity": 0.7444444444444445,
       "auroc": NaN
     },
     {
@@ -91,19 +91,19 @@
     {
       "set": "test",
       "dataset": "kaggle_oral",
-      "images": 60,
+      "images": 59,
       "issue": 0,
-      "normal": 60,
+      "normal": 59,
       "sensitivity": NaN,
-      "specificity": 0.8166666666666667,
+      "specificity": 0.8813559322033898,
       "auroc": NaN
     },
     {
       "set": "test",
       "dataset": "mendeley_noncaries",
-      "images": 435,
+      "images": 460,
       "issue": 0,
-      "normal": 435,
+      "normal": 460,
       "sensitivity": NaN,
       "specificity": 1.0,
       "auroc": NaN
@@ -111,10 +111,10 @@
     {
       "set": "test",
       "dataset": "roboflow_oral",
-      "images": 2447,
-      "issue": 2447,
+      "images": 2315,
+      "issue": 2315,
       "normal": 0,
-      "sensitivity": 0.9889660809154066,
+      "sensitivity": 0.991792656587473,
       "specificity": NaN,
       "auroc": NaN
     },
@@ -125,163 +125,163 @@
       "issue": 0,
       "normal": 6,
       "sensitivity": NaN,
-      "specificity": 0.6666666666666666,
+      "specificity": 0.5,
       "auroc": NaN
     },
     {
       "set": "xsrc_test",
       "dataset": "dentalai",
-      "images": 279,
-      "issue": 187,
+      "images": 282,
+      "issue": 190,
       "normal": 92,
-      "sensitivity": 0.9037433155080213,
-      "specificity": 0.782608695652174,
-      "auroc": 0.9026389211811207
+      "sensitivity": 0.8947368421052632,
+      "specificity": 0.8478260869565217,
+      "auroc": 0.9139588100686499
     },
     {
       "set": "xsrc_test",
       "dataset": "external_clean",
-      "images": 48,
-      "issue": 41,
-      "normal": 7,
-      "sensitivity": 0.8780487804878049,
+      "images": 49,
+      "issue": 43,
+      "normal": 6,
+      "sensitivity": 0.8372093023255814,
       "specificity": 1.0,
-      "auroc": 0.9686411149825784
+      "auroc": 0.9612403100775194
     },
     {
       "set": "xsrc_test",
       "dataset": "kaggle_oral",
-      "images": 109,
-      "issue": 94,
+      "images": 110,
+      "issue": 95,
       "normal": 15,
-      "sensitivity": 0.9148936170212766,
+      "sensitivity": 0.9368421052631579,
       "specificity": 0.9333333333333333,
-      "auroc": 0.9624113475177305
+      "auroc": 0.9361403508771929
     },
     {
       "set": "xsrc_test",
       "dataset": "mendeley_noncaries",
-      "images": 454,
-      "issue": 0,
-      "normal": 454,
-      "sensitivity": NaN,
-      "specificity": 1.0,
-      "auroc": NaN
+      "images": 463,
+      "issue": 8,
+      "normal": 455,
+      "sensitivity": 0.125,
+      "specificity": 0.9956043956043956,
+      "auroc": 0.9289835164835164
     },
     {
       "set": "xsrc_test",
       "dataset": "zenodo",
-      "images": 276,
-      "issue": 270,
+      "images": 277,
+      "issue": 271,
       "normal": 6,
-      "sensitivity": 0.9740740740740741,
-      "specificity": 0.5,
-      "auroc": 0.8462962962962963
+      "sensitivity": 0.985239852398524,
+      "specificity": 0.3333333333333333,
+      "auroc": 0.8136531365313654
     }
   ],
   "robustness": [
     {
       "set": "test",
       "condition": "original",
-      "macro_f1": 0.9751885056240162,
-      "sensitivity": 0.9955046996322027,
-      "specificity": 0.9398998330550918,
+      "macro_f1": 0.9746053712753535,
+      "sensitivity": 0.994816414686825,
+      "specificity": 0.9404186795491143,
       "changed": 0.0
     },
     {
       "set": "test",
       "condition": "low-res 160px + JPEG60",
-      "macro_f1": 0.9565771563669279,
-      "sensitivity": 0.9852881078872088,
-      "specificity": 0.9215358931552587,
-      "changed": 0.018384766907419567
+      "macro_f1": 0.9632482823099477,
+      "sensitivity": 0.9896328293736502,
+      "specificity": 0.9243156199677939,
+      "changed": 0.01430517711171662
     },
     {
       "set": "test",
       "condition": "dark (x0.5)",
-      "macro_f1": 0.9672486750464775,
-      "sensitivity": 0.9926440539436044,
-      "specificity": 0.9265442404006677,
-      "changed": 0.0075508864084044645
+      "macro_f1": 0.9731320064058568,
+      "sensitivity": 0.9930885529157667,
+      "specificity": 0.9420289855072463,
+      "changed": 0.006471389645776567
     },
     {
       "set": "test",
       "condition": "bright (x1.6)",
-      "macro_f1": 0.9603392395263315,
-      "sensitivity": 0.9946873722926032,
-      "specificity": 0.8981636060100167,
-      "changed": 0.017399868680236377
+      "macro_f1": 0.9589485458612975,
+      "sensitivity": 0.9939524838012959,
+      "specificity": 0.8969404186795491,
+      "changed": 0.015326975476839238
     },
     {
       "set": "test",
       "condition": "blur (r=2)",
-      "macro_f1": 0.9662797584452821,
-      "sensitivity": 0.9914180629342052,
-      "specificity": 0.9282136894824707,
-      "changed": 0.010177281680892974
+      "macro_f1": 0.9736327872212629,
+      "sensitivity": 0.9935205183585313,
+      "specificity": 0.9420289855072463,
+      "changed": 0.007493188010899182
     },
     {
       "set": "test",
       "condition": "JPEG q=20",
-      "macro_f1": 0.9638435515460858,
-      "sensitivity": 0.9934613812832039,
-      "specificity": 0.9131886477462438,
-      "changed": 0.01149047931713723
+      "macro_f1": 0.9697383919095763,
+      "sensitivity": 0.9952483801295896,
+      "specificity": 0.9243156199677939,
+      "changed": 0.0085149863760218
     },
     {
       "set": "xsrc_test",
       "condition": "original",
-      "macro_f1": 0.9502149587750295,
-      "sensitivity": 0.964527027027027,
-      "specificity": 0.9355400696864111,
+      "macro_f1": 0.944093952799821,
+      "sensitivity": 0.9373970345963756,
+      "specificity": 0.9512195121951219,
       "changed": 0.0
     },
     {
       "set": "xsrc_test",
       "condition": "low-res 160px + JPEG60",
-      "macro_f1": 0.933054208513307,
-      "sensitivity": 0.9459459459459459,
-      "specificity": 0.9198606271777003,
-      "changed": 0.03430531732418525
+      "macro_f1": 0.9280196641802014,
+      "sensitivity": 0.9126853377265239,
+      "specificity": 0.9442508710801394,
+      "changed": 0.04487722269263336
     },
     {
       "set": "xsrc_test",
       "condition": "dark (x0.5)",
-      "macro_f1": 0.9441976693930954,
-      "sensitivity": 0.9611486486486487,
-      "specificity": 0.926829268292683,
-      "changed": 0.018010291595197257
+      "macro_f1": 0.9441061399634001,
+      "sensitivity": 0.9308072487644151,
+      "specificity": 0.9581881533101045,
+      "changed": 0.02201524132091448
     },
     {
       "set": "xsrc_test",
       "condition": "bright (x1.6)",
-      "macro_f1": 0.9330003536067892,
-      "sensitivity": 0.9577702702702703,
-      "specificity": 0.9076655052264808,
-      "changed": 0.036020583190394515
+      "macro_f1": 0.9287704202375755,
+      "sensitivity": 0.9406919275123559,
+      "specificity": 0.9163763066202091,
+      "changed": 0.03725656223539373
     },
     {
       "set": "xsrc_test",
       "condition": "blur (r=2)",
-      "macro_f1": 0.942503026756899,
-      "sensitivity": 0.9527027027027027,
-      "specificity": 0.9320557491289199,
-      "changed": 0.023156089193825044
+      "macro_f1": 0.9432669522665759,
+      "sensitivity": 0.9225700164744646,
+      "specificity": 0.9651567944250871,
+      "changed": 0.029635901778154106
     },
     {
       "set": "xsrc_test",
       "condition": "JPEG q=20",
-      "macro_f1": 0.9390592484027952,
-      "sensitivity": 0.9527027027027027,
-      "specificity": 0.9250871080139372,
-      "changed": 0.023156089193825044
+      "macro_f1": 0.9466253747371729,
+      "sensitivity": 0.943986820428336,
+      "specificity": 0.9494773519163763,
+      "changed": 0.024555461473327687
     }
   ],
   "images": {
-    "train": 25524,
+    "train": 25713,
     "val": 2941,
-    "test": 3046,
-    "xsrc_val": 1166,
-    "xsrc_test": 1166
+    "test": 2936,
+    "xsrc_val": 1181,
+    "xsrc_test": 1181
   }
 }

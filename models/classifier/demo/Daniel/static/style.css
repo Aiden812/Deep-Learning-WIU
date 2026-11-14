@@ -264,6 +264,36 @@ main.wrap { padding-left: 24px; padding-right: 24px; }
 .gate-crop img { display: block; width: 96px; height: 72px; object-fit: cover; border: 1px solid var(--line); border-radius: 5px; }
 .gate-crop figcaption { margin-top: 2px; }
 
+/* stage-2 detector */
+.det-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.det-toggle { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; }
+.det-toggle input { margin: 0; accent-color: var(--primary); }
+.det-frame { text-align: center; line-height: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); padding: 18px 8px 8px; }
+.det-stage { position: relative; display: inline-block; max-width: 100%; }
+.det-stage img { display: block; max-width: 100%; max-height: 440px; width: auto; height: auto; }
+.det-boxes { position: absolute; inset: 0; pointer-events: none; }
+.det-box { position: absolute; border: 2px solid var(--c); border-radius: 2px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25); }
+.det-box.weak { border-style: dashed; opacity: 0.8; }
+.det-tag {
+  position: absolute; left: -2px; bottom: 100%;
+  background: var(--c); color: #fff;
+  font: 500 11px/1.35 "IBM Plex Mono", monospace;
+  padding: 0 4px; border-radius: 2px 2px 0 0; white-space: nowrap;
+}
+.det-box.top-edge .det-tag { bottom: auto; top: 0; border-radius: 0 0 2px 0; }
+.det-box.right-edge .det-tag { left: auto; right: -2px; }
+.det-note { margin: 10px 0 0; color: var(--muted); }
+.det-note.warn { color: #713f12; }
+.det-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.det-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px 2px 8px;
+  font-size: 12.5px; background: var(--surface);
+}
+.det-chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.det-chip .mono { color: var(--muted); }
+.det-chip.weak { border-style: dashed; color: var(--muted); }
+
 .reject { border-color: #fcd34d; border-left: 3px solid var(--warn); background: #fffbeb; }
 .reject > strong { display: block; margin-bottom: 4px; font-size: 15px; color: #713f12; }
 .reject > p { margin: 0 0 14px; color: #713f12; }

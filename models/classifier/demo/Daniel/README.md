@@ -43,6 +43,34 @@ Before the classifier runs, `mouth_gate.py` checks what the photo actually shows
 - Caveat: crops from face photos are still further from the training data than
   true intraoral shots, so treat their scores with more caution.
 
+## Condition detector (stage 2)
+
+When the classifier reports an anomaly — the binary gate flags the photo, or the
+6-class checkpoint's top class is not `normal` — `detector.py` runs the YOLO model
+chosen by `models/yolo_caries/notebooks/Daniel/yolo_oral_detector.ipynb`
+(`models/yolo_caries/weights/Daniel/best.pt`, yolo11s) on the same image the
+classifier saw (the intraoral photo, or the mouth crop from a face photo), at full
+resolution rather than the classifier's 224 px input.
+
+- Classes: Calculus, Caries, Hypodontia, Mouth_Ulcer, Tooth_Discoloration. Operating
+  point, IoU and image size come from the `best.json` written next to the weights
+  (`conf` 0.357 = the confidence that maximised mean F1 on val).
+- The UI draws the boxes over the photo and lists one chip per condition (count and
+  strongest confidence). Boxes between 0.15 and `conf` are returned as weaker
+  candidates (`confident: false`), hidden behind a toggle.
+- **A flagged photo is always outlined.** If nothing reaches `conf`, the detector's
+  3 strongest non-overlapping guesses are returned however low their score (down to
+  0.001; `guess: true` below 0.15) and drawn dashed, with a note that they are
+  low-confidence hints. On the test set this happens for 6 of 387 flagged issue photos
+  but 17 of 27 flagged Normal photos — a flagged photo with only best guesses is more
+  often a classifier false alarm than a missed finding.
+- Test numbers for the detector (mAP50 0.840, mAP50-95 0.450) are read from
+  `models/yolo_caries/results/Daniel/test_metrics.json` into the "About this model"
+  strip. Adds ~40–70 ms per flagged image on GPU; photos that aren't flagged skip it.
+- `DEMO_DETECTOR=0` disables it; `DEMO_DETECTOR=<path to .pt>` tries other weights.
+  If the weights or `ultralytics` are missing, the demo prints a warning and runs
+  without it.
+
 ## Run
 
 ```
@@ -60,6 +88,7 @@ Environment overrides:
 | `DEMO_WEIGHTS` | `models/classifier/weights/Daniel/binary/best.pt` | try another checkpoint, e.g. the six-class `models\classifier\weights\Daniel\best.pt` |
 | `DEMO_METRICS` | report folder chosen by task | point at a different `test_metrics.json` |
 | `DEMO_MOUTH_GATE` | `1` | `0` disables the mouth gate (whole image goes to the model) |
+| `DEMO_DETECTOR` | `1` (`models/yolo_caries/weights/Daniel/best.pt`) | `0` disables the stage-2 detector, or a path to other YOLO weights |
 
 ## Details
 
@@ -74,9 +103,10 @@ Environment overrides:
   on a laptop).
 - Images are only held in memory during the request and are never written to
   disk or stored — the in-page history is cleared on reload.
-- Endpoints: `GET /api/meta` (checkpoint + task + metrics; NaN literals in the
+- Endpoints: `GET /api/meta` (checkpoint + task + metrics + `detector`; NaN literals in the
   report are sanitised to `null` so browsers can parse it), `POST /api/predict`
-  (multipart field `file`). Interactive docs at `/api/docs`.
+  (multipart field `file`; adds `anomaly` and, when the detector ran, `detection`
+  with `boxes` as `[x1, y1, x2, y2]` fractions of `detection.image`). Interactive docs at `/api/docs`.
 - The footer disclaimer is generated per task from the test report (threshold
   sensitivity/specificity/AUROC for the gate; macro-F1 and CI for the
   classifier). Screening/education aid only, not a diagnosis; gum disease is
