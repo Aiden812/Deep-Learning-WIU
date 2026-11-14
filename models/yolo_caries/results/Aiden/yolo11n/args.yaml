@@ -1,10 +1,10 @@
 task: detect
 mode: train
-model: C:\Users\aiden\Downloads\AI WIU\Deep-Learning-WIU\models\yolo_caries\results\Aiden\yolo11n\weights\last.pt
+model: yolo11n.pt
 data: C:\Users\aiden\Downloads\AI WIU\Deep-Learning-WIU\models\yolo_caries\results\Aiden\_lists\data_clean.yaml
-epochs: 40
+epochs: 100
 time: null
-patience: 15
+patience: 20
 batch: 16
 imgsz: 640
 save: true
@@ -17,7 +17,7 @@ name: yolo11n
 exist_ok: true
 pretrained: true
 cls_remap: true
-optimizer: MuSGD
+optimizer: auto
 verbose: true
 seed: 42
 deterministic: true
@@ -25,7 +25,7 @@ single_cls: false
 rect: false
 cos_lr: false
 close_mosaic: 10
-resume: C:\Users\aiden\Downloads\AI WIU\Deep-Learning-WIU\models\yolo_caries\results\Aiden\yolo11n\weights\last.pt
+resume: false
 amp: true
 fraction: 1.0
 profile: false
@@ -77,7 +77,7 @@ momentum: 0.937
 weight_decay: 0.0005
 warmup_epochs: 3.0
 warmup_momentum: 0.8
-warmup_bias_lr: 0.0
+warmup_bias_lr: 0.1
 distill_model: null
 dis: 6.0
 box: 7.5

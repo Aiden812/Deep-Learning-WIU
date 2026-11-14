@@ -1,0 +1,238 @@
+{
+ "arch": "densenet121",
+ "name": "DenseNet-121",
+ "task": "binary gate: has_issue",
+ "settings": {
+  "img": 224,
+  "epochs": 10,
+  "lr": 0.0001,
+  "batch": 32,
+  "passes": 1,
+  "jitter": 0.4,
+  "target_sensitivity": 0.95
+ },
+ "n_train": 25524,
+ "n_val": 852,
+ "n_test": 777,
+ "n_test_full": 3046,
+ "n_issue": 178,
+ "n_healthy": 599,
+ "threshold": 0.6697366237640381,
+ "auroc": 0.9901192999568569,
+ "ap": 0.9480625482610426,
+ "sensitivity": 0.9719101123595506,
+ "specificity": 0.9632721202003339,
+ "precision": 0.8871794871794871,
+ "accuracy": 0.9652509652509652,
+ "confusion": {
+  "tp": 173,
+  "fn": 5,
+  "fp": 22,
+  "tn": 577
+ },
+ "auroc_ci": [
+  0.9834201763469418,
+  0.9956325332469138
+ ],
+ "sensitivity_ci": [
+  0.9456472332015811,
+  0.9942553087862848
+ ],
+ "val": {
+  "auroc": 0.9908792747641509,
+  "ap": 0.9435458079454035,
+  "sensitivity": 0.9952830188679245,
+  "specificity": 0.9484375,
+  "precision": 0.8647540983606558,
+  "accuracy": 0.960093896713615,
+  "confusion": {
+   "tp": 211,
+   "fn": 1,
+   "fp": 33,
+   "tn": 607
+  }
+ },
+ "person": {
+  "auroc": 0.9787453183520599,
+  "ap": 0.9876761096130383,
+  "sensitivity": 0.9719101123595506,
+  "specificity": 0.9,
+  "precision": 0.9664804469273743,
+  "accuracy": 0.9537815126050421,
+  "confusion": {
+   "tp": 173,
+   "fn": 5,
+   "fp": 6,
+   "tn": 54
+  }
+ },
+ "full_test": {
+  "auroc": 0.9911840535206136,
+  "ap": 0.9964494034729224,
+  "sensitivity": 0.984879444217409,
+  "specificity": 0.9632721202003339,
+  "precision": 0.990953947368421,
+  "accuracy": 0.9806303348653972,
+  "confusion": {
+   "tp": 2410,
+   "fn": 37,
+   "fp": 22,
+   "tn": 577
+  }
+ },
+ "xsrc_val": {
+  "auroc": 0.9808023942932479,
+  "ap": 0.9647646524927763,
+  "sensitivity": 0.9510135135135135,
+  "specificity": 0.9564459930313589,
+  "precision": 0.9574829931972789,
+  "accuracy": 0.9536878216123499,
+  "confusion": {
+   "tp": 563,
+   "fn": 29,
+   "fp": 25,
+   "tn": 549
+  }
+ },
+ "xsrc_test": {
+  "auroc": 0.9780964544684058,
+  "ap": 0.9735372127122932,
+  "sensitivity": 0.9442567567567568,
+  "specificity": 0.9390243902439024,
+  "precision": 0.9410774410774411,
+  "accuracy": 0.9416809605488851,
+  "confusion": {
+   "tp": 559,
+   "fn": 33,
+   "fp": 35,
+   "tn": 539
+  },
+  "auroc_ci": [
+   0.9698772022033737,
+   0.985977163249752
+  ]
+ },
+ "xsrc_per_source": {
+  "dentalai": {
+   "n_issue": 187,
+   "n_healthy": 92,
+   "auroc": 0.8933678214368752,
+   "sensitivity": 0.9090909090909091,
+   "specificity": 0.7282608695652174
+  },
+  "external_clean": {
+   "n_issue": 41,
+   "n_healthy": 7,
+   "auroc": 0.9024390243902439,
+   "sensitivity": 0.8780487804878049,
+   "specificity": 0.8571428571428571
+  },
+  "kaggle_oral": {
+   "n_issue": 94,
+   "n_healthy": 15,
+   "auroc": 0.9638297872340427,
+   "sensitivity": 0.9468085106382979,
+   "specificity": 0.8666666666666667
+  },
+  "mendeley_noncaries": {
+   "n_issue": 0,
+   "n_healthy": 454,
+   "auroc": null,
+   "sensitivity": null,
+   "specificity": 0.9933920704845814
+  },
+  "zenodo": {
+   "n_issue": 270,
+   "n_healthy": 6,
+   "auroc": 0.8299382716049384,
+   "sensitivity": 0.9777777777777777,
+   "specificity": 0.3333333333333333
+  }
+ },
+ "passed_to_yolo": {
+  "Calculus": {
+   "n": 6,
+   "share": 1.0
+  },
+  "Caries": {
+   "n": 23,
+   "share": 0.9130434782608695
+  },
+  "Hypodontia": {
+   "n": 32,
+   "share": 1.0
+  },
+  "Mouth_Ulcer": {
+   "n": 90,
+   "share": 1.0
+  },
+  "Tooth_Discoloration": {
+   "n": 35,
+   "share": 0.9142857142857143
+  }
+ },
+ "history": [
+  [
+   {
+    "epoch": 1,
+    "train_loss": 0.22494073432904702,
+    "heldout_loss": 0.15057967603206635,
+    "heldout_auroc": 0.9931419516509434
+   },
+   {
+    "epoch": 2,
+    "train_loss": 0.17909421629848934,
+    "heldout_loss": 0.17589552700519562,
+    "heldout_auroc": 0.9958726415094339
+   },
+   {
+    "epoch": 3,
+    "train_loss": 0.16665982782209993,
+    "heldout_loss": 0.0774446651339531,
+    "heldout_auroc": 0.9985701650943397
+   },
+   {
+    "epoch": 4,
+    "train_loss": 0.16104856267492607,
+    "heldout_loss": 0.11675155162811279,
+    "heldout_auroc": 0.9950619103773584
+   },
+   {
+    "epoch": 5,
+    "train_loss": 0.15492740683454684,
+    "heldout_loss": 0.11593135446310043,
+    "heldout_auroc": 0.9976636202830189
+   },
+   {
+    "epoch": 6,
+    "train_loss": 0.15132111196637785,
+    "heldout_loss": 0.10533525794744492,
+    "heldout_auroc": 0.9968897405660377
+   },
+   {
+    "epoch": 7,
+    "train_loss": 0.14712855960956958,
+    "heldout_loss": 0.1343664824962616,
+    "heldout_auroc": 0.9945533608490567
+   },
+   {
+    "epoch": 8,
+    "train_loss": 0.14334790061705957,
+    "heldout_loss": 0.11419945955276489,
+    "heldout_auroc": 0.9932340801886792
+   },
+   {
+    "epoch": 9,
+    "train_loss": 0.14251082524578407,
+    "heldout_loss": 0.1268462836742401,
+    "heldout_auroc": 0.9923754422169812
+   },
+   {
+    "epoch": 10,
+    "train_loss": 0.14087636374607287,
+    "heldout_loss": 0.12815545499324799,
+    "heldout_auroc": 0.9908792747641509
+   }
+  ]
+ ]
+}

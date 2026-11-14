@@ -11,52 +11,52 @@ HOW TO READ THIS
 - best.pt is the epoch with the highest mAP50-95 on the clean val set (copies of training photos removed).
 
                                                        yolo11n
-epochs run (best epoch)                                40 (36)
+epochs run (best epoch)                              100 (100)
 image size / batch                                    640 / 16
 
 Daniel's full test (compare with team)
-  mAP50                                                  0.796
-  mAP50-95                                               0.418
-  precision                                              0.793
-  recall                                                 0.727
-    Calculus AP50                                        0.591
-    Caries AP50                                          0.811
-    Hypodontia AP50                                      0.811
-    Mouth_Ulcer AP50                                     0.900
-    Tooth_Discoloration AP50                             0.865
+  mAP50                                                  0.829
+  mAP50-95                                               0.443
+  precision                                              0.812
+  recall                                                 0.756
+    Calculus AP50                                        0.653
+    Caries AP50                                          0.846
+    Hypodontia AP50                                      0.834
+    Mouth_Ulcer AP50                                     0.927
+    Tooth_Discoloration AP50                             0.886
 
 Daniel's person-labelled test
-  mAP50                                                  0.802
-  mAP50-95                                               0.421
-  precision                                              0.799
-  recall                                                 0.732
-    Calculus AP50                                        0.591
-    Caries AP50                                          0.831
-    Hypodontia AP50                                      0.812
-    Mouth_Ulcer AP50                                     0.901
-    Tooth_Discoloration AP50                             0.875
+  mAP50                                                  0.830
+  mAP50-95                                               0.443
+  precision                                              0.812
+  recall                                                 0.756
+    Calculus AP50                                        0.653
+    Caries AP50                                          0.847
+    Hypodontia AP50                                      0.835
+    Mouth_Ulcer AP50                                     0.927
+    Tooth_Discoloration AP50                             0.887
 
 Clean test
-  mAP50                                                  0.603
-  mAP50-95                                               0.337
-  precision                                              0.672
-  recall                                                 0.618
-    Calculus AP50 (n=6)                                  0.428
-    Caries AP50 (n=23)                                   0.526
-    Hypodontia AP50 (n=32)                               0.524
-    Mouth_Ulcer AP50 (n=90)                              0.961
-    Tooth_Discoloration AP50 (n=35)                      0.574
+  mAP50                                                  0.752
+  mAP50-95                                               0.418
+  precision                                              0.790
+  recall                                                 0.691
+    Calculus AP50 (n=6)                                  0.507
+    Caries AP50 (n=23)                                   0.881
+    Hypodontia AP50 (n=32)                               0.625
+    Mouth_Ulcer AP50 (n=90)                              0.975
+    Tooth_Discoloration AP50 (n=35)                      0.770
 
 Clean + person-labelled test
-  mAP50                                                  0.724
-  mAP50-95                                               0.405
-  precision                                              0.725
-  recall                                                 0.695
-    Calculus AP50                                        0.443
-    Caries AP50                                          0.880
-    Hypodontia AP50                                      0.539
-    Mouth_Ulcer AP50                                     0.963
-    Tooth_Discoloration AP50                             0.796
+  mAP50                                                  0.769
+  mAP50-95                                               0.428
+  precision                                              0.790
+  recall                                                 0.729
+    Calculus AP50                                        0.508
+    Caries AP50                                          0.905
+    Hypodontia AP50                                      0.631
+    Mouth_Ulcer AP50                                     0.974
+    Tooth_Discoloration AP50                             0.828
 
 FILES (models/yolo_caries/results/Aiden/)
   yolo_report.txt                         this report

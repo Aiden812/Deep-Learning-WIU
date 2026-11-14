@@ -1,23 +1,29 @@
 {'arch': 'dinov2_vitb14', 'img': 224, 'epochs': 10, 'lr': 2e-05, 'batch': 32, 'passes': 1, 'workers': 4}
-train 31279 images (17252 photo groups, 23921 with an issue) | clean val 1135 of 3224 | clean test 1141 of 3410 (178 with an issue, 963 healthy)
-  epoch  1  train loss 0.317  clean-val loss 0.180  clean-val AUROC 0.9968
-  epoch  2  train loss 0.260  clean-val loss 0.123  clean-val AUROC 0.9972
-  epoch  3  train loss 0.246  clean-val loss 0.103  clean-val AUROC 0.9953
-  epoch  4  train loss 0.236  clean-val loss 0.122  clean-val AUROC 0.9995
-  epoch  5  train loss 0.234  clean-val loss 0.115  clean-val AUROC 0.9981
-  epoch  6  train loss 0.224  clean-val loss 0.173  clean-val AUROC 0.9951
-  epoch  7  train loss 0.216  clean-val loss 0.120  clean-val AUROC 0.9975
-  epoch  8  train loss 0.206  clean-val loss 0.136  clean-val AUROC 0.9963
-  epoch  9  train loss 0.200  clean-val loss 0.124  clean-val AUROC 0.9951
-  epoch 10  train loss 0.200  clean-val loss 0.135  clean-val AUROC 0.9950
-STAGE-1 GATE: has an issue or healthy. Threshold 0.874 (catches 95% of clean-val issues)
+train 25524 images (12119 photo groups, 22081 with an issue) | clean val 852 of 2941 | clean test 777 of 3046 (178 with an issue, 599 healthy) | cross-source val 1166, test 1166 (592 with an issue)
+  epoch  1  train loss 0.199  clean-val loss 0.100  clean-val AUROC 0.9945
+  epoch  2  train loss 0.162  clean-val loss 0.159  clean-val AUROC 0.9859
+  epoch  3  train loss 0.154  clean-val loss 0.086  clean-val AUROC 0.9992
+  epoch  4  train loss 0.148  clean-val loss 0.100  clean-val AUROC 0.9970
+  epoch  5  train loss 0.145  clean-val loss 0.069  clean-val AUROC 0.9992
+  epoch  6  train loss 0.143  clean-val loss 0.051  clean-val AUROC 0.9994
+  epoch  7  train loss 0.141  clean-val loss 0.079  clean-val AUROC 0.9968
+  epoch  8  train loss 0.137  clean-val loss 0.068  clean-val AUROC 0.9988
+  epoch  9  train loss 0.136  clean-val loss 0.072  clean-val AUROC 0.9981
+  epoch 10  train loss 0.134  clean-val loss 0.074  clean-val AUROC 0.9980
+STAGE-1 GATE: has an issue or healthy. Threshold 0.855 (catches 95% of issues in clean val and cross-source val)
 
-clean test (1141)            AUROC 0.9925  AP 0.8941  sensitivity 0.944  specificity 0.991  precision 0.949  accuracy 0.983
-                             AUROC 95% CI 0.9872-0.9971, sensitivity 95% CI 0.907-0.976
-                             confusion: {'tp': 168, 'fn': 10, 'fp': 9, 'tn': 954}
-person-labelled only (237)   AUROC 0.9822  AP 0.9732  sensitivity 0.944  specificity 0.983  precision 0.994  accuracy 0.954
-full test, leaky (3410)      AUROC 0.9926  AP 0.9902  sensitivity 0.927  specificity 0.991  precision 0.996  accuracy 0.945
-clean val (1135)             AUROC 0.9950  AP 0.9594  sensitivity 0.953  specificity 0.992  precision 0.967  accuracy 0.985
+clean test (777)             AUROC 0.9957  AP 0.9565  sensitivity 0.989  specificity 0.972  precision 0.912  accuracy 0.976
+                             AUROC 95% CI 0.9909-0.9995, sensitivity 95% CI 0.971-1.000
+                             confusion: {'tp': 176, 'fn': 2, 'fp': 17, 'tn': 582}
+person-labelled only (238)   AUROC 0.9776  AP 0.9834  sensitivity 0.989  specificity 0.900  precision 0.967  accuracy 0.966
+full test, leaky (3046)      AUROC 0.9953  AP 0.9968  sensitivity 0.988  specificity 0.972  precision 0.993  accuracy 0.985
+cross-source test (1166)     AUROC 0.9839  AP 0.9721  sensitivity 0.936  specificity 0.962  precision 0.962  accuracy 0.949
+  dentalai                   AUROC 0.9048  issues 187, healthy 92
+  external_clean             AUROC 0.9861  issues 41, healthy 7
+  kaggle_oral                AUROC 0.9716  issues 94, healthy 15
+  mendeley_noncaries         AUROC n/a  issues 0, healthy 454
+  zenodo                     AUROC 0.8586  issues 270, healthy 6
+clean val (852)              AUROC 0.9980  AP 0.9808  sensitivity 0.995  specificity 0.980  precision 0.942  accuracy 0.984
 
-passed on to YOLO, per condition (clean test): Calculus 100.0% of 6, Caries 95.7% of 23, Hypodontia 96.9% of 32, Mouth_Ulcer 95.6% of 90, Tooth_Discoloration 88.6% of 35
+passed on to YOLO, per condition (clean test): Calculus 100.0% of 6, Caries 100.0% of 23, Hypodontia 100.0% of 32, Mouth_Ulcer 100.0% of 90, Tooth_Discoloration 94.3% of 35
 saved C:\Users\aiden\Downloads\AI WIU\Deep-Learning-WIU\models\classifier\results\Aiden\dinov2_vitb14\model.pt

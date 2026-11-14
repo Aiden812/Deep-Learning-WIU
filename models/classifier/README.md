@@ -10,12 +10,14 @@ Multi-class image classifier over the classes in `shared/conditions.yaml`.
 ## Aiden: stage-1 gate, DenseNet-121 vs DINOv2 ViT-B/14, on Daniel's `oral_dataset`
 
 Binary: healthy or has an issue (`has_issue`). Flagged photos go to the YOLO detector (which condition, where:
-`models/yolo_caries/README.md`). The threshold is set to catch 95% of issues on the clean val set. Decisions:
-`docs/decisions.md` (2026-11-11, 2026-11-12).
+`models/yolo_caries/README.md`). The threshold is set to catch 95% of issues on both the clean val set and the
+cross-source val set. Decisions: `docs/decisions.md` (2026-11-11, 2026-11-12).
 
-**Data.** Unzip Daniel's `oral_dataset.zip` into `data/raw/oral_dataset/`. About 90% of his val/test images with an
-issue are copies of training photos, so `find_leaks.py` marks them and the threshold and headline scores use only the
-**clean** val/test images (his full test is reported alongside). `find_leaks.py` reuses the copy-matching cache in
+**Data.** Unzip Daniel's `oral_dataset.zip` (the cleaned 33,843-image release) into `data/raw/oral_dataset/`. Training
+uses the `train` role of Daniel's `manifests/Daniel/binary_classifier_split.csv`: his train split minus two cross-source
+sets carved from non-Roboflow photos (`xsrc_val`, `xsrc_test`). About 90% of his val/test images with an issue are copies
+of training photos, so `find_leaks.py` marks them and the clean val/test use only images with no copy (his full test is
+reported alongside). `xsrc_test` is the same set Daniel's gate is scored on, so the report compares the two directly. `find_leaks.py` reuses the copy-matching cache in
 `data/processed/classifier_multilabel/_cache/` (built once by `prepare_roboflow_multilabel.py`).
 
 ```bash
@@ -41,7 +43,8 @@ set `RETRAIN = True` in it to retrain both models.
 `src/multilabel.py` (`load_model`, `predict`) loads it.
 
 **Known limitation.** In the clean test every image with an issue comes from Roboflow and every healthy image from another
-source, so it can't separate "recognises disease" from "recognises Roboflow-style photos" (notebook section 4).
+source, so it can't separate "recognises disease" from "recognises Roboflow-style photos" (notebook section 4). The
+cross-source test (both classes from the same non-Roboflow sources) is the check for that; read the two together.
 
 | File | Purpose |
 |---|---|

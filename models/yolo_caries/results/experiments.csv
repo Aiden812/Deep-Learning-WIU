@@ -1,2 +1,2 @@
 run_id,date,member,model,data_version,imgsz,epochs,batch,lr0,mAP50,mAP50_95,precision,recall,weights_path,notes
-aiden_yolo11n,2026-11-12,Aiden,yolo11n,oral_dataset 2026-11-11,640,40,16,0.01,0.7957,0.4176,0.7926,0.7273,models/yolo_caries/results/Aiden/yolo11n/weights/best.pt,metrics on data.yaml test; leak-free subset (1141 imgs): mAP50 0.603 mAP50-95 0.337
+aiden_yolo11n,2026-11-14,Aiden,yolo11n,oral_dataset 2026-11-11 (33843 images),640,100,16,0.01,0.8293,0.443,0.8121,0.7557,models/yolo_caries/results/Aiden/yolo11n/weights/best.pt,metrics on data.yaml test; leak-free subset (777 imgs): mAP50 0.752 mAP50-95 0.418
