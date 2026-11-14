@@ -1,6 +1,6 @@
 # Oral screening pipeline: data, classifier and detector (Daniel)
 
-**IT2226 AI Innovator and Deep Learning Project.** Status as of 2026-11-13.
+**IT2226 AI Innovator and Deep Learning Project.** Status as of 2026-11-14.
 
 This report collects what was built, measured and found for the two-stage oral screening pipeline: the dataset built with Qwen, the stage-1 classifier ("is there an issue?") and the stage-2 YOLO detector ("where, and what?"). The notebooks hold the full detail; this document is the summary with the numbers in one place.
 
@@ -17,12 +17,13 @@ This report collects what was built, measured and found for the two-stage oral s
 
 1. **The data has a source confound.** In val/test, every image with a condition is a 640×640 `roboflow_oral` export and every healthy image comes from another source. A model can score well by recognising Roboflow photos. Every result below is therefore reported twice: on the normal test set (an upper bound) and on a **cross-source** set (`xsrc_test`) of non-Roboflow photos that contain both labels.
 2. **Stage 1 (classifier)** is MobileNetV3-Large, picked by a rule fixed before training. Test macro-F1 is 0.975. On other-source photos (`xsrc_test`) it is **0.944**, AUROC 0.978. At the operating threshold (95% sensitivity on val and `xsrc_val`), sensitivity is 0.928 and specificity 0.963 on `xsrc_test`. Eight backbones from 4 M to 28 M parameters land within about 0.01 of each other, so the smallest and fastest one was chosen (8 ms per image on CPU).
-3. **Stage 2 (YOLO)** is YOLO11-small. Test mAP50 is 0.840 and mAP50-95 0.450. At image level it boxes 98.6% of issue photos, with a 2.5% false-alarm rate on healthy photos. The scores on person-labelled test images are the same (0.451), so the Qwen-judged Normal images are not distorting the score. Training without the Qwen-labelled images is worse (mAP50-95 0.438), so they help despite their noise.
+3. **Stage 2 (YOLO)** is YOLO11-small, retrained on 2026-11-14 on the current build. Test mAP50 is 0.814 and mAP50-95 0.430. At image level it boxes 99.0% of issue photos, with a 2.3% false-alarm rate on healthy photos. The scores on person-labelled test images are the same (0.431), so the Qwen-judged Normal images are not distorting the score. On 708 test photos that neither it nor the previous model trained on, the two models tie (mAP50-95 0.401 vs 0.397). In the 2026-11-12 ablation, training without the Qwen-labelled images was worse (mAP50-95 0.438 vs 0.451), so they help despite their noise.
 4. **Hypodontia (missing teeth) is the weak spot of both stages outside Roboflow.** Almost every missing-tooth example came from `roboflow_oral`, whose photos are heavily processed: a gap there is a solid black hole. On ordinary photos with a missing tooth:
    - the classifier caught 4–5 of 13 held-out photos;
-   - YOLO boxed the gap on **3 of 109** (2.8%), against 94% of Roboflow test photos.
+   - before 7c, YOLO boxed the gap on **3 of 109** (2.8%), against 94% of Roboflow test photos;
+   - after retraining with the 7c gap boxes, YOLO boxes **5 of the 46** such photos it never trained on (11%; the previous model 1 of 46).
 
-   Two Qwen passes (7b and 7c, section 2.4) added 143 confirmed missing-tooth photos and boxes for 89 of them. The classifier has been retrained once on the first set, with only a small gain (2 → 3 of 11 held-out photos caught). The YOLO retrain on the boxed set is still to do.
+   Two Qwen passes (7b and 7c, section 2.4) added 143 confirmed missing-tooth photos and boxes for 89 of them. Both stages have been retrained on them, each with only a small gain (classifier 2 → 3 of 11 held-out photos, YOLO 1 → 5 of 46). The new photos are few next to the Roboflow ones; over-sampling them is the next thing to try.
 5. **Most of the gains came from cleaning labels.** Two rules made images "Normal" without anyone having checked them (section 2.3). Fixing them raised the classifier's `xsrc_test` macro-F1 from 0.884 (ResNet-50 selected then, `xsrc_test` of 1,594 images) to 0.950 (MobileNetV3, 1,166 images). The test sets also changed with the fix, so read this as a large improvement rather than an exact number.
 
 ---
@@ -142,9 +143,9 @@ Effect on the dataset:
 
 | Build | Date | What changed | Trained on it |
 |---|---|---|---|
-| v2 | 2026-11-11 | 7a label fixes | classifier v2, YOLO (2026-11-12) |
+| v2 | 2026-11-11 | 7a label fixes | classifier v2, YOLO 2026-11-12 (backed up) |
 | v3 | 2026-11-13 | + 7b classifier-only missing teeth, stable split (val/test redrawn once) | classifier v3 (current) |
-| v4 (current) | 2026-11-13 | + 7c gap boxes (YOLO only; classifier data and split identical to v3) | YOLO retrain pending |
+| v4 (current) | 2026-11-13 | + 7c gap boxes (YOLO only; classifier data and split identical to v3) | YOLO 2026-11-14 (current) |
 
 ---
 
@@ -256,48 +257,66 @@ One v3 run hung for 48 minutes without output. A stack dump showed the kernel bl
 - **Training copy.** Very large clinical photos are resized once to at most 1,024 px, so mosaic augmentation doesn't leave the GPU waiting on decoding.
 - **Selection.** Highest val mAP50-95; runs within 0.005 are tied, and the fewest GFLOPs wins.
 
-### 4.2 Results (trained 2026-11-12 on build v2, scored on v2's test split)
+### 4.2 Results (current model: trained 2026-11-14 on build v4)
 
-> These are from the v2 split, which was valid for that model. Since 2026-11-13 the test split is different, and this model trained on about 2,200 of the new test photos: do not score it on the current test set. A retrain on the current build is pending (section 6).
+Only yolo11s was retrained on v4. The size comparison is from the 2026-11-12 sweep on v2; the val sets differ, so compare rows within a build only.
 
-| Run | Params (M) | GFLOPs | Epochs (best) | val mAP50 | val mAP50-95 |
-|---|---:|---:|---|---:|---:|
-| yolo11n | 2.6 | 6.6 | 80 (76) | 0.812 | 0.435 |
-| **yolo11s (chosen)** | **9.4** | **21.7** | **57 (42)** | **0.821** | **0.444** |
-| yolo11m | 20.1 | 68.3 | 62 (50) | 0.825 | 0.446 |
-| yolo11s_person | 9.4 | 21.7 | 49 (35) | 0.797 | 0.426 |
+| Run | Build | Params (M) | GFLOPs | Epochs (best) | val mAP50 | val mAP50-95 |
+|---|---|---:|---:|---|---:|---:|
+| yolo11n | v2 | 2.6 | 6.6 | 80 (76) | 0.812 | 0.435 |
+| yolo11s | v2 | 9.4 | 21.7 | 57 (42) | 0.821 | 0.444 |
+| yolo11m | v2 | 20.1 | 68.3 | 62 (50) | 0.825 | 0.446 |
+| yolo11s_person | v2 | 9.4 | 21.7 | 49 (35) | 0.797 | 0.426 |
+| **yolo11s (current)** | **v4** | **9.4** | **21.7** | **78 (62)** | **0.825** | **0.445** |
 
-yolo11m is within the 0.005 tie margin of yolo11s at 3× the compute, so yolo11s was chosen.
+On v2, yolo11m was within the 0.005 tie margin of yolo11s at 3× the compute, so yolo11s was chosen and is the only size retrained. Training took about 2.2 min per epoch on an RTX 5070 Ti; inference is about 2 ms per image on GPU.
 
-**Test (yolo11s, operating confidence 0.357 = max mean F1 on val):**
+**Test (yolo11s, operating confidence 0.317 = max mean F1 on val):**
 
-| | All test images (3,046) | Person-labelled (2,507) |
+| | All test images (2,936) | Person-labelled (2,374) |
 |---|---:|---:|
-| Precision / recall | 0.809 / 0.783 | 0.810 / 0.783 |
-| mAP50 | 0.840 | 0.841 |
-| mAP50-95 | 0.450 | 0.451 |
+| Precision / recall | 0.790 / 0.777 | 0.790 / 0.778 |
+| mAP50 | 0.814 | 0.815 |
+| mAP50-95 | 0.430 | 0.431 |
 
 | Condition | AP50 | AP50-95 | Image recall | Image precision |
 |---|---:|---:|---:|---:|
-| Calculus | 0.680 | 0.337 | 0.759 | 0.868 |
-| Caries | 0.853 | 0.458 | 0.920 | 0.934 |
-| Hypodontia | 0.842 | 0.360 | 0.940 | 0.930 |
-| Mouth_Ulcer | 0.938 | 0.515 | 0.991 | 0.996 |
-| Tooth_Discoloration | 0.890 | 0.581 | 0.927 | 0.842 |
+| Calculus | 0.644 | 0.299 | 0.835 | 0.852 |
+| Caries | 0.812 | 0.437 | 0.897 | 0.938 |
+| Hypodontia | 0.801 | 0.347 | 0.940 | 0.926 |
+| Mouth_Ulcer | 0.922 | 0.488 | 0.976 | 0.987 |
+| Tooth_Discoloration | 0.892 | 0.579 | 0.922 | 0.876 |
 
 **Image level:**
-- 98.6% of issue photos get at least one box.
-- 2.5% of healthy photos get a false alarm (8.3% of the 60 person-labelled healthy photos).
-- By source: mendeley 0%, dentalai 7.6%, kaggle 8.3%.
+- 99.0% of the 2,315 issue photos get at least one box.
+- 2.3% of the 621 healthy photos get a false alarm (1.7% of the 59 person-labelled healthy photos).
 
 **Findings:**
-- **Qwen's labels help.** Training without the Qwen-labelled images loses 0.013 mAP50-95 on person-labelled test images (0.451 → 0.438). The biggest losses are on mouth ulcer (−0.019) and hypodontia (−0.019). The extra images are worth their label noise.
+- **These numbers are lower than the previous model's (mAP50-95 0.450), but the test sets differ.** The previous model was scored on v2's test split; since the split was redrawn, about 2,200 of the current test photos were in its training set. Section 4.3 compares the two fairly.
+- **Qwen's labels help** (2026-11-12 ablation on v2). Training without the Qwen-labelled images lost 0.013 mAP50-95 on person-labelled test images (0.451 → 0.438), most on mouth ulcer (−0.019) and hypodontia (−0.019). Not repeated on v4.
 - **Qwen's Normal labels are fine for scoring.** All-test and person-only scores are almost identical.
-- **Calculus is the weakest class** (AP50 0.68, image recall 0.76). Some sources box each tooth and others a whole region, which costs mAP50-95 more than it costs findings.
+- **Calculus is the weakest class** (AP50 0.64, image recall 0.84). Some sources box each tooth and others a whole region, which costs mAP50-95 more than it costs findings.
 
-### 4.3 Hypodontia: the Roboflow look
+### 4.3 Previous vs current model, on photos neither trained on
 
-The 2026-11-12 model was run on hypodontia photos it never trained on:
+708 photos of the current test split were not in the previous model's training set (378 with conditions, 330 healthy). Both models were scored on them, each at its own operating confidence (previous 0.357, current 0.317).
+
+| | Previous (2026-11-12) | Current (2026-11-14) |
+|---|---:|---:|
+| Precision / recall | 0.713 / 0.717 | 0.721 / 0.717 |
+| mAP50 | 0.742 | 0.734 |
+| mAP50-95 | 0.397 | **0.401** |
+| Hypodontia AP50 / AP50-95 | 0.539 / 0.204 | **0.565 / 0.234** |
+| Caries AP50 | 0.829 | 0.798 |
+| Calculus AP50 | 0.502 | 0.463 |
+| Mouth ulcer / discoloration AP50 | 0.938 / 0.901 | 0.938 / 0.907 |
+| Healthy photos with any box (330) | 1.5% | 2.4% |
+
+The two models tie overall. Hypodontia is a little better and caries and calculus a little worse, but with 40 hypodontia photos and a few hundred of the rest, none of these differences is clearly beyond noise. The 708 photos are a harder mix than the full test set (mAP50-95 0.40 against 0.43).
+
+### 4.4 Hypodontia: the Roboflow look
+
+The 2026-11-12 model, before 7c, was run on hypodontia photos it never trained on:
 
 | Photos | Count | Photos with a hypodontia box (conf ≥ 0.357) |
 |---|---:|---:|
@@ -310,6 +329,17 @@ Training hypodontia boxes by source (before 7c): Roboflow 4,736, kaggle 48, dent
 
 Looking at the photos explains it. The Roboflow hypodontia photos are rotated with black borders, strongly saturated and high-contrast, and the missing teeth appear as **solid black holes**. YOLO learned "black hole between teeth = hypodontia". In ordinary photos a gap shows pink gum or a soft shadow, and YOLO sees nothing, even on obvious smiles with a front tooth gone. Retraining on the same data cannot fix this; it needs ordinary photos with gap boxes, which is what 7c adds (89 photos with boxes, 17 held out for testing).
 
+**After 7c (current model).** Photos with a hypodontia box, each model at its own confidence:
+
+| Photos | Count | Previous | Current |
+|---|---:|---:|---:|
+| Roboflow test with hypodontia, not in either model's training | 40 | 92.5% | 95.0% |
+| Test photos with other conditions only (false alarms) | 338 | 0.6% | 1.5% |
+| **Missing tooth, not Roboflow: held out of YOLO in 7c** | **17** | **0%** | **11.8%** (2) |
+| **Missing tooth, not Roboflow: no reliable gap box in 7c** | **29** | **3.4%** (1) | **10.3%** (3) |
+
+The 46 non-Roboflow photos are mendeley 29, dentalai 9, external 7 and zenodo 1. The gap boxes moved YOLO in the right direction (1 → 5 of 46), but most missing teeth in ordinary photos are still missed: 89 boxed photos are few next to about 4,700 Roboflow hypodontia boxes. In the pipeline, these photos depend on the classifier to flag them, and YOLO will usually not mark the gap. Next step: repeat the 89 photos about 5× in YOLO's train list and retrain yolo11s, to see whether the limit is the amount of data or the photos themselves.
+
 ---
 
 ## 5. Limitations and responsible AI
@@ -317,7 +347,7 @@ Looking at the photos explains it. The Roboflow hypodontia photos are rotated wi
 - **Screening aid, not diagnosis.** "Normal" means none of the five screened conditions was seen. There is no gum disease class, although most Singapore adults have some gum disease. The app must say "none of the five screened conditions was detected" and always recommend check-ups.
 - **The source confound remains.** Only data can remove it: healthy and diseased photos taken with the same cameras. `test` numbers are an upper bound; quote `xsrc_test` next to them.
 - **`xsrc_test` is narrow.** Outside Roboflow, issue images are mostly caries (plus zenodo discoloration). Ulcers, calculus and hypodontia on non-Roboflow photos are barely tested; for hypodontia, 11–17 photos only show the direction.
-- **YOLO's test set is Roboflow-only for conditions.** YOLO is not measured on clinical or phone photos with conditions, apart from the hypodontia check above.
+- **YOLO's test set is Roboflow-only for conditions.** YOLO is not measured on clinical or phone photos with conditions, apart from the 46 missing-tooth photos in section 4.4.
 - **Label noise.** About 28% of YOLO train images have Qwen labels. Qwen's boxes have IoU ≈ 0.19 against people's. The 7c gap boxes were checked only by a second Qwen request (about 8 in 10 good on inspection). Val/test condition labels are all human; most val/test healthy images were judged by Qwen.
 - **No external validation.** Images are public datasets and web photos, not Singapore patients, and there is no demographic metadata (age, ethnicity, gum pigmentation). Real-world sensitivity, especially for early, subtle disease, is likely lower than measured.
 - **Hypodontia wording.** "Hypodontia" is congenital, but most photos show extracted or lost teeth. The app should say "gap / missing tooth".
@@ -330,11 +360,12 @@ Looking at the photos explains it. The Roboflow hypodontia photos are rotated wi
 
 | Item | Status | Next step |
 |---|---|---|
-| YOLO retrain on build v4 (7c gap boxes, current split) | **Pending** | In `yolo_oral_detector.ipynb` set `sweep=["yolo11s"]`, `retrain=["yolo11s"]`, Run All (~1–2 h). The previous model is backed up in `models/yolo_caries/weights/Daniel/backup_20261112/`. |
-| Hypodontia check after the YOLO retrain | To do | Score the 17 held-out and 29 unboxed classifier-only photos, and the Roboflow test hypodontia photos, against the old model |
+| YOLO retrain on build v4 (7c gap boxes, current split) | **Done** (2026-11-14) | Test mAP50-95 0.430; ties the previous model on photos neither trained on (section 4.3). Previous model backed up in `models/yolo_caries/weights/Daniel/backup_20261112/`. |
+| YOLO: missing teeth outside Roboflow | Small gain only | 1 → 5 of 46 photos (section 4.4). Repeat the 89 gap-boxed photos about 5× in the YOLO train list and retrain yolo11s only. |
 | Classifier: missing teeth in clinical close-ups | Small gain only | Over-sample non-Roboflow issue photos / condition-balance the issue class; retrain MobileNet only |
-| End-to-end pipeline score | To do | Both stages are now on one split; score classifier → YOLO on the shared test set once YOLO is retrained |
-| Commit | Not committed | Qwen notebook (7b, 7c, stable split), classifier v3 results, this report |
+| End-to-end pipeline score | To do | Both stages are now trained on the same split; score classifier → YOLO on the shared test set |
+| Commit | Done | Merged with Aiden's `dev` and pushed (`484ec6c`). Weights (`.pt`) are not in git and have to be shared separately. |
+| YOLO notebook saved outputs | Check | The per-source false-alarm table saved in `yolo_oral_detector.ipynb` still shows the 2026-11-12 run (599 healthy test photos); re-run those cells to refresh it. |
 
 ---
 
