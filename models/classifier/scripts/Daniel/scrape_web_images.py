@@ -227,6 +227,15 @@ class StoreDownloader(ImageDownloader):
     store = engine = query = None
 
     def download(self, task, default_ext, timeout=5, max_retry=3, overwrite=False, **kwargs):
+        """Fetch one image URL and hand the bytes to the ClassStore; icrawler calls this per task.
+
+        Mirrors icrawler's ImageDownloader.download (same task dict contract: it sets task["success"]
+        and task["filename"] for the crawler's logger) but replaces the file-writing half with
+        store.save(), so every engine's output goes through the same dedupe/format/min-side gate.
+        Connection errors are retried immediately; a non-200 response backs off exponentially (1 s,
+        2 s, ...) before the next attempt. `fake_useragent` rotates the UA header per request, so
+        retries look like different clients to rate-limiters.
+        """
         task["success"], task["filename"] = False, None
         if self.store.stopped:
             self.signal.set(reach_max_num=True)
@@ -247,10 +256,25 @@ class StoreDownloader(ImageDownloader):
 
 
 def make_downloader(store, engine, query):
+    """Build a StoreDownloader subclass bound to one (store, engine, query).
+
+    A fresh subclass per query is how per-query context reaches the downloader: icrawler instantiates
+    downloader_cls itself, so we cannot pass the binding through __init__.
+    """
     return type("BoundDownloader", (StoreDownloader,), {"store": store, "engine": engine, "query": query})
 
 
 def crawl_icrawler(engine, query, store, max_num, threads):
+    """Run one query through icrawler's Bing/Baidu crawler, saving via the bound StoreDownloader.
+
+    max_num counts *successful saves here* (the downloader auto-terminates the crawl once the bound
+    store's save() has accepted that many), so the caller clamps it to the class's remaining need.
+    image_urls grows from 0 while icrawler's feeder threads keep pulling result pages and 2 parser
+    threads extract image URLs; `downloader_threads` do the fetching through our downloader.
+    Bing additionally filters to photo-type results (clipart/icons are noise for a vision dataset).
+    Log level CRITICAL silences icrawler's per-image INFO chatter; max_idle_time=60 ends a crawl whose
+    result pages run dry before the target is reached instead of hanging the feeder wait.
+    """
     crawler_cls = {"bing": BingImageCrawler, "baidu": BaiduImageCrawler}[engine]
     crawler = crawler_cls(
         downloader_cls=make_downloader(store, engine, query),
@@ -266,6 +290,15 @@ def crawl_icrawler(engine, query, store, max_num, threads):
 
 
 def crawl_ddg(query, store, max_num, threads):
+    """Run one query via the DDGS library, then download the result URLs ourselves.
+
+    icrawler has no DDG crawler, so this is the two-phase equivalent: DDGS parses up to `max_num`
+    photo-type result URLs (DDG proxies the sources, so this phase is one request), then our own
+    worker pool fetches the original URLs. The Session mounts a connection pool of `threads`
+    connections so the ThreadPoolExecutor workers reuse sockets instead of a TLS handshake per image.
+    Unlike the icrawler path there is no early stop at `max_num` - DDGS already decided how many URLs
+    exist - but per-save dedupe/min-side keeps the class target intact.
+    """
     if DDGS is None:
         raise RuntimeError("pip install ddgs")
     results = DDGS().images(query, max_results=max_num, type_image="photo")
@@ -291,6 +324,12 @@ def crawl_ddg(query, store, max_num, threads):
 
 
 def load_progress(path):
+    """Load finished "engine|query" keys per class from _progress.json; empty dict on first run/corruption.
+
+    A hand-edited or truncated JSON is treated the same as no file at all: re-scraping a query that
+    was already done only costs a dedupe pass, so the progress file is an optimisation, never a
+    correctness requirement - there is nothing worth failing over.
+    """
     try:
         return {k: set(v) for k, v in json.loads(path.read_text()).items()}
     except (FileNotFoundError, json.JSONDecodeError):
@@ -298,12 +337,31 @@ def load_progress(path):
 
 
 def save_progress(path, progress):
-    """Caller must hold LOCK (workers add to the sets concurrently)."""
+    """Write _progress.json (lists on disk; sets in memory). Caller must hold LOCK - workers mutate the sets concurrently."""
     path.write_text(json.dumps({k: sorted(v) for k, v in progress.items()}, indent=1))
 
 
 def scrape_worker(store, engine, args, progress, progress_path, engine_slots):
-    """Run every query of one class on one engine. One of these runs per (class, engine) pair."""
+    """Run every query of one class on one engine, pausing between queries; one instance per (class, engine) pair.
+
+    Query list: base queries x suffixes. English classes get the EN suffixes ("closeup", "x ray", ...);
+    the baidu engine runs the QUERIES_ZH terms with their Chinese suffixes instead, because the Chinese
+    web has by far the most dental-clinic photos for calculus/pulpitis/ulcers.
+
+    Loop contract per query:
+      - skip if _progress.json already lists it (resume after Ctrl+C/crash: finished queries cost nothing);
+      - wait for a `engine_slots` permit BEFORE starting, so at most --jobs queries hammer one engine
+        across all classes while other engines keep running at full speed;
+      - a crawl exception counts as a consecutive failure: MAX_FAILS=3 in a row gives up on this
+        (class, engine) entirely - that pattern means the engine is rate-limiting or its HTML changed,
+        and grinding on only burns the IP. Between failures, rest 5x the normal delay; any success
+        resets the counter;
+      - after success: mark done and save_progress under LOCK (so a crash between queries replays at
+        most one query), then pause delay*(1..2 s, jittered) - STOP.wait returns instantly on Ctrl+C.
+
+    For icrawler the per-query cap is additionally clamped to the class's remaining need
+    (target - store.count), since the shared store may already be full by the time this query starts.
+    """
     cls = store.cls
     with LOCK:
         done = progress.setdefault(cls, set())
@@ -352,6 +410,24 @@ def scrape_worker(store, engine, args, progress, progress_path, engine_slots):
 
 
 def main():
+    """Set up stores/manifest/progress, run one scrape_worker per (class, engine), summarize at the end.
+
+    Concurrency model: classes and engines are fully independent workers (classes=7 x engines=3 = 21
+    workers by default), but engines are rate-limited per engine, not per worker - hence one
+    BoundedSemaphore(--jobs) per engine shared by that engine's workers. The pool itself is sized to
+    the worker count so no query ever waits on the pool rather than on its engine's slots.
+
+    Everything on disk is append/resume-safe: ClassStore counts existing files (so the manifest can
+    lag or lead a crash without double-counting), manifest.csv is opened in append mode with
+    line-buffered writes, and _progress.json marks finished queries - re-running the same command
+    after Ctrl+C or a reboot continues where the last run stopped.
+
+    Ctrl+C handling: the main thread waits on wait(futures, timeout=1) in a loop rather than a plain
+    as_completed - the 1 s wakeups are what make KeyboardInterrupt land promptly on Windows, where a
+    blocking wait can swallow it. On interrupt we set the STOP event and simply stop waiting: every
+    worker notices it between units of work, the context manager flushes the manifest, and progress
+    is saved once more before exiting.
+    """
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help="output folder (default data/raw/external)")
     ap.add_argument("--classes", nargs="+", default=list(QUERIES), choices=list(QUERIES))
