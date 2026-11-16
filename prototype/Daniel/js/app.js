@@ -157,6 +157,9 @@
   // When the page comes from another local server, point at the backend's port.
   const API_PORT = "8713";
   const API_BASE = location.port === API_PORT ? "" : `http://127.0.0.1:${API_PORT}`;
+  // ?classifier=off skips the issue classifier (YOLO alone decides); ?classifier=on forces it on.
+  // Without the parameter the server's PROTO_CLASSIFIER setting applies.
+  const CLASSIFIER_PARAM = new URLSearchParams(location.search).get("classifier");
   // Six-class checkpoint names (if the server runs with DEMO_WEIGHTS=...best.pt) -> this page's keys.
   const MODEL_KEYS = {
     calculus: "calculus", caries: "caries", hypodontia: "hypodontia",
@@ -195,6 +198,7 @@
 
     const form = new FormData();
     send.forEach((m) => form.append("files", m.file, m.file.name || (m.kind === "video" ? "video.mp4" : "photo.png")));
+    if (CLASSIFIER_PARAM) form.append("classifier", CLASSIFIER_PARAM);
     let out;
     try {
       out = await streamPredict(form, onProgress);
@@ -269,21 +273,27 @@
     const top = findings[0];
     const shown = out.photos.find((p) => p.index === out.show_photo);
     const shownSrc = send[shown.source];
-    res.view = await detectionView(shown);
+    // A healthy verdict draws no boxes (without the classifier, YOLO's weak boxes would otherwise show).
+    res.view = out.task === "binary" && !out.flagged ? null : await detectionView(shown);
     res.photoUrl = shown.image || (shownSrc.kind === "image" ? shownSrc.url : null);
 
     if (out.task === "binary") {
-      const p = out.p_issue;
+      // With the classifier off, p is the strongest YOLO box confidence, not a calibrated p(issue).
+      const p = out.p_issue, detOnly = out.classifier === false;
       if (!out.flagged) {
         res.key = "normal";
         res.kicker = "Our screening says";
-        res.ring = { value: 1 - p, title: "Looks healthy", text: (what, s) => `How likely ${what} show${s} none of the five conditions. A dentist must confirm.` };
+        res.ring = { value: 1 - p, title: "Looks healthy", text: detOnly
+          ? (what) => `Nothing in ${what} was outlined clearly enough to flag. A dentist must confirm.`
+          : (what, s) => `How likely ${what} show${s} none of the five conditions. A dentist must confirm.` };
         res.bars = [{ key: "normal", value: 1 - p }, { key: "check", value: p }];
         if (p >= 0.5) res.lowConf = "It's a close call. Try a brighter, closer shot, or ask a dentist at your next check-up.";
       } else {
         res.key = top ? DET_KEYS[top.class] : "check";
         res.kicker = top?.confident ? "Looks most like" : top ? "Might be" : "Our screening says";
-        res.ring = { value: p, title: "Needs a check", text: (what, s) => `How likely ${what} show${s} something a dentist should look at.` };
+        res.ring = { value: p, title: "Needs a check", text: detOnly
+          ? (what) => `How strongly the clearest finding in ${what} was outlined.`
+          : (what, s) => `How likely ${what} show${s} something a dentist should look at.` };
         if (out.detector_ran) {
           // Strongest outline per condition, pooled over the photos and frames.
           const conf = Object.fromEntries(findings.map((f) => [DET_KEYS[f.class], f.conf]));
