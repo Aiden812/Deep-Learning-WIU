@@ -34,6 +34,8 @@ TEAM_LOG = REPO / "models/yolo_caries/results/experiments.csv"
 SEED = 42
 
 
+# Ultralytics reads a dataset from a .yaml file listing train / val / test images. This builds yaml files whose val and
+# test contain only clean images (no copies of training photos), using the leak flags from find_leaks.py.
 def write_lists(work):
     """Clean val / test image lists (absolute paths) and a data yaml per evaluation set."""
     d = pd.read_csv(DATA / "labels.csv", keep_default_na=False).merge(pd.read_csv(LEAKS)[["md5", "leaked"]], on="md5", how="left")
@@ -55,6 +57,9 @@ def write_lists(work):
     return yamls, names, counts
 
 
+# Score the model on one test set. mAP50: average precision per class with a box counted correct when it overlaps
+# the true box by >= 50% (IoU), averaged over the 5 classes. mAP50-95: the same averaged over IoU 0.50 to 0.95,
+# so it also rewards precise boxes. Precision / recall at the confidence cut-off with the best F1.
 def evaluate(model, data, names, out, tag):
     m = model.val(data=str(data), split="test", imgsz=model.overrides.get("imgsz", 640), batch=16, plots=True,
                   project=str(out), name=f"eval_{tag}", exist_ok=True, verbose=False)
@@ -75,6 +80,7 @@ def main():
     p.add_argument("--resume", action="store_true", help="continue a crashed run from <model>/weights/last.pt")
     p.add_argument("--eval-only", action="store_true")
     a = p.parse_args()
+    # yolo11n = the "nano" YOLO11: smallest and fastest; pretrained on COCO (everyday objects), fine-tuned here
     assert LEAKS.exists(), "run models/classifier/scripts/Aiden/find_leaks.py first"
     if sys.platform == "win32":   # keep Windows awake while training
         ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000001)
@@ -84,6 +90,9 @@ def main():
     out = RESULTS / tag
     yamls, names, counts = write_lists(RESULTS / "_lists")
     print("clean lists:", counts)
+    # Train. Ultralytics does the loop itself: mosaic / flip / colour augmentation, SGD with warm-up, and after every
+    # epoch it scores the clean val set and keeps the best epoch (by mAP50-95) as best.pt; last.pt is saved every
+    # epoch so a crashed run can --resume. patience: stop early if val mAP hasn't improved for that many epochs.
     if a.resume:
         YOLO(str(out / "weights" / "last.pt")).train(resume=True, workers=a.workers)
     elif not a.eval_only:
@@ -93,6 +102,7 @@ def main():
     best = out / "weights" / "best.pt"
     model = YOLO(str(best))
 
+    # Test the best epoch four ways (see the docstring): full = compare with the team, clean = honest score
     results = dict(full=evaluate(model, DATA / "data.yaml", names, out, "full"),
                    person=evaluate(model, DATA / "data_person.yaml", names, out, "person"),
                    clean=evaluate(model, yamls["clean"], names, out, "clean"),
@@ -104,6 +114,7 @@ def main():
                    best_epoch=int(hist["metrics/mAP50-95(B)"].idxmax() + 1), results=results)
     (out / "metrics.json").write_text(json.dumps(metrics, indent=1))
 
+    # human-readable test_report.txt
     lines = [f"YOLO {tag}: test results (best.pt, chosen on the clean val set)"]
     for k, label in [("full", "Daniel's full test (compare with groupmates; includes copies of training photos)"),
                      ("person", "Daniel's person-labelled test (data_person.yaml)"),
@@ -118,7 +129,7 @@ def main():
     # team log: one row per member + model, replaced on every run
     f, c = results["full"], results["clean"]
     row = dict(run_id=f"aiden_{tag}", date=date.today().isoformat(), member="Aiden", model=tag,
-               data_version=f"oral_dataset 2026-11-11 ({len(pd.read_csv(DATA / 'labels.csv', usecols=['md5']))} images)",
+               data_version=f"oral_dataset 2026-11-13 v4 ({len(pd.read_csv(DATA / 'labels.csv', usecols=['md5']))} images)",
                imgsz=a.imgsz, epochs=len(hist), batch=a.batch, lr0=model.ckpt.get("train_args", {}).get("lr0", "") if model.ckpt else "",
                mAP50=round(f["map50"], 4), mAP50_95=round(f["map50_95"], 4), precision=round(f["precision"], 4), recall=round(f["recall"], 4),
                weights_path=best.relative_to(REPO).as_posix(),
@@ -127,6 +138,7 @@ def main():
     log = pd.concat([log[log.run_id != row["run_id"]], pd.DataFrame([row])], ignore_index=True)
     log.to_csv(TEAM_LOG, index=False)
 
+    # rebuild yolo_report.txt and the graphs
     sys.path.insert(0, str(Path(__file__).parent))
     import report_yolo
     report_yolo.write_all()

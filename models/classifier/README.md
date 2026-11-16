@@ -13,7 +13,7 @@ Binary: healthy or has an issue (`has_issue`). Flagged photos go to the YOLO det
 `models/yolo_caries/README.md`). The threshold is set to catch 95% of issues on both the clean val set and the
 cross-source val set. Decisions: `docs/decisions.md` (2026-11-11, 2026-11-12).
 
-**Data.** Unzip Daniel's `oral_dataset.zip` (the cleaned 33,843-image release) into `data/raw/oral_dataset/`. Training
+**Data.** Unzip Daniel's `oral_dataset.zip` (v4 build of 2026-11-13, 33,952 images) into `data/raw/oral_dataset/`. Training
 uses the `train` role of Daniel's `manifests/Daniel/binary_classifier_split.csv`: his train split minus two cross-source
 sets carved from non-Roboflow photos (`xsrc_val`, `xsrc_test`). About 90% of his val/test images with an issue are copies
 of training photos, so `find_leaks.py` marks them and the clean val/test use only images with no copy (his full test is
@@ -49,7 +49,6 @@ cross-source test (both classes from the same non-Roboflow sources) is the check
 | File | Purpose |
 |---|---|
 | `notebooks/Aiden/01_gate_classifier.ipynb` | walkthrough and checks of the gate (reuses `train.py` / `report.py`) |
-| `notebooks/Aiden/00_old_roboflow_multilabel.ipynb` | earlier approach, kept for the record: 6-condition multi-label on the Roboflow export only |
 | `scripts/Aiden/train.py`, `report.py` | train one gate model; comparison report + graphs |
 | `scripts/Aiden/find_leaks.py` | marks val/test images of `oral_dataset` that copy a training photo |
 | `scripts/Aiden/prepare_roboflow_multilabel.py` | builds the copy-matching cache `find_leaks.py` needs (and the old multi-label dataset) |

@@ -1,0 +1,145 @@
+{
+  "experiment": "Y2_yolo11n_640_v12",
+  "data": "D:\\nyp\\Sem 2\\AI Innovation Deep learning\\datasets\\oral_datasetv1.2\\pool",
+  "model": "yolo11n.pt",
+  "imgsz": 640,
+  "epochs_run": 60,
+  "best_epoch": 59,
+  "train_minutes_this_session": 416.1,
+  "conf": 0.25,
+  "set_sizes": {
+    "train": 10239,
+    "val": 3341,
+    "test": 3046,
+    "test_fair": 1022
+  },
+  "box": {
+    "test": {
+      "mAP50": 0.7118008854311916,
+      "mAP50_95": 0.383662810109005,
+      "precision": 0.7624136109254458,
+      "recall": 0.6451859111783945
+    },
+    "test_fair": {
+      "mAP50": 0.17504039686746276,
+      "mAP50_95": 0.11062718284327241,
+      "precision": 0.26878812175183336,
+      "recall": 0.19869582685729786
+    }
+  },
+  "per_class_AP50": {
+    "test": {
+      "Calculus": 0.5093,
+      "Caries": 0.7356,
+      "Hypodontia": 0.7201,
+      "Mouth_Ulcer": 0.7989,
+      "Tooth_Discoloration": 0.7952
+    },
+    "test_fair": {
+      "Calculus": 0.0693,
+      "Caries": 0.6626,
+      "Hypodontia": 0.0022,
+      "Mouth_Ulcer": 0.0707,
+      "Tooth_Discoloration": 0.0704
+    }
+  },
+  "caries_human_boxes_test_fair": {
+    "n_photos": 800,
+    "AP50": 0.710313422926443,
+    "precision": 0.7622086973388448,
+    "recall": 0.633097441480675
+  },
+  "image_level": {
+    "test_fair": {
+      "n": 1022,
+      "n_issue": 703,
+      "n_healthy": 319,
+      "recall_issue": 0.8221906116642959,
+      "recall_healthy": 0.7962382445141066,
+      "balanced_accuracy": 0.8092144280892013,
+      "roc_auc": 0.9035593091854436
+    },
+    "test": {
+      "n": 3046,
+      "n_issue": 2047,
+      "n_healthy": 999,
+      "recall_issue": 0.9301416707376648,
+      "recall_healthy": 0.9319319319319319,
+      "balanced_accuracy": 0.9310368013347984,
+      "roc_auc": 0.9808831792222119
+    }
+  },
+  "image_level_by_source": {
+    "dentalai": {
+      "n": 455.0,
+      "n_issue": 224.0,
+      "n_healthy": 231.0,
+      "recall_issue": 0.78125,
+      "recall_healthy": 0.7662337662337663,
+      "balanced_accuracy": 0.7737418831168832,
+      "roc_auc": 0.8552682436611008
+    },
+    "external_clean": {
+      "n": 63.0,
+      "n_issue": 48.0,
+      "n_healthy": 15.0,
+      "recall_issue": 0.75,
+      "recall_healthy": 0.8,
+      "balanced_accuracy": 0.775,
+      "roc_auc": 0.8472222222222222
+    },
+    "kaggle_oral": {
+      "n": 159.0,
+      "n_issue": 100.0,
+      "n_healthy": 59.0,
+      "recall_issue": 0.43,
+      "recall_healthy": 0.9491525423728814,
+      "balanced_accuracy": 0.6895762711864407,
+      "roc_auc": 0.8142372881355932
+    },
+    "mendeley_noncaries": {
+      "n": 680.0,
+      "n_issue": 0.0,
+      "n_healthy": 680.0,
+      "recall_issue": NaN,
+      "recall_healthy": 0.9955882352941177,
+      "balanced_accuracy": 0.9955882352941177,
+      "roc_auc": NaN
+    },
+    "roboflow_oral": {
+      "n": 1344.0,
+      "n_issue": 1344.0,
+      "n_healthy": 0.0,
+      "recall_issue": 0.9866071428571429,
+      "recall_healthy": NaN,
+      "balanced_accuracy": 0.9866071428571429,
+      "roc_auc": NaN
+    },
+    "zenodo": {
+      "n": 345.0,
+      "n_issue": 331.0,
+      "n_healthy": 14.0,
+      "recall_issue": 0.9788519637462235,
+      "recall_healthy": 0.6428571428571429,
+      "balanced_accuracy": 0.8108545533016832,
+      "roc_auc": 0.9745360379801467
+    }
+  },
+  "condition_found_rate": {
+    "test": {
+      "Calculus": 0.6942,
+      "Caries": 0.9,
+      "Hypodontia": 0.8486,
+      "Mouth_Ulcer": 0.8889,
+      "Tooth_Discoloration": 0.846
+    },
+    "test_fair": {
+      "Calculus": 0.4118,
+      "Caries": 0.8671,
+      "Hypodontia": 0.25,
+      "Mouth_Ulcer": 0.2,
+      "Tooth_Discoloration": 0.3778
+    }
+  },
+  "notes": "test_fair = test rows from dentalai/zenodo/kaggle_oral/external_clean; only dentalai/zenodo Caries boxes there are human-drawn."
+}

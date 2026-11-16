@@ -6,20 +6,20 @@ Graphs: figures/comparison_*.png
 
 1. SUMMARY
 ----------------------------------------------------------------------------------------------------
-AUROC on the clean test: DINOv2 ViT-B/14 0.9957, DenseNet-121 0.9946. The 95% intervals overlap, so this gap alone is not conclusive.
-At thresholds set to catch 95% of issues in clean val and cross-source val: DINOv2 ViT-B/14 catches 98.9% of test issues and clears 97.2% of healthy mouths; DenseNet-121 98.9% and 96.0%.
-Issues missed by the gate (never reach YOLO): DenseNet-121 2, DINOv2 ViT-B/14 2 of 178.
-Cross-source test (non-Roboflow photos, both classes from the same sources): AUROC DenseNet-121 0.9798, DINOv2 ViT-B/14 0.9839; Daniel's gate (mobilenet_v3_large) 0.9797 on the same images.
+AUROC on the clean test: DINOv2 ViT-B/14 0.9931, DenseNet-121 0.9895. The 95% intervals overlap, so this gap alone is not conclusive.
+At thresholds set to catch 95% of issues in clean val and cross-source val: DINOv2 ViT-B/14 catches 100.0% of test issues and clears 92.8% of healthy mouths; DenseNet-121 100.0% and 88.2%.
+Issues missed by the gate (never reach YOLO): DenseNet-121 0, DINOv2 ViT-B/14 0 of 182.
+Cross-source test (non-Roboflow photos, both classes from the same sources): AUROC DenseNet-121 0.9772, DINOv2 ViT-B/14 0.9739; Daniel's gate (mobilenet_v3_large) 0.9780 on the same images.
 
 2. METHOD (identical for every model; only the backbone and its learning rate differ)
 ----------------------------------------------------------------------------------------------------
 Pipeline  Stage 1 (this model): has an issue, or healthy? Flagged photos go to stage 2, YOLO (which condition, where).
 Data      Daniel's oral_dataset (data/raw/oral_dataset), target has_issue. Sources: roboflow_oral, zenodo, dentalai,
           kaggle_oral, mendeley_noncaries, screened web images; labelled by people or Qwen (labels.csv: label_by).
-Split     Daniel's binary split (manifests/Daniel/binary_classifier_split.csv). Train: 25524 images (his train
+Split     Daniel's binary split (manifests/Daniel/binary_classifier_split.csv). Train: 25713 images (his train
           minus two cross-source sets carved from non-Roboflow photo groups: xsrc_val, xsrc_test). Val/test: only images
           with no copy of a training photo (find_leaks.py: SIFT keypoint matching on roboflow_oral). About 90% of the
-          val/test images with an issue were copies. Clean val: 852 images. Clean test: 777 of 3046. Both test sets used once at the end.
+          val/test images with an issue were copies. Clean val: 811 images. Clean test: 803 of 2936. Both test sets used once at the end.
 Training  One sigmoid output. Fixed number of epochs (no epoch picked on validation), AdamW wd 0.05, one-cycle cosine,
           mixed precision, BCE with pos_weight + label smoothing 0.05, each photo group equally likely per epoch.
           Augmentation: random resized crop 0.5-1.0, flip, rotation 20, brightness/contrast 0.2 (no hue: discolouration is a colour).
@@ -31,63 +31,63 @@ Settings                                            DenseNet-121       DINOv2 Vi
   image size                                                 224                   224
   epochs                                                      10                    10
   backbone learning rate                                  0.0001                 2e-05
-  threshold                                                0.631                 0.855
+  threshold                                                0.244                 0.521
 
-3. RESULTS, CLEAN TEST (777 images: 178 with an issue, 599 healthy)
+3. RESULTS, CLEAN TEST (803 images: 182 with an issue, 621 healthy)
    (graphs: figures/comparison_overview.png, comparison_curves.png, comparison_confusion.png)
 ----------------------------------------------------------------------------------------------------
                                                     DenseNet-121       DINOv2 ViT-B/14
-AUROC                                                     0.9946                0.9957
-  95% CI                                           0.9896-0.9983         0.9909-0.9995
-Average precision                                         0.9698                0.9565
-Sensitivity (issues caught)                                98.9%                 98.9%
-  95% CI                                            97.0%-100.0%          97.1%-100.0%
-Specificity (healthy cleared)                              96.0%                 97.2%
-Precision (flags that are real issues)                     88.0%                 91.2%
-Accuracy                                                   96.7%                 97.6%
-Confusion: issues caught / missed                        176 / 2               176 / 2
-Confusion: healthy cleared / false alarms               575 / 24              582 / 17
+AUROC                                                     0.9895                0.9931
+  95% CI                                           0.9823-0.9953         0.9870-0.9980
+Average precision                                         0.9348                0.9490
+Sensitivity (issues caught)                               100.0%                100.0%
+  95% CI                                           100.0%-100.0%         100.0%-100.0%
+Specificity (healthy cleared)                              88.2%                 92.8%
+Precision (flags that are real issues)                     71.4%                 80.2%
+Accuracy                                                   90.9%                 94.4%
+Confusion: issues caught / missed                        182 / 0               182 / 0
+Confusion: healthy cleared / false alarms               548 / 73              576 / 45
 Better: AUROC DINOv2 ViT-B/14; sensitivity tie; specificity DINOv2 ViT-B/14.
 
 AUROC on the other evaluation sets:
-  person-labelled clean test only                         0.9793                0.9776
-  Daniel's full test (leaky, 3046)                        0.9944                0.9953
-  clean val (852, used for the threshold)                 0.9935                0.9980
+  person-labelled clean test only                         0.9636                0.9709
+  Daniel's full test (leaky, 2936)                        0.9896                0.9916
+  clean val (811, used for the threshold)                 0.9940                0.9898
 
-3b. RESULTS, CROSS-SOURCE TEST (1166 non-Roboflow images: 592 with an issue, 574 healthy)
+3b. RESULTS, CROSS-SOURCE TEST (1181 non-Roboflow images: 607 with an issue, 574 healthy)
 ----------------------------------------------------------------------------------------------------
 The clean test has every issue photo from Roboflow and every healthy one from elsewhere, so it can't tell disease
 from photo style. This set has both classes from the same non-Roboflow sources (Daniel's xsrc_test), and Daniel's
 gate is scored on the same images, so this is the fairest comparison with his model.
                                                     DenseNet-121       DINOv2 ViT-B/14         Daniel's gate
-AUROC                                                     0.9798                0.9839                0.9797
-Average precision                                         0.9730                0.9721                0.9735
-Sensitivity (issues caught)                                93.6%                 93.6%                 93.6%
-Specificity (healthy cleared)                              94.4%                 96.2%                 95.8%
-  AUROC 95% CI                                     0.9711-0.9872         0.9757-0.9903                     -
+AUROC                                                     0.9772                0.9739                0.9780
+Average precision                                         0.9758                0.9656                0.9706
+Sensitivity (issues caught)                                96.0%                 94.6%                 92.8%
+Specificity (healthy cleared)                              91.6%                 94.4%                 96.3%
+  AUROC 95% CI                                     0.9690-0.9845         0.9635-0.9823                     -
 AUROC within one source (both classes are the same kind of photo; the cleanest 'disease, not source' check):
-  dentalai (187 issue, 92 healthy)                        0.8971                0.9048
-  external_clean (41 issue, 7 healthy)                    0.9303                0.9861
-  kaggle_oral (94 issue, 15 healthy)                      0.9787                0.9716
-  mendeley_noncaries (0 issue, 454 healthy)                   n/a                   n/a
-  zenodo (270 issue, 6 healthy)                           0.8772                0.8586
+  dentalai (190 issue, 92 healthy)                        0.9073                0.9192
+  external_clean (43 issue, 6 healthy)                    0.9806                0.9922
+  kaggle_oral (95 issue, 15 healthy)                      0.9712                0.9218
+  mendeley_noncaries (8 issue, 455 healthy)                0.8073                0.8139
+  zenodo (271 issue, 6 healthy)                           0.7678                0.8315
 Daniel's numbers are at his own threshold (also set to catch 95% of issues; backbone mobilenet_v3_large), from models/classifier/results/Daniel/binary/test_metrics.json.
 
 4. WHAT REACHES YOLO, PER CONDITION (clean test)
 ----------------------------------------------------------------------------------------------------
 Share of images with each condition that the gate flags. A miss here is a miss for the whole pipeline.
-  Calculus (6 images; too few to trust)                   100.0%                100.0%
-  Caries (23 images)                                       95.7%                100.0%
-  Hypodontia (32 images)                                  100.0%                100.0%
-  Mouth_Ulcer (90 images)                                 100.0%                100.0%
-  Tooth_Discoloration (35 images)                          97.1%                 94.3%
-  healthy, wrongly passed                                   4.0%                  2.8%
+  Calculus (3 images; too few to trust)                   100.0%                100.0%
+  Caries (32 images)                                      100.0%                100.0%
+  Hypodontia (48 images)                                  100.0%                100.0%
+  Mouth_Ulcer (93 images)                                 100.0%                100.0%
+  Tooth_Discoloration (12 images; too few to trust)                100.0%                100.0%
+  healthy, wrongly passed                                  11.8%                  7.2%
 
 5. LIMITATIONS
 ----------------------------------------------------------------------------------------------------
 - In the clean test every issue photo is from Roboflow, so it mostly measures 'Roboflow photo or not'; read it
   together with the cross-source test (3b). mendeley_noncaries only has healthy photos, even there.
-- The clean test is small for some conditions (Calculus 6 images), because copies of training photos fill Daniel's val/test.
+- The clean test is small for some conditions (Calculus 3, Tooth_Discoloration 12 images), because copies of training photos fill Daniel's val/test.
 - Most healthy val/test photos were judged healthy by Qwen, not a person, so a few may hide a small finding.
 - Each model was trained once with one learning rate; no other settings were tuned for this comparison.
 - Confidence intervals resample images and ignore that some are related, so they are somewhat optimistic.
