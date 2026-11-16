@@ -1,13 +1,13 @@
 """Verify that every raw dataset has been downloaded into data/raw/.
 
 Usage:
-    python models/yolo_caries/scripts/check_downloads.py
+    python models/yolo_caries/scripts/Junwei/check_downloads.py
 """
 
 from pathlib import Path
 import sys
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[4]
 RAW_DIR = REPO_ROOT / "data" / "raw"
 
 EXPECTED = [

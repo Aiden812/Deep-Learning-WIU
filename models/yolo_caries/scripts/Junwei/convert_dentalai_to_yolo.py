@@ -5,7 +5,7 @@ values are: 0 background, 1 Caries, 2 Cavity, 3 Crack, 4 Tooth.
 Each connected component of a target class becomes one YOLO box.
 
 Usage:
-    python models/yolo_caries/scripts/convert_dentalai_to_yolo.py \
+    python models/yolo_caries/scripts/Junwei/convert_dentalai_to_yolo.py \
         --src data/raw/dentalai --dst data/interim/dentalai_yolo
 """
 
