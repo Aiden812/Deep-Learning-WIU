@@ -19,6 +19,8 @@
     photos: {},          // angle key -> { url, file }
     targetSlot: null,    // angle key a single-slot pick goes into
     result: null,        // { key, probs, demo }
+    qcKey: null,         // angle whose checklist the (i) panel shows
+    retakeSlot: null,    // angle the "Try another photo" button replaces
     location: { ...DEFAULT_LOCATION, shared: false },
     filter: "best",
     activeClinic: null,
@@ -41,20 +43,28 @@
           <span class="angle-label">${a.label}</span>
         </button>
         ${p ? `<button type="button" class="angle-remove" data-remove="${a.key}" aria-label="Remove ${a.label} photo"><i data-lucide="x"></i></button>` : ""}
+        ${p ? qcBadge(a, p) : ""}
       </div>`;
     }).join("");
     icons();
     const n = Object.keys(state.photos).length;
     $("#btnAnalyse").setAttribute("aria-disabled", String(n === 0));
     $("#dzHint").textContent = n ? `${n} of ${MAX_PHOTOS} photos added` : "JPG or PNG · up to 5 photos";
+    renderQc();
   }
 
   $("#angles").addEventListener("click", (e) => {
+    const badge = e.target.closest("[data-qc]");
+    if (badge) {
+      state.qcKey = badge.dataset.qc;
+      return openQc(true);
+    }
     const rm = e.target.closest("[data-remove]");
     if (rm) {
       const k = rm.dataset.remove;
       URL.revokeObjectURL(state.photos[k].url);
       delete state.photos[k];
+      if (state.qcKey === k) state.qcKey = null;
       renderAngles();
       return;
     }
@@ -83,8 +93,117 @@
 
   function setPhoto(key, file) {
     if (state.photos[key]) URL.revokeObjectURL(state.photos[key].url);
-    state.photos[key] = { file, url: URL.createObjectURL(file) };
+    state.photos[key] = { file, url: URL.createObjectURL(file), quality: null, qcState: "checking" };
+    state.qcKey = key;
+    checkPhoto(key, file);
   }
+
+  /* ---------------- Photo checklist (models/quality_check) ---------------- */
+  // Same ids as the backend. The backend decides pass / warn / fail; this is only the wording.
+  const QC_ITEMS = [
+    { id: "size", label: "Big enough", desc: "A normal camera photo, not a tiny thumbnail" },
+    { id: "light", label: "Bright enough", desc: "Your teeth are well lit" },
+    { id: "exposure", label: "Not washed out", desc: "Not too bright from a lamp or sunlight" },
+    { id: "glare", label: "No flash glare", desc: "No white shine hiding your teeth" },
+    { id: "focus", label: "In focus", desc: "Sharp, not blurry or shaky" },
+    { id: "contrast", label: "Clear detail", desc: "Close enough to make out each tooth" },
+    { id: "mouth", label: "Shows teeth and gums", desc: "Lips pulled back, mouth fills the photo" },
+  ];
+  const QC_SHORT = {
+    size: "too small", light: "too dark", exposure: "washed out", glare: "has flash glare",
+    focus: "blurry", contrast: "lacks detail", mouth: "doesn't clearly show teeth",
+  };
+  const QC_ICON = { pass: "check", warn: "triangle-alert", fail: "x", skip: "minus" };
+  const QC_SAY = { pass: "OK", warn: "needs a look", fail: "failed", skip: "not checked" };
+  const angleLabel = (k) => ANGLES.find((a) => a.key === k).label;
+
+  async function checkPhoto(key, file) {
+    const form = new FormData();
+    form.append("file", file);
+    let q = null;
+    try {
+      const r = await fetch(`${API_BASE}/api/quality`, { method: "POST", body: form });
+      if (r.ok) q = await r.json();
+    } catch (err) { /* service offline: the check still runs when Analyse is pressed */ }
+    const p = state.photos[key];
+    if (!p || p.file !== file) return; // replaced or removed while checking
+    p.quality = q;
+    p.qcState = q ? q.status : "offline";
+    renderAngles();
+  }
+
+  function qcBadge(a, p) {
+    const st = p.qcState;
+    if (st === "offline") return "";
+    const issues = p.quality ? p.quality.checks.filter((c) => c.status === "fail" || c.status === "warn").map((c) => QC_SHORT[c.id]) : [];
+    const label = st === "checking" ? `Checking ${a.label} photo`
+      : st === "pass" ? `${a.label} photo passed every check` : `${a.label} photo: ${issues.join(", ")}`;
+    return `<button type="button" class="qc-badge is-${st}" data-qc="${a.key}" aria-label="${label}. Open checklist" title="${label}">
+      ${st === "checking" ? `<span class="qc-spin" aria-hidden="true"></span>` : `<i data-lucide="${QC_ICON[st]}"></i>`}</button>`;
+  }
+
+  function renderQc() {
+    const key = state.qcKey && state.photos[state.qcKey] ? state.qcKey : ANGLES.find((a) => state.photos[a.key])?.key;
+    const p = key && state.photos[key];
+    const q = p && p.quality;
+
+    if (q) {
+      const bad = q.checks.some((c) => c.status === "fail");
+      const meh = q.checks.some((c) => c.status === "warn");
+      $("#qcHead").textContent = `${angleLabel(key)} photo`;
+      $("#qcSub").textContent = bad ? "This photo will be left out. Fix the red items and take it again."
+        : meh ? "Usable, but the amber items may make the result less reliable." : "All clear. This photo is good to use.";
+    } else {
+      $("#qcHead").textContent = "Photo checklist";
+      $("#qcSub").textContent = p && p.qcState === "checking" ? `Checking your ${angleLabel(key).toLowerCase()} photo…`
+        : "Every photo is checked for these before we look at your teeth.";
+    }
+    $("#qcList").innerHTML = QC_ITEMS.map((it) => {
+      const c = q ? q.checks.find((x) => x.id === it.id) : null;
+      const st = c ? c.status : "todo";
+      const text = c && c.tip ? c.tip : it.desc;
+      return `<li class="qc-item is-${st}">
+        <span class="qc-mark" aria-hidden="true">${c ? `<i data-lucide="${QC_ICON[st]}"></i>` : ""}</span>
+        <span class="qc-text"><strong>${it.label}</strong>${c ? `<span class="sr-only">: ${QC_SAY[st]}.</span>` : ""}<span class="qc-desc">${text}</span></span>
+      </li>`;
+    }).join("");
+
+    // A one-line summary on the (i) chip itself, so the checklist rarely needs opening.
+    const done = ANGLES.map((a) => state.photos[a.key]).filter((x) => x && x.quality);
+    const failing = done.filter((x) => x.quality.status === "fail").length;
+    $("#qcBtn").classList.toggle("is-fail", failing > 0);
+    $("#qcBtn").classList.toggle("is-pass", done.length > 0 && !failing);
+    $("#qcBtnText").textContent = !done.length ? "What we check"
+      : failing ? `${failing} photo${failing > 1 ? "s" : ""} to retake` : "Photos look good";
+    icons();
+  }
+
+  // Opens on hover (mouse), tap or keyboard. A tap or click pins it open until you tap elsewhere or press Esc.
+  let qcPinned = false;
+  let qcTimer = 0;
+  function openQc(pin) {
+    clearTimeout(qcTimer);
+    if (pin) qcPinned = true;
+    renderQc();
+    $("#qcPanel").hidden = false;
+    $("#qcBtn").setAttribute("aria-expanded", "true");
+  }
+  function closeQc(force) {
+    if (qcPinned && !force) return;
+    qcPinned = false;
+    $("#qcPanel").hidden = true;
+    $("#qcBtn").setAttribute("aria-expanded", "false");
+  }
+  const hoverable = () => matchMedia("(hover: hover)").matches;
+  $("#qc").addEventListener("mouseenter", () => hoverable() && openQc(false));
+  $("#qc").addEventListener("mouseleave", () => { if (hoverable()) qcTimer = setTimeout(() => closeQc(false), 150); });
+  $("#qcBtn").addEventListener("click", () => (qcPinned ? closeQc(true) : openQc(true)));
+  document.addEventListener("click", (e) => {
+    if (!$("#qcPanel").hidden && !e.target.closest("#qc, [data-qc]")) closeQc(true);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !$("#qcPanel").hidden) { closeQc(true); $("#qcBtn").focus(); }
+  });
 
   /* ---------------- Consent (PDPA) ---------------- */
   const consented = () => $("#consent").checked;
@@ -144,20 +263,12 @@
     mouth_ulcer: "ulcer", normal: "normal", tooth_discoloration: "discolouration",
   };
 
-  // Checks the front photo here first, then sends the original files (full 0-255 pixels,
-  // no scaling) to the classifier, which averages its probabilities over all photos.
+  // Sends the original files (full 0-255 pixels, no scaling). The backend checks each photo first
+  // (models/quality_check), leaves out any that fail, and averages the classifier over the rest.
+  // photoList items are { key, photo } in angle order.
   async function predict(photoList) {
-    const img = await loadImage(photoList[0].url);
-    const S = 32;
-    const c = document.createElement("canvas");
-    c.width = c.height = S;
-    const ctx = c.getContext("2d");
-    ctx.drawImage(img, 0, 0, S, S);
-    const why = photoQuality(ctx.getImageData(0, 0, S, S).data, S);
-    if (why) return { unclear: true, why };
-
     const form = new FormData();
-    photoList.forEach((p) => form.append("files", p.file));
+    photoList.forEach((x) => form.append("files", x.photo.file));
     let out;
     try {
       const r = await fetch(`${API_BASE}/api/predict`, { method: "POST", body: form });
@@ -167,26 +278,30 @@
       console.error("Prediction failed:", err);
       return { unclear: true, title: "We couldn't check this photo", why: "The screening service isn't responding. Please try again in a moment." };
     }
+    // Keep each thumbnail's checklist in step with what the backend decided.
+    const qc = photoList.map((x, i) => ({ ...x, q: out.quality ? out.quality[i] : null }));
+    qc.forEach((x) => { if (x.q) { x.photo.quality = x.q; x.photo.qcState = x.q.status; } });
+    renderAngles();
+    if (out.rejected) {
+      const first = qc.find((x) => x.q && !x.q.ok) || qc[0];
+      return {
+        unclear: true, retake: first.key, url: first.photo.url,
+        title: qc.length > 1 ? "None of these photos can be read" : "We can't read this photo",
+        why: first.q.checks.find((c) => c.status === "fail").tip,
+      };
+    }
+    const used = qc.filter((x) => !x.q || x.q.ok);
+    const left = qc.filter((x) => x.q && !x.q.ok);
+    const weak = used.filter((x) => x.q && x.q.status === "warn");
+    const notes = [];
+    if (left.length) notes.push(`Left out: ${left.map((x) => `${angleLabel(x.key).toLowerCase()} photo (${firstIssue(x.q, "fail")})`).join(", ")}.`);
+    if (weak.length) notes.push(`${weak.map((x) => `${angleLabel(x.key)} photo ${firstIssue(x.q, "warn")}`).join("; ")}, so this result may be less reliable.`);
     const probs = {};
     for (const [name, p] of Object.entries(out.probs)) probs[MODEL_KEYS[name]] = p;
-    return { key: MODEL_KEYS[out.class_name], probs };
+    return { key: MODEL_KEYS[out.class_name], probs, count: used.length, photoUrl: used[0].photo.url, qcNote: notes.join(" ") };
   }
 
-  // Rejects photos the model should not guess on: too dark, washed out, flat or blurry.
-  // Returns a plain-language reason, or null when the photo is usable.
-  function photoQuality(d, S) {
-    const lum = [];
-    for (let i = 0; i < d.length; i += 4) lum.push(0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]);
-    const mean = lum.reduce((a, b) => a + b, 0) / lum.length;
-    const sd = Math.sqrt(lum.reduce((a, b) => a + (b - mean) ** 2, 0) / lum.length);
-    let edges = 0;
-    for (let y = 0; y < S; y++) for (let x = 1; x < S; x++) edges += Math.abs(lum[y * S + x] - lum[y * S + x - 1]);
-    edges /= S * (S - 1);
-    if (mean < 45) return "It's too dark. Try near a window or turn on a light.";
-    if (mean > 238) return "It's too bright or washed out. Avoid pointing at a lamp.";
-    if (sd < 14 || edges < 3) return "We can't see any teeth. Pull your lips back and get closer.";
-    return null;
-  }
+  const firstIssue = (q, st) => QC_SHORT[q.checks.find((c) => c.status === st).id];
 
   function makeProbs(top, topP, rand = Math.random) {
     const rest = CLASS_ORDER.filter((k) => k !== top);
@@ -206,22 +321,19 @@
     };
   }
 
-  const loadImage = (src) => new Promise((res, rej) => {
-    const i = new Image();
-    i.onload = () => res(i);
-    i.onerror = rej;
-    i.src = src;
-  });
-
   /* ---------------- Analyse flow ---------------- */
   $("#btnAnalyse").addEventListener("click", async () => {
-    const list = ANGLES.map((a) => state.photos[a.key]).filter(Boolean);
+    const list = ANGLES.filter((a) => state.photos[a.key]).map((a) => ({ key: a.key, photo: state.photos[a.key] }));
     if (!list.length) return;
     if ($("#btnAnalyse").getAttribute("aria-disabled") === "true") return;
-    showLoading(list[0].url);
+    closeQc(true);
+    showLoading(list[0].photo.url);
     const [res] = await Promise.all([predict(list), wait(1600)]);
-    if (res.unclear) return showUnclear(list[0].url, res.why, res.title);
-    showResult({ ...res, count: list.length, photoUrl: list[0].url });
+    if (res.unclear) {
+      state.retakeSlot = res.retake || "front";
+      return showUnclear(res.url || list[0].photo.url, res.why, res.title);
+    }
+    showResult({ ...res, count: res.count || list.length, photoUrl: res.photoUrl || list[0].photo.url });
   });
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -251,7 +363,7 @@
   }
 
   $("#btnRetake").addEventListener("click", () => {
-    state.targetSlot = "front";
+    state.targetSlot = state.retakeSlot || "front";
     (isTouch() ? $("#cameraInput") : $("#fileInput")).click();
   });
 
@@ -270,6 +382,8 @@
     $("#simTag").hidden = !res.demo;
     $("#photoCount").textContent = res.demo ? "this sample" : res.count > 1 ? `your ${res.count} photos` : "your photo";
     $("#lowConf").hidden = res.probs[res.key] >= LOW_CONFIDENCE;
+    $("#qcNote").hidden = !res.qcNote;
+    $("#qcNoteText").textContent = res.qcNote || "";
 
     const ring = $("#ring");
     ring.style.setProperty("--rc", c.color);
@@ -295,7 +409,8 @@
     $("#consentHint").hidden = true;
     renderUnderstand(res.key);
     renderAction(res.key);
-    $("#costProcedure").textContent = c.procedure;
+    renderCost();
+    renderAsk();
     $$(".needs-result").forEach((s) => {
       $("[data-lock]", s).hidden = true;
       $("[data-content]", s).hidden = false;
@@ -451,6 +566,178 @@
     return 2 * R * Math.asin(Math.sqrt(h));
   }
 
+  /* ---------------- Cost estimate (app/backend -> prototype/Brandon/backend/costs.py) ---------------- */
+  // Page keys -> condition names in fees.json
+  const COST_KEYS = {
+    calculus: "calculus", caries: "caries", hypodontia: "hypodontia",
+    ulcer: "mouth_ulcer", normal: "normal", discolouration: "tooth_discoloration",
+  };
+  let costSeq = 0;
+
+  const money = (v, up) => "S$" + (up ? Math.ceil(v) : Math.floor(v)).toLocaleString("en-SG");
+  const range = (lo, hi) => (Math.floor(lo) === Math.ceil(hi) ? money(lo) : `${money(lo)} – ${money(hi, true)}`);
+  // Exact amounts (subsidies) keep their cents: S$20.50, S$30.
+  const exact = (v) => "S$" + (Number.isInteger(v) ? v : v.toFixed(2)).toLocaleString("en-SG");
+  const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+
+  function costProfile() {
+    const f = $("#costForm");
+    return { residency: f.residency.value, tier: f.tier.value, age: f.age.value };
+  }
+
+  // Answers only live in this request; they are never stored.
+  async function renderCost() {
+    if (!state.result) return;
+    const seq = ++costSeq;
+    const out = $("#costOut");
+    out.classList.add("is-busy");
+    let est;
+    try {
+      const r = await fetch(`${API_BASE}/api/estimate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ condition: COST_KEYS[state.result.key], ...costProfile() }),
+      });
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+      est = await r.json();
+    } catch (err) {
+      console.error("Cost estimate failed:", err);
+      if (seq !== costSeq) return;
+      out.classList.remove("is-busy");
+      out.innerHTML = `<div class="cost-error"><i data-lucide="cloud-off"></i><p>We couldn't load the cost estimate. Please try again in a moment.</p></div>`;
+      icons();
+      return;
+    }
+    if (seq !== costSeq) return; // a newer answer is already on its way
+    out.classList.remove("is-busy");
+    out.innerHTML = costHtml(est);
+    icons();
+  }
+
+  function costLines(lines) {
+    return `<ul class="cost-lines">${lines.map((l) => {
+      const bits = [`Fee ${range(l.fee_min, l.fee_max)} before GST`];
+      if (l.subsidy) bits.push(`CHAS −${exact(l.subsidy)}`);
+      if (l.medisave) bits.push(`MediSave up to −${exact(l.medisave)}`);
+      return `<li class="cost-line">
+        <div><p class="cost-line-name">${esc(l.name)}</p>
+          <p class="cost-line-plain">${esc(l.plain)}</p>
+          <p class="cost-line-math">${bits.join(" · ")}</p>
+          ${l.claim_limit ? `<p class="cost-line-limit"><i data-lucide="calendar"></i>CHAS: ${esc(l.claim_limit)}</p>` : ""}
+          ${l.range_note ? `<p class="cost-line-limit"><i data-lucide="info"></i>${esc(l.range_note)}</p>` : ""}</div>
+        <p class="cost-line-pay">${range(l.pay_min, l.pay_max)}</p>
+      </li>`;
+    }).join("")}</ul>`;
+  }
+
+  function costHtml(est) {
+    const name = CONDITIONS[state.result.key].name.toLowerCase();
+    const t = est.likely.total;
+    const none = !est.likely.lines.length;
+    const head = none
+      ? `<p class="cost-eyebrow">For ${esc(name)}</p>
+         <p class="cost-total">Usually ${money(0)}</p>
+         <p class="cost-sub">There's often nothing to pay. See below if it doesn't heal.</p>`
+      : `<p class="cost-eyebrow">Likely visit for ${esc(name)}</p>
+         <p class="cost-total">${range(t.pay_min, t.pay_max)}</p>
+         <p class="cost-sub">What you'd pay${t.subsidy ? `, after up to ${exact(t.subsidy)} off with CHAS` : ""}.
+           Fees before any help: ${range(t.fee_min, t.fee_max)} + GST.</p>`;
+
+    const later = est.later.map((s) => `
+      <details class="cost-later">
+        <summary><span>${esc(s.label)}</span><span class="cost-later-pay">${range(s.total.pay_min, s.total.pay_max)}</span><i data-lucide="chevron-down"></i></summary>
+        ${costLines(s.lines)}
+      </details>`).join("");
+
+    const sources = Object.values(est.sources).map((s) =>
+      `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}<i data-lucide="arrow-up-right"></i></a><span>checked ${esc(s.checked)}</span></li>`).join("");
+
+    return `
+      <span class="estimate-pill"><i data-lucide="badge-info"></i>Estimate only, not a quote</span>
+      ${head}
+      ${none ? "" : costLines(est.likely.lines)}
+      ${later ? `<p class="cost-later-title">Other treatments a dentist might suggest</p>${later}` : ""}
+      <ul class="cost-notes">${est.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
+      <details class="cost-sources"><summary><i data-lucide="book-open"></i>Where these figures come from</summary><ul>${sources}</ul></details>`;
+  }
+
+  $("#costForm").addEventListener("change", renderCost);
+
+  /* ---------------- Ask about your result (app/backend -> genai/rag/answer.py) ---------------- */
+  let asking = false;
+
+  async function renderAsk() {
+    $("#askThread").innerHTML = "";
+    $("#askInput").value = "";
+    let qs = [];
+    try {
+      const r = await fetch(`${API_BASE}/api/ask/suggestions?condition=${COST_KEYS[state.result.key]}`);
+      qs = (await r.json()).questions || [];
+    } catch (err) {
+      console.error("Suggestions failed:", err);
+    }
+    $("#askChips").innerHTML = qs.map((q) => `<button type="button" class="ask-chip" data-q="${esc(q)}">${esc(q)}</button>`).join("");
+  }
+
+  $("#askChips").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-q]");
+    if (b) askQuestion(b.dataset.q);
+  });
+  $("#askForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = $("#askInput").value.trim();
+    if (q) askQuestion(q);
+  });
+
+  async function askQuestion(q) {
+    if (asking || !state.result) return;
+    asking = true;
+    $("#askSend").setAttribute("aria-disabled", "true");
+    $("#askInput").value = "";
+    const thread = $("#askThread");
+    thread.insertAdjacentHTML("beforeend", `<p class="ask-q">${esc(q)}</p><div class="ask-a is-loading"><p>Looking that up…</p></div>`);
+    const bubble = thread.lastElementChild;
+    bubble.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    try {
+      const r = await fetch(`${API_BASE}/api/ask`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: q, condition: COST_KEYS[state.result.key], ...costProfile() }),
+      });
+      if (!r.ok) throw new Error(r.statusText);
+      bubble.outerHTML = answerHtml(await r.json());
+    } catch (err) {
+      console.error("Ask failed:", err);
+      bubble.outerHTML = `<div class="ask-a is-muted"><p>Sorry, we couldn't answer that just now. Please try again in a moment.</p></div>`;
+    }
+    icons();
+    asking = false;
+    $("#askSend").removeAttribute("aria-disabled");
+  }
+
+  function answerHtml(a) {
+    const id = "a" + Math.random().toString(36).slice(2, 8);
+    // [n] markers become small links to the matching source below the answer.
+    const body = esc(a.answer).replace(/\s?\[(\d+)\]/g, (_, n) => `<sup><a href="#${id}-${n}" aria-label="Source ${n}">${n}</a></sup>`);
+    const cls = a.route === "emergency" ? "is-emergency" : a.route === "answer" ? "" : "is-muted";
+    const src = a.citations.length ? `<ol class="ask-src">${a.citations.map((c) => `
+      <li id="${id}-${c.n}"><b>${c.n}</b><span>${esc(c.title)}${c.section ? ` · ${esc(c.section)}` : ""}<br>
+        ${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.source)}</a>` : esc(c.source)}</span></li>`).join("")}</ol>` : "";
+    const links = [];
+    if (a.cost) links.push(`<a href="#cost"><i data-lucide="wallet"></i>${a.cost.has_items ? `Your estimate: ${range(a.cost.pay_min, a.cost.pay_max)}` : "See your cost estimate"}</a>`);
+    if (a.show_clinics) links.push(`<a href="#act"><i data-lucide="map-pin"></i>Clinics near you</a>`);
+    const tag = a.route !== "answer" ? "" : a.mode === "llm"
+      ? `<span class="ask-tag"><i data-lucide="sparkles"></i>Written by AI from the sources below. Check with a dentist.</span>`
+      : `<span class="ask-tag"><i data-lucide="quote"></i>Quoted from the sources below.</span>`;
+    return `<div class="ask-a ${cls}">
+      <p>${body}</p>
+      ${a.route === "emergency" ? `<a class="ask-call" href="tel:995"><i data-lucide="phone"></i>Call 995</a>` : ""}
+      ${links.length ? `<div class="ask-links">${links.join("")}</div>` : ""}
+      ${a.notes.map((n) => `<p class="ask-note">${esc(n)}</p>`).join("")}
+      ${tag}${src}
+    </div>`;
+  }
+
   /* ---------------- Map ---------------- */
   let map = null, youMarker = null, markers = {};
 
@@ -553,7 +840,8 @@
       $("[data-lock]", s).hidden = false;
       $("[data-content]", s).hidden = true;
     });
-    $("#costProcedure").textContent = "Treatment";
+    $("#costOut").innerHTML = "";
+    $("#askThread").innerHTML = "";
   }
 
   $("#btnReset").addEventListener("click", () => {
