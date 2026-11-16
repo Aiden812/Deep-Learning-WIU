@@ -8,229 +8,230 @@
   "lr": 0.0001,
   "batch": 32,
   "passes": 1,
+  "jitter": 0.2,
   "target_sensitivity": 0.95
  },
- "n_train": 25524,
- "n_val": 852,
- "n_test": 777,
- "n_test_full": 3046,
- "n_issue": 178,
- "n_healthy": 599,
- "threshold": 0.6309237480163574,
- "auroc": 0.9945602220930013,
- "ap": 0.9697509234255328,
- "sensitivity": 0.9887640449438202,
- "specificity": 0.9599332220367279,
- "precision": 0.88,
- "accuracy": 0.9665379665379665,
+ "n_train": 25713,
+ "n_val": 811,
+ "n_test": 803,
+ "n_test_full": 2936,
+ "n_issue": 182,
+ "n_healthy": 621,
+ "threshold": 0.24449095129966736,
+ "auroc": 0.989457804675196,
+ "ap": 0.9348213311374699,
+ "sensitivity": 1.0,
+ "specificity": 0.8824476650563607,
+ "precision": 0.7137254901960784,
+ "accuracy": 0.9090909090909091,
  "confusion": {
-  "tp": 176,
-  "fn": 2,
-  "fp": 24,
-  "tn": 575
+  "tp": 182,
+  "fn": 0,
+  "fp": 73,
+  "tn": 548
  },
  "auroc_ci": [
-  0.9895679558996555,
-  0.9982707982246487
+  0.9823079469522741,
+  0.9953034936175331
  ],
  "sensitivity_ci": [
-  0.969871108800685,
+  1.0,
   1.0
  ],
  "val": {
-  "auroc": 0.9935399469339623,
-  "ap": 0.9669133342225461,
+  "auroc": 0.993952104570063,
+  "ap": 0.962796410231268,
   "sensitivity": 1.0,
-  "specificity": 0.9546875,
-  "precision": 0.8796680497925311,
-  "accuracy": 0.965962441314554,
+  "specificity": 0.9129720853858785,
+  "precision": 0.792156862745098,
+  "accuracy": 0.9346485819975339,
   "confusion": {
-   "tp": 212,
+   "tp": 202,
    "fn": 0,
-   "fp": 29,
-   "tn": 611
+   "fp": 53,
+   "tn": 556
   }
  },
  "person": {
-  "auroc": 0.9793071161048689,
-  "ap": 0.9843905745077168,
-  "sensitivity": 0.9887640449438202,
-  "specificity": 0.85,
-  "precision": 0.9513513513513514,
-  "accuracy": 0.9537815126050421,
+  "auroc": 0.9636338238033153,
+  "ap": 0.9771255993523655,
+  "sensitivity": 1.0,
+  "specificity": 0.7288135593220338,
+  "precision": 0.9191919191919192,
+  "accuracy": 0.9336099585062241,
   "confusion": {
-   "tp": 176,
-   "fn": 2,
-   "fp": 9,
-   "tn": 51
+   "tp": 182,
+   "fn": 0,
+   "fp": 16,
+   "tn": 43
   }
  },
  "full_test": {
-  "auroc": 0.9944223208139434,
-  "ap": 0.9978312978041874,
-  "sensitivity": 0.9922353902738047,
-  "specificity": 0.9599332220367279,
-  "precision": 0.9902120717781403,
-  "accuracy": 0.9858831254103743,
+  "auroc": 0.9896015275299715,
+  "ap": 0.9949064419515499,
+  "sensitivity": 1.0,
+  "specificity": 0.8824476650563607,
+  "precision": 0.9694304857621441,
+  "accuracy": 0.9751362397820164,
   "confusion": {
-   "tp": 2428,
-   "fn": 19,
-   "fp": 24,
-   "tn": 575
+   "tp": 2315,
+   "fn": 0,
+   "fp": 73,
+   "tn": 548
   }
  },
  "xsrc_val": {
-  "auroc": 0.9801255414822487,
-  "ap": 0.9672113300694379,
-  "sensitivity": 0.9510135135135135,
-  "specificity": 0.9634146341463414,
-  "precision": 0.964041095890411,
-  "accuracy": 0.9571183533447685,
+  "auroc": 0.97379107475965,
+  "ap": 0.9724408709801388,
+  "sensitivity": 0.9504950495049505,
+  "specificity": 0.8991304347826087,
+  "precision": 0.9085173501577287,
+  "accuracy": 0.9254868755292125,
   "confusion": {
-   "tp": 563,
-   "fn": 29,
-   "fp": 21,
-   "tn": 553
+   "tp": 576,
+   "fn": 30,
+   "fp": 58,
+   "tn": 517
   }
  },
  "xsrc_test": {
-  "auroc": 0.979751801017045,
-  "ap": 0.9729675723297375,
-  "sensitivity": 0.9358108108108109,
-  "specificity": 0.9442508710801394,
-  "precision": 0.9453924914675768,
-  "accuracy": 0.9399656946826758,
+  "auroc": 0.977208410587283,
+  "ap": 0.9757970995145938,
+  "sensitivity": 0.9604612850082372,
+  "specificity": 0.9163763066202091,
+  "precision": 0.9239302694136292,
+  "accuracy": 0.939034716342083,
   "confusion": {
-   "tp": 554,
-   "fn": 38,
-   "fp": 32,
-   "tn": 542
+   "tp": 583,
+   "fn": 24,
+   "fp": 48,
+   "tn": 526
   },
   "auroc_ci": [
-   0.9711155127864881,
-   0.9871969247127852
+   0.9690020233637421,
+   0.9844979457176358
   ]
  },
  "xsrc_per_source": {
   "dentalai": {
-   "n_issue": 187,
+   "n_issue": 190,
    "n_healthy": 92,
-   "auroc": 0.8970588235294116,
-   "sensitivity": 0.8770053475935828,
-   "specificity": 0.7608695652173914
+   "auroc": 0.9072940503432495,
+   "sensitivity": 0.9368421052631579,
+   "specificity": 0.6630434782608695
   },
   "external_clean": {
-   "n_issue": 41,
-   "n_healthy": 7,
-   "auroc": 0.9303135888501742,
-   "sensitivity": 0.8536585365853658,
-   "specificity": 0.8571428571428571
+   "n_issue": 43,
+   "n_healthy": 6,
+   "auroc": 0.9806201550387598,
+   "sensitivity": 0.9534883720930233,
+   "specificity": 1.0
   },
   "kaggle_oral": {
-   "n_issue": 94,
+   "n_issue": 95,
    "n_healthy": 15,
-   "auroc": 0.9787234042553192,
-   "sensitivity": 0.9680851063829787,
-   "specificity": 0.8666666666666667
+   "auroc": 0.9712280701754386,
+   "sensitivity": 0.9578947368421052,
+   "specificity": 0.6666666666666666
   },
   "mendeley_noncaries": {
-   "n_issue": 0,
-   "n_healthy": 454,
-   "auroc": null,
-   "sensitivity": null,
-   "specificity": 0.9911894273127754
+   "n_issue": 8,
+   "n_healthy": 455,
+   "auroc": 0.8072802197802198,
+   "sensitivity": 0.375,
+   "specificity": 0.9824175824175824
   },
   "zenodo": {
-   "n_issue": 270,
+   "n_issue": 271,
    "n_healthy": 6,
-   "auroc": 0.8771604938271605,
-   "sensitivity": 0.9777777777777777,
-   "specificity": 0.5
+   "auroc": 0.7678351783517836,
+   "sensitivity": 0.996309963099631,
+   "specificity": 0.3333333333333333
   }
  },
  "passed_to_yolo": {
   "Calculus": {
-   "n": 6,
+   "n": 3,
    "share": 1.0
   },
   "Caries": {
-   "n": 23,
-   "share": 0.9565217391304348
-  },
-  "Hypodontia": {
    "n": 32,
    "share": 1.0
   },
+  "Hypodontia": {
+   "n": 48,
+   "share": 1.0
+  },
   "Mouth_Ulcer": {
-   "n": 90,
+   "n": 93,
    "share": 1.0
   },
   "Tooth_Discoloration": {
-   "n": 35,
-   "share": 0.9714285714285714
+   "n": 12,
+   "share": 1.0
   }
  },
  "history": [
   [
    {
     "epoch": 1,
-    "train_loss": 0.22163435824649044,
-    "heldout_loss": 0.16111069917678833,
-    "heldout_auroc": 0.9923091096698113
+    "train_loss": 0.22527915231449894,
+    "heldout_loss": 0.15246987342834473,
+    "heldout_auroc": 0.9942691313466322
    },
    {
     "epoch": 2,
-    "train_loss": 0.17692377197521705,
-    "heldout_loss": 0.16247014701366425,
-    "heldout_auroc": 0.9953088148584905
+    "train_loss": 0.17605162210880765,
+    "heldout_loss": 0.16359055042266846,
+    "heldout_auroc": 0.9948178315368483
    },
    {
     "epoch": 3,
-    "train_loss": 0.16543914058378764,
-    "heldout_loss": 0.08449475467205048,
-    "heldout_auroc": 0.9981869103773585
+    "train_loss": 0.1673116356370941,
+    "heldout_loss": 0.08372116088867188,
+    "heldout_auroc": 0.9960412297387374
    },
    {
     "epoch": 4,
-    "train_loss": 0.15859354981196622,
-    "heldout_loss": 0.12280981242656708,
-    "heldout_auroc": 0.9905033903301887
+    "train_loss": 0.15876261263139665,
+    "heldout_loss": 0.14037533104419708,
+    "heldout_auroc": 0.9924645173876995
    },
    {
     "epoch": 5,
-    "train_loss": 0.15213366960564617,
-    "heldout_loss": 0.1175772100687027,
-    "heldout_auroc": 0.998769162735849
+    "train_loss": 0.1563664339285679,
+    "heldout_loss": 0.10863623768091202,
+    "heldout_auroc": 0.9951755027719521
    },
    {
     "epoch": 6,
-    "train_loss": 0.14836544401588894,
-    "heldout_loss": 0.12775278091430664,
-    "heldout_auroc": 0.9909935141509434
+    "train_loss": 0.15020091338920846,
+    "heldout_loss": 0.1537281572818756,
+    "heldout_auroc": 0.9862946885821586
    },
    {
     "epoch": 7,
-    "train_loss": 0.14541954754127395,
-    "heldout_loss": 0.12383114546537399,
-    "heldout_auroc": 0.9951724646226416
+    "train_loss": 0.14353590042739317,
+    "heldout_loss": 0.11354510486125946,
+    "heldout_auroc": 0.9931879887496138
    },
    {
     "epoch": 8,
-    "train_loss": 0.14174906901581577,
-    "heldout_loss": 0.1206529513001442,
-    "heldout_auroc": 0.9936283903301887
+    "train_loss": 0.14292697174839242,
+    "heldout_loss": 0.09626651555299759,
+    "heldout_auroc": 0.9936716578061747
    },
    {
     "epoch": 9,
-    "train_loss": 0.1408493078890301,
-    "heldout_loss": 0.12098206579685211,
-    "heldout_auroc": 0.9955078125
+    "train_loss": 0.14107477921184408,
+    "heldout_loss": 0.10940702259540558,
+    "heldout_auroc": 0.9938139134110455
    },
    {
     "epoch": 10,
-    "train_loss": 0.13893969589597965,
-    "heldout_loss": 0.1266230046749115,
-    "heldout_auroc": 0.9935399469339623
+    "train_loss": 0.13939804292072064,
+    "heldout_loss": 0.11085933446884155,
+    "heldout_auroc": 0.993952104570063
    }
   ]
  ]
