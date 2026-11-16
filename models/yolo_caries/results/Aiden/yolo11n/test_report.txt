@@ -1,33 +1,33 @@
 YOLO yolo11n: test results (best.pt, chosen on the clean val set)
 
 Daniel's full test (compare with groupmates; includes copies of training photos)
-  mAP50 0.829  mAP50-95 0.443  precision 0.812  recall 0.756
-    Calculus             AP50 0.653  AP50-95 0.324
-    Caries               AP50 0.846  AP50-95 0.454
-    Hypodontia           AP50 0.834  AP50-95 0.368
-    Mouth_Ulcer          AP50 0.927  AP50-95 0.494
-    Tooth_Discoloration  AP50 0.886  AP50-95 0.575
+  mAP50 0.808  mAP50-95 0.423  precision 0.790  recall 0.754
+    Calculus             AP50 0.629  AP50-95 0.286
+    Caries               AP50 0.799  AP50-95 0.429
+    Hypodontia           AP50 0.811  AP50-95 0.350
+    Mouth_Ulcer          AP50 0.911  AP50-95 0.473
+    Tooth_Discoloration  AP50 0.891  AP50-95 0.576
 
 Daniel's person-labelled test (data_person.yaml)
-  mAP50 0.830  mAP50-95 0.443  precision 0.812  recall 0.756
-    Calculus             AP50 0.653  AP50-95 0.324
-    Caries               AP50 0.847  AP50-95 0.455
-    Hypodontia           AP50 0.835  AP50-95 0.368
-    Mouth_Ulcer          AP50 0.927  AP50-95 0.494
-    Tooth_Discoloration  AP50 0.887  AP50-95 0.576
+  mAP50 0.809  mAP50-95 0.423  precision 0.786  recall 0.758
+    Calculus             AP50 0.629  AP50-95 0.286
+    Caries               AP50 0.802  AP50-95 0.430
+    Hypodontia           AP50 0.812  AP50-95 0.350
+    Mouth_Ulcer          AP50 0.911  AP50-95 0.473
+    Tooth_Discoloration  AP50 0.891  AP50-95 0.576
 
-clean test (777 images, no copies of training photos)
-  mAP50 0.752  mAP50-95 0.418  precision 0.790  recall 0.691
-    Calculus             AP50 0.507  AP50-95 0.289
-    Caries               AP50 0.881  AP50-95 0.461
-    Hypodontia           AP50 0.625  AP50-95 0.280
-    Mouth_Ulcer          AP50 0.975  AP50-95 0.542
-    Tooth_Discoloration  AP50 0.770  AP50-95 0.517
+clean test (803 images, no copies of training photos)
+  mAP50 0.695  mAP50-95 0.389  precision 0.899  recall 0.655
+    Calculus             AP50 0.057  AP50-95 0.006
+    Caries               AP50 0.712  AP50-95 0.372
+    Hypodontia           AP50 0.832  AP50-95 0.367
+    Mouth_Ulcer          AP50 0.943  AP50-95 0.599
+    Tooth_Discoloration  AP50 0.929  AP50-95 0.602
 
-clean + person-labelled test (238 images)
-  mAP50 0.769  mAP50-95 0.428  precision 0.790  recall 0.729
-    Calculus             AP50 0.508  AP50-95 0.290
-    Caries               AP50 0.905  AP50-95 0.473
-    Hypodontia           AP50 0.631  AP50-95 0.282
-    Mouth_Ulcer          AP50 0.974  AP50-95 0.542
-    Tooth_Discoloration  AP50 0.828  AP50-95 0.551
+clean + person-labelled test (241 images)
+  mAP50 0.703  mAP50-95 0.394  precision 0.905  recall 0.661
+    Calculus             AP50 0.058  AP50-95 0.006
+    Caries               AP50 0.749  AP50-95 0.391
+    Hypodontia           AP50 0.835  AP50-95 0.369
+    Mouth_Ulcer          AP50 0.944  AP50-95 0.600
+    Tooth_Discoloration  AP50 0.931  AP50-95 0.603

@@ -1,0 +1,33 @@
+YOLO yolo11s: test results (best.pt, chosen on the clean val set)
+
+Daniel's full test (compare with groupmates; includes copies of training photos)
+  mAP50 0.818  mAP50-95 0.430  precision 0.788  recall 0.769
+    Calculus             AP50 0.660  AP50-95 0.302
+    Caries               AP50 0.807  AP50-95 0.440
+    Hypodontia           AP50 0.816  AP50-95 0.352
+    Mouth_Ulcer          AP50 0.910  AP50-95 0.475
+    Tooth_Discoloration  AP50 0.895  AP50-95 0.580
+
+Daniel's person-labelled test (data_person.yaml)
+  mAP50 0.818  mAP50-95 0.430  precision 0.788  recall 0.769
+    Calculus             AP50 0.660  AP50-95 0.302
+    Caries               AP50 0.810  AP50-95 0.441
+    Hypodontia           AP50 0.816  AP50-95 0.352
+    Mouth_Ulcer          AP50 0.910  AP50-95 0.475
+    Tooth_Discoloration  AP50 0.895  AP50-95 0.580
+
+clean test (803 images, no copies of training photos)
+  mAP50 0.748  mAP50-95 0.399  precision 0.884  recall 0.645
+    Calculus             AP50 0.336  AP50-95 0.069
+    Caries               AP50 0.750  AP50-95 0.381
+    Hypodontia           AP50 0.806  AP50-95 0.356
+    Mouth_Ulcer          AP50 0.925  AP50-95 0.586
+    Tooth_Discoloration  AP50 0.925  AP50-95 0.602
+
+clean + person-labelled test (241 images)
+  mAP50 0.756  mAP50-95 0.403  precision 0.887  recall 0.651
+    Calculus             AP50 0.336  AP50-95 0.070
+    Caries               AP50 0.785  AP50-95 0.400
+    Hypodontia           AP50 0.808  AP50-95 0.357
+    Mouth_Ulcer          AP50 0.925  AP50-95 0.586
+    Tooth_Discoloration  AP50 0.927  AP50-95 0.603
