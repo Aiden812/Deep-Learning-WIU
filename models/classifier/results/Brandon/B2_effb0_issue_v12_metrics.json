@@ -1,0 +1,241 @@
+{
+  "experiment": "B2_effb0_issue_v12",
+  "temperature": 1.7731250524520874,
+  "threshold": 0.5,
+  "best_epoch": 4,
+  "val": {
+    "n": 3341,
+    "n_issue": 2320,
+    "n_healthy": 1021,
+    "accuracy": 0.9521101466626758,
+    "balanced_accuracy": 0.9367263754263906,
+    "recall_issue": 0.9762931034482759,
+    "recall_healthy": 0.8971596474045054,
+    "precision_issue": 0.9556962025316456,
+    "f1_issue": 0.9658848614072495,
+    "roc_auc": 0.9847892532675876,
+    "unsure_rate": 0.04459742592038307,
+    "accuracy_when_sure": 0.9702380952380952,
+    "tp": 2265,
+    "fp": 105,
+    "fn": 55,
+    "tn": 916
+  },
+  "val_fair": {
+    "n": 1297,
+    "n_issue": 976,
+    "n_healthy": 321,
+    "accuracy": 0.8928296067848882,
+    "balanced_accuracy": 0.8253025892446759,
+    "recall_issue": 0.9590163934426229,
+    "recall_healthy": 0.6915887850467289,
+    "precision_issue": 0.9043478260869565,
+    "f1_issue": 0.9308801591248135,
+    "roc_auc": 0.9305034216842858,
+    "unsure_rate": 0.09791827293754818,
+    "accuracy_when_sure": 0.9282051282051282,
+    "tp": 936,
+    "fp": 99,
+    "fn": 40,
+    "tn": 222
+  },
+  "test_fair": {
+    "n": 1022,
+    "n_issue": 703,
+    "n_healthy": 319,
+    "accuracy": 0.8639921722113503,
+    "balanced_accuracy": 0.8189465657705222,
+    "recall_issue": 0.9388335704125178,
+    "recall_healthy": 0.6990595611285266,
+    "precision_issue": 0.873015873015873,
+    "f1_issue": 0.9047292666209733,
+    "roc_auc": 0.9226579326397839,
+    "unsure_rate": 0.10567514677103718,
+    "accuracy_when_sure": 0.899343544857768,
+    "tp": 660,
+    "fp": 96,
+    "fn": 43,
+    "tn": 223
+  },
+  "test_all": {
+    "n": 3046,
+    "n_issue": 2047,
+    "n_healthy": 999,
+    "accuracy": 0.9418910045961917,
+    "balanced_accuracy": 0.9298607351856009,
+    "recall_issue": 0.9648265754763068,
+    "recall_healthy": 0.8948948948948949,
+    "precision_issue": 0.9495192307692307,
+    "f1_issue": 0.9571117034165253,
+    "roc_auc": 0.9839724922773285,
+    "unsure_rate": 0.05252790544977015,
+    "accuracy_when_sure": 0.9629244629244629,
+    "tp": 1975,
+    "fp": 105,
+    "fn": 72,
+    "tn": 894
+  },
+  "test_person_only": {
+    "n": 1403,
+    "n_issue": 1344,
+    "n_healthy": 59,
+    "accuracy": 0.9714896650035638,
+    "balanced_accuracy": 0.8959909705407587,
+    "recall_issue": 0.9784226190476191,
+    "recall_healthy": 0.8135593220338984,
+    "precision_issue": 0.9917043740573153,
+    "f1_issue": 0.9850187265917603,
+    "roc_auc": 0.984356083535109,
+    "unsure_rate": 0.03991446899501072,
+    "accuracy_when_sure": 0.985894580549369,
+    "tp": 1315,
+    "fp": 11,
+    "fn": 29,
+    "tn": 48
+  },
+  "test_all_at_0.5": {
+    "n": 3046,
+    "n_issue": 2047,
+    "n_healthy": 999,
+    "accuracy": 0.9418910045961917,
+    "balanced_accuracy": 0.9298607351856009,
+    "recall_issue": 0.9648265754763068,
+    "recall_healthy": 0.8948948948948949,
+    "precision_issue": 0.9495192307692307,
+    "f1_issue": 0.9571117034165253,
+    "roc_auc": 0.9839724922773285,
+    "unsure_rate": 0.05252790544977015,
+    "accuracy_when_sure": 0.9629244629244629,
+    "tp": 1975,
+    "fp": 105,
+    "fn": 72,
+    "tn": 894
+  },
+  "by_source": [
+    {
+      "set": "test",
+      "source": "dentalai",
+      "n": 455,
+      "n_issue": 224,
+      "n_healthy": 231,
+      "recall_issue": 0.8928571428571429,
+      "recall_healthy": 0.696969696969697
+    },
+    {
+      "set": "test",
+      "source": "external_clean",
+      "n": 63,
+      "n_issue": 48,
+      "n_healthy": 15,
+      "recall_issue": 0.8541666666666666,
+      "recall_healthy": 0.7333333333333333
+    },
+    {
+      "set": "test",
+      "source": "kaggle_oral",
+      "n": 159,
+      "n_issue": 100,
+      "n_healthy": 59,
+      "recall_issue": 0.9,
+      "recall_healthy": 0.8135593220338984
+    },
+    {
+      "set": "test",
+      "source": "mendeley_noncaries",
+      "n": 680,
+      "n_issue": 0,
+      "n_healthy": 680,
+      "recall_issue": NaN,
+      "recall_healthy": 0.986764705882353
+    },
+    {
+      "set": "test",
+      "source": "roboflow_oral",
+      "n": 1344,
+      "n_issue": 1344,
+      "n_healthy": 0,
+      "recall_issue": 0.9784226190476191,
+      "recall_healthy": NaN
+    },
+    {
+      "set": "test",
+      "source": "zenodo",
+      "n": 345,
+      "n_issue": 331,
+      "n_healthy": 14,
+      "recall_issue": 0.9939577039274925,
+      "recall_healthy": 0.21428571428571427
+    }
+  ],
+  "by_condition": [
+    {
+      "condition": "Calculus",
+      "n": 278,
+      "flagged": 0.9496402877697842
+    },
+    {
+      "condition": "Caries",
+      "n": 1090,
+      "flagged": 0.9743119266055046
+    },
+    {
+      "condition": "Hypodontia",
+      "n": 185,
+      "flagged": 0.9783783783783784
+    },
+    {
+      "condition": "Mouth_Ulcer",
+      "n": 360,
+      "flagged": 0.9805555555555555
+    },
+    {
+      "condition": "Tooth_Discoloration",
+      "n": 630,
+      "flagged": 0.946031746031746
+    }
+  ],
+  "robustness": [
+    {
+      "condition": "original",
+      "recall_issue": 0.965412004069176,
+      "recall_healthy": 0.8916827852998066,
+      "balanced_accuracy": 0.9285473946844913
+    },
+    {
+      "condition": "blur",
+      "recall_issue": 0.8687690742624619,
+      "recall_healthy": 0.8588007736943907,
+      "balanced_accuracy": 0.8637849239784263
+    },
+    {
+      "condition": "dark (x0.5)",
+      "recall_issue": 0.9552390640895219,
+      "recall_healthy": 0.8974854932301741,
+      "balanced_accuracy": 0.926362278659848
+    },
+    {
+      "condition": "bright (x1.6)",
+      "recall_issue": 0.9674465920651069,
+      "recall_healthy": 0.8471953578336557,
+      "balanced_accuracy": 0.9073209749493814
+    },
+    {
+      "condition": "low-res (1/3)",
+      "recall_issue": 0.9064089521871821,
+      "recall_healthy": 0.851063829787234,
+      "balanced_accuracy": 0.8787363909872081
+    },
+    {
+      "condition": "JPEG q=20",
+      "recall_issue": 0.9562563580874873,
+      "recall_healthy": 0.562862669245648,
+      "balanced_accuracy": 0.7595595136665676
+    }
+  ],
+  "cheat_check_size_only_bal_acc": {
+    "val": 0.8697334425343646,
+    "val_fair": 0.5963721209335581,
+    "test": 0.8658612202823244,
+    "test_fair": 0.5821245267706248
+  }
+}

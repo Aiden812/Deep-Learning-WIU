@@ -86,6 +86,11 @@ ALL_NAMES = ["kaggle_oral", *DATASETS]
 
 # --------------------------------------------------------------------------- helpers
 def file_hash(path: Path, algo: str) -> str:
+    """Hex digest of `path` under `algo` ("md5"/"sha256").
+
+    Reads in 1 MB chunks so multi-GB archives are never loaded into memory - these hashes are taken
+    over the whole archive on every resume check, so the streaming cost matters.
+    """
     h = hashlib.new(algo)
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
@@ -94,6 +99,13 @@ def file_hash(path: Path, algo: str) -> str:
 
 
 def verify(path: Path, spec: dict) -> bool:
+    """Check `path` against whichever checksum the dataset spec publishes; True if none is published.
+
+    Checks sha256 first, then md5 - each upstream publishes at most one, and dentalai publishes none
+    (its Supervisely link is signed, and re-signing would change nothing about the content, so there
+    is nothing stable to pin). Returns instead of raising so the caller can decide whether a mismatch
+    is fatal (fresh download) or just means "re-download" (leftover archive).
+    """
     for algo in ("sha256", "md5"):
         if algo in spec:
             ok = file_hash(path, algo) == spec[algo]
@@ -103,6 +115,14 @@ def verify(path: Path, spec: dict) -> bool:
 
 
 def download(url: str, dest: Path) -> None:
+    """Stream `url` to `dest` with an optional tqdm bar.
+
+    Writes to a `.part` sibling first and renames only on success (os.replace is atomic on the same
+    volume), so an interrupted or failed download never looks like a complete file to the later
+    checksum/extract steps - a stale `.part` is simply overwritten on the next attempt. The User-Agent
+    header is required by some hosts (Zenodo rejects the default Python UA). 60 s is a per-read socket
+    timeout, not a whole-download deadline, so slow large files are fine.
+    """
     tmp = dest.with_name(dest.name + ".part")
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=60) as r, open(tmp, "wb") as f:
@@ -118,8 +138,17 @@ def download(url: str, dest: Path) -> None:
 
 
 def extract(archive: Path, target: Path, wrap: str | None) -> None:
-    """Extract `archive` into `target`. If `wrap` is set, contents land in target/wrap,
-    whether or not the archive already has `wrap/` as its top folder."""
+    """Extract `archive` (zip or tar) into `target`.
+
+    `wrap` names the folder the contents must end up in (inside `target`) because the notebook expects
+    e.g. `zenodo/Benchmarking Dataset/train/images`. Zenodo zips are inconsistent about whether the
+    uploaded archive already contains that top folder, so for zips we only add the wrapper when it is
+    missing (checked by testing whether every entry starts with `wrap/`); tars from these sources never
+    contain it, so they always extract into `target/wrap`.
+
+    tar extraction uses the `data` filter (Python >= 3.12) which refuses path-traversal members
+    (`../...`) and odd file types; on older Pythons we extract unfiltered, same as `tar` CLI would.
+    """
     if zipfile.is_zipfile(archive):
         with zipfile.ZipFile(archive) as z:
             names = [n for n in z.namelist() if n.strip("/")]
@@ -142,6 +171,13 @@ def extract(archive: Path, target: Path, wrap: str | None) -> None:
 
 # --------------------------------------------------------------------------- datasets
 def get_kaggle_oral(force: bool) -> None:
+    """Fetch kaggle_oral via kagglehub into data/raw/kaggle_oral (credentials required).
+
+    kagglehub ignores its default cache location here: pointing KAGGLEHUB_CACHE at data/raw/kaggle_oral
+    makes it nest the download as <cache>/datasets/<owner>/<slug>/versions/<n>/, which is exactly the
+    layout the notebook's find_dataset() searches. Kaggle needs KAGGLE_USERNAME/KAGGLE_KEY or
+    ~/.kaggle/kaggle.json; without them this raises and main() reports the manual-download URL instead.
+    """
     dataset_dir = RAW_DIR / "kaggle_oral"
     dataset_dir.mkdir(parents=True, exist_ok=True)
     # kagglehub honors KAGGLEHUB_CACHE and nests downloads as <cache>/datasets/<owner>/<slug>/versions/<n>
@@ -153,6 +189,20 @@ def get_kaggle_oral(force: bool) -> None:
 
 
 def get_direct(name: str, force: bool, keep_archives: bool) -> None:
+    """Download, checksum, and extract one direct-URL dataset from DATASETS.
+
+    Three-step resume, cheapest check first, so re-running setup.py after an interruption is fast and
+    never touches a good download:
+      1. `.<name>.complete` marker in the target dir -> the whole pipeline finished once: skip
+         everything (only --force redoes it).
+      2. archive already present AND its checksum still matches -> skip the download, re-extract only.
+         (A half-written archive fails the checksum and is re-downloaded.)
+      3. otherwise download, then verify - a mismatch after a fresh download is fatal: the URL or the
+         published hash changed, and extracting a corrupt archive would poison data/raw.
+
+    After success the marker is written (holding the source URL as provenance) and the archive is
+    deleted unless --keep-archives.
+    """
     spec = DATASETS[name]
     target = RAW_DIR / spec["dir"]
     target.mkdir(parents=True, exist_ok=True)
@@ -177,6 +227,13 @@ def get_direct(name: str, force: bool, keep_archives: bool) -> None:
 
 
 def main() -> int:
+    """CLI entry: fetch the requested datasets (default all), returning 1 if any failed.
+
+    Datasets are independent, so a failure (expired Supervisely link, no Kaggle credentials, disk
+    full) is caught per dataset: it prints the manual-download URL and continues with the rest. The
+    exit code is 1 iff at least one failed, which is what a CI/agent wrapper would check; the
+    remaining free-disk line at the end is the usual culprit when downloads suddenly start failing.
+    """
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("datasets", nargs="*", metavar="DATASET",
                         help=f"subset to fetch (default: all). Choices: {', '.join(ALL_NAMES)}")

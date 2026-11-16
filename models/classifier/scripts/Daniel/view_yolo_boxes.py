@@ -76,7 +76,13 @@ Image.MAX_IMAGE_PIXELS = None
 
 
 def read_boxes(label_file):
-    # [(class_id, cx, cy, w, h), ...] from a YOLO .txt file; malformed lines are skipped.
+    """[(class_id, cx, cy, w, h), ...] from a YOLO .txt file.
+
+    One box per line, coordinates normalised to 0-1 as the YOLO format prescribes. Deliberately
+    lenient - a viewer must render whatever is on disk, including broken files: lines with fewer than
+    5 fields or non-numeric junk are skipped silently (the notebook's writer is strict; this reader is
+    the diagnostic). An empty list means an empty/missing label file, i.e. a Normal image.
+    """
     boxes = []
     for line in label_file.read_text(encoding="utf-8").splitlines():
         parts = line.split()
@@ -90,7 +96,15 @@ def read_boxes(label_file):
 
 # --- where each image came from -------------------------------------------------------------------------------------
 def load_sources(work_dir):
-    # md5 -> paths of every copy of the image under data/raw, from the notebook's file indexes.
+    """md5 -> list of data/raw paths holding a copy of that image, from the notebook's file indexes.
+
+    Two indexes are merged: index_raw.pkl (every image under data/raw, built by the notebook's
+    indexing cell) and index_external.pkl (the scraped web copies). The image key everywhere is its
+    content md5 - the same photo can sit in several datasets, and only a content hash can tie those
+    copies together. Old notebook releases pickled a DataFrame instead of a record list, hence the
+    to_dict fallback; an unreadable index is reported and skipped rather than failing the whole
+    caption pass (captions then just show fewer sources).
+    """
     out = {}
     for name in ["index_raw.pkl", "index_external.pkl"]:
         f = work_dir / name
@@ -111,8 +125,15 @@ def load_sources(work_dir):
 
 
 def backup_time():
-    # When the newest backup of the YOLO folder was made: the newest file time in its labels folder (the backup is a
-    # plain copy, so its files carry the time they were copied). None if there is no backup.
+    """When the newest backup of the YOLO folder was made, or None if there is no backup.
+
+    The notebook moves the old YOLO folder to data/backups/qwen_pipeline_<date>/ before writing a new
+    one, so "newer than the newest backup" = "written by the current pipeline". The timestamp is the
+    newest mtime inside the backup's labels folder - a plain copy, so every file carries the moment it
+    was copied; the folder's own mtime would be just as good but file mtimes survive more copy tools.
+    dirs[-1] is the newest backup because the folder names start with the date, so plain sorting is
+    chronological. This becomes the default --since cutoff in main().
+    """
     dirs = sorted(BACKUPS.glob("qwen_pipeline_*/processed/qwen_labels_Daniel/yolo/labels"))
     if not dirs:
         return None
@@ -121,8 +142,16 @@ def backup_time():
 
 
 def load_qwen_labels(work_dir, min_version=0):
-    # md5 -> the model's label answer ({"labels": [...], "reason": ...}) from the notebook's label cache.
-    # All label_v* caches from min_version up are read in order, so the newest prompt version wins.
+    """md5 -> the model's label answer ({"labels": [...], "reason": ...}) from the notebook's label cache.
+
+    The notebook appends one JSON line per answered request to label_v<N>__<prompt-hash>.jsonl caches;
+    N is the prompt generation, so caches are read in version order (low to high) and later entries
+    overwrite earlier ones - the newest prompt version wins for images that were re-labelled.
+    Lines that failed (ok=False), lack a key, or have no "labels" field are skipped: the viewer shows
+    answers, not error states. min_version comes from main(): when old files are hidden by --since,
+    caches below NEW_LABEL_VERSION are also ignored so captions cannot mix prompt generations with
+    the shown files.
+    """
     out = {}
     caches = [(int(m.group(1)), f) for f in work_dir.glob("label_v*__*.jsonl") if (m := re.match(r"label_v(\d+)__", f.name))]
     for _, f in sorted(c for c in caches if c[0] >= min_version):
@@ -138,7 +167,13 @@ def load_qwen_labels(work_dir, min_version=0):
 
 
 def load_split_labels(path):
-    # repo-relative image path -> its label in the classifier split manifest (original dataset label).
+    """Repo-relative image path -> its label in the classifier split manifest (original dataset label).
+
+    The split manifest carries a fine-grained `label` column and a coarser `binary` column
+    (underscores become spaces for display). Used only by original_label() as the fallback for
+    datasets that store labels nowhere else. A missing manifest is not an error: captions just lose
+    that one source.
+    """
     out = {}
     if path and path.exists():
         with open(path, newline="", encoding="utf-8") as f:
@@ -149,6 +184,7 @@ def load_split_labels(path):
 
 
 def rel_to_raw(path):
+    """Path relative to data/raw, or None if the path is outside data/raw (e.g. inside the YOLO copy)."""
     try:
         return path.resolve().relative_to(RAW)
     except ValueError:
@@ -156,13 +192,26 @@ def rel_to_raw(path):
 
 
 def raw_dataset(path):
-    # Dataset folder under data/raw ("kaggle_oral", "external", ...), or the parent folder for other paths.
+    """Dataset folder under data/raw ("kaggle_oral", "external", ...), or the parent folder for other paths.
+
+    The first path component under data/raw IS the dataset by convention - that is how setup.py
+    unpacks each download and how the scraper stores classes.
+    """
     rel = rel_to_raw(path)
     return rel.parts[0] if rel else path.parent.name
 
 
 def original_label(path, split_labels):
-    # What the image's own dataset says it shows.
+    """What the image's own dataset says it shows (each dataset stores its label somewhere different).
+
+    Resolution per dataset folder under data/raw: external/web images -> the class folder the scraper
+    saved them into; dentalai -> the Supervisely annotation json's polygon class titles (minus the
+    generic "Tooth" ring); mendeley_noncaries -> the dataset is caries-free by construction, its folders
+    are just camera views; roboflow_oral/zenodo -> the sidecar YOLO .txt next to the ORIGINAL image
+    (never the pipeline copy), classes mapped through data.yaml / "caries marked"; anything else ->
+    the split-manifest label for this exact path if present, else the parent folder name.
+    Every lookup degrades gracefully: a missing/corrupt sidecar falls through to the next source.
+    """
     rel = rel_to_raw(path)
     if rel is None:
         return path.parent.name
@@ -199,7 +248,13 @@ def original_label(path, split_labels):
 
 
 def origin(item):
-    # "kaggle_oral: calculus  +  web: Caries" for all copies of the image (computed on first use, then kept).
+    """"kaggle_oral: calculus  +  web: Caries" for all copies of the image (computed on first use, then kept).
+
+    One entry per dataset that holds a copy; the scraper's external folders are folded into one "web"
+    group. Lazy because it touches annotation files on disk - most displayed items need it once per
+    redraw, and the result is cached on the item dict (item["origin"]). "unknown source" when the
+    image exists only inside the pipeline copy (no indexed raw source found).
+    """
     if item.get("origin") is None:
         per_ds = {}
         for p in item["sources"]:
@@ -211,6 +266,19 @@ def origin(item):
 
 
 def load_items(args):
+    """Build one dict per image to show: boxes, source paths, origin/label captions, filtered by args.
+
+    Filters applied here (in this order): --since (label file mtime - a label file older than the
+    backup means the image was produced by the previous pipeline version and lives in the backup),
+    box-less images dropped unless --include-empty, --classes (any box class overlap) and
+    --datasets (any source-dataset overlap); --flagged/--limit are applied later in main() on the
+    finished list.
+    Merging per image (key = file stem = content md5): labels.csv contributes the meta row (first row
+    per md5 wins) and may add a source path; external/external_clean are aliased with "web" so the
+    --datasets filter matches however the scraper stored the copy.
+    Caption fields: `labels` = labels.csv column (post-verification truth) else qwen cache else the
+    classes actually drawn in the box file; `reason` = meta reason else cache reason.
+    """
     images_dir, labels_dir = args.yolo_dir / "images", args.yolo_dir / "labels"
     if not images_dir.is_dir() or not labels_dir.is_dir():
         sys.exit(f"{args.yolo_dir} has no images/ and labels/ folders. Run qwen_clean_and_label.ipynb first, "
@@ -268,11 +336,20 @@ def load_items(args):
 
 
 def class_name(classes, c):
+    """Class name for id c, tolerating ids outside classes.txt (shows "class 7" instead of crashing)."""
     return classes[c] if 0 <= c < len(classes) else f"class {c}"
 
 
 def draw(item, classes, max_side=1024):
-    # The image (EXIF-rotated, like the notebook) with its boxes and class names drawn on it.
+    """The image (EXIF-rotated, like the notebook) with its boxes and class names drawn on it.
+
+    EXIF transpose matters: phone-camera JPEGs store pixels sideways + an orientation tag, and PIL
+    ignores the tag, so without it the boxes would be rotated off the lesions. thumbnail() caps the
+    render size (display only - originals can be 4000px); normalised cx/cy/w/h are scaled to the
+    displayed size. Line width and font scale with the image so small thumbnails stay readable. The
+    class label is painted on a filled colour plate above the box top (clamped to y>=0) so it is
+    legible over any background.
+    """
     im = ImageOps.exif_transpose(Image.open(item["image"])).convert("RGB")
     im.thumbnail((max_side, max_side))
     W, H = im.size
@@ -295,7 +372,11 @@ def draw(item, classes, max_side=1024):
 
 
 def caption(item):
-    # Line 1: source dataset(s) and what they labelled the image as. Line 2: what Qwen labelled it as.
+    """Line 1: source dataset(s) and what they labelled the image as. Line 2: what Qwen labelled it as.
+
+    Under the grid thumbnail; line 1 is truncated at 70 chars because origin strings can chain every
+    dataset copy and the axes would overflow.
+    """
     src = origin(item)
     src = src if len(src) <= 70 else src[:67] + "..."
     return f"{src}\nQwen: {item['labels'] or 'no label'}"
@@ -318,6 +399,13 @@ ISSUE_SEP = "; "
 
 
 def load_flags(path):
+    """Load the review CSV into md5 -> row; rows without a verdict become "bad_boxes".
+
+    Later rows overwrite earlier ones, so re-reviewing an image in a text editor after this tool
+    still takes effect. Files written before the verdict columns existed only flagged bad boxes -
+    the old rows are still accurate, just incomplete, so they get the implicit status instead of
+    being dropped.
+    """
     if not path.exists():
         return {}
     with open(path, newline="", encoding="utf-8") as f:
@@ -329,6 +417,12 @@ def load_flags(path):
 
 
 def save_flags(path, flags):
+    """Rewrite the whole review CSV from the in-memory dict (called after every single review).
+
+    A full rewrite is intentional: the file is a few hundred small rows, and rewriting is simpler and
+    safer than a read-modify-write merge - this tool is the only writer while it runs, so nothing can
+    be lost, and a crash costs at most the one review in flight.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FLAG_COLS)
@@ -339,7 +433,21 @@ def save_flags(path, flags):
 
 def review_dialog(parent, item, classes, current, note_history):
     """Modal Tk window to review one image. Returns a dict (status, issues, note), None to clear the review,
-    or False if cancelled."""
+    or False if cancelled.
+
+    Layout, top to bottom: provenance header (original sources, Qwen label, path, model reason);
+    Verdict radios - the three STATUSES; Issues - one row of tick-boxes per class actually drawn in
+    this image (CLASS_ISSUES with the class name substituted) plus the GENERAL_ISSUES rows, and any
+    issue text already saved that no longer matches is kept as an extra box so old reviews don't lose
+    information; free-text note combobox whose dropdown is every note ever written (most frequent
+    first) so recurring observations are one click away.
+    Behaviour: the issue boxes are enabled only while the verdict is "bad_boxes" (a "discard" verdict
+    records no box complaints - sync()); the window pops up at the mouse cursor, clamped to stay
+    fully on screen, and grab_set() makes it modal so grid keys can't fire behind it.
+    Enter/Save returns the dict (issues joined only for bad_boxes); Esc, Cancel or the window ✕
+    return False (nothing changes); "Clear review" (shown only when the image is already flagged)
+    returns None, which main's caller uses to delete the row.
+    """
     import tkinter as tk
     from tkinter import ttk
 
@@ -427,6 +535,13 @@ def review_dialog(parent, item, classes, current, note_history):
 
 # --- modes ----------------------------------------------------------------------------------------------------------
 def save_mode(items, classes, out_dir):
+    """--save: write every image as an annotated JPEG named <dataset>__<md5>.jpg instead of opening a window.
+
+    Same drawing as the grid, batched to disk - for eyeballing on a phone or sharing. Names stay
+    unique because the md5 key is unique, and non-alphanumeric dataset names are flattened to
+    underscores so the files survive every transfer tool. quality=90: these are inspection copies,
+    not dataset inputs.
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
     for i, it in enumerate(items, 1):
         prefix = re.sub(r"[^A-Za-z0-9_-]+", "_", it["dataset"]).strip("_")
@@ -438,7 +553,24 @@ def save_mode(items, classes, out_dir):
 
 
 class Viewer:
+    """Interactive grid viewer: one matplotlib page of images at a time, click an image to review it.
+
+    Keyboard/mouse bindings are listed in the module docstring; reviews go straight to the flags CSV.
+    Paging state is pure Python (page index + goto input), so every action just re-draws the figure;
+    the flags dict is the single in-memory truth shared with review_dialog and re-persisted on change.
+    """
+
     def __init__(self, items, classes, flags_path, rows, cols, start_page=1):
+        """Open the window on start_page and block in plt.show() until the user quits.
+
+        TkAgg is forced because review_dialog builds a plain Tk Toplevel - the figure window must be
+        Tk for that window to share its interpreter and focus rules (the user's matplotlibrc could
+        select any other backend). "backspace" is unbound from matplotlib's keymap.back so it can
+        mean "edit page number" instead (on_key).
+        The flags backfill loop repairs rows from earlier releases that predate the provenance
+        columns: anything already reviewed (and present in this view) gets dataset/rel/original/labels
+        filled from the matching item, so the enriched row lands in the CSV on the next save.
+        """
         import matplotlib
         matplotlib.use("TkAgg")                      # the review window is a Tk window on top of the figure
         import matplotlib.pyplot as plt
@@ -463,13 +595,20 @@ class Viewer:
         plt.show()
 
     def frame(self, ax, color):
+        """Coloured border around an axis (None = no border): shows the image's review verdict."""
         for s in ax.spines.values():
             s.set_visible(color is not None)
             s.set_edgecolor(color or "red")
             s.set_linewidth(5)
 
     def decorate(self, ax, it):
-        # Title and coloured frame showing the image's review (if any).
+        """Title and coloured frame showing the image's review (if any).
+
+        Title line(s) come from caption(); with the details toggle (d) the model's reason is appended
+        (truncated to 90 chars so tiles stay uniform). A reviewed image additionally gets a
+        "[STATUS - n note(s)]" header line where n counts ticked issues plus a free-text note, and its
+        frame takes the status colour - the grid itself then doubles as the review dashboard.
+        """
         title = caption(it)
         if self.details and it["reason"]:
             title += "\n" + it["reason"][:90]
@@ -483,6 +622,7 @@ class Viewer:
         self.frame(ax, color)
 
     def show_page(self):
+        """Redraw all axes with the current page's images (skipping unreadable ones gracefully)."""
         start = self.page * self.per_page
         self.shown = self.items[start:start + self.per_page]
         for ax in self.axes:
@@ -503,6 +643,7 @@ class Viewer:
         self.fig.canvas.draw_idle()
 
     def update_title(self):
+        """Window title: page position, review counts, and the key hints (or the goto input)."""
         if self.goto:
             hint = f"   go to page: {self.goto}_   (Enter = go, Esc = cancel)"
         else:
@@ -515,6 +656,12 @@ class Viewer:
                           + hint, fontsize=10)
 
     def on_key(self, e):
+        """Any key press: digits/backspace/enter/esc drive the "go to page" input, everything else is paging.
+
+        While digits are being typed the window title echoes them (update_title shows the goto input);
+        Enter jumps to that page (clamped), Esc abandons the input, and ANY other key drops the typed
+        digits and falls through to normal navigation - so a stray digit never blocks the arrow keys.
+        """
         if e.key is not None and e.key.isdigit():   # build up a page number to jump to
             self.goto += e.key
         elif self.goto and e.key == "backspace":
@@ -534,6 +681,7 @@ class Viewer:
         self.fig.canvas.draw_idle()
 
     def on_nav_key(self, e):
+        """Paging / details / quit keys (only called when no goto input is being typed)."""
         if e.key in ("right", " ", "n", "pagedown"):
             self.page = min(self.page + 1, self.pages - 1)
         elif e.key in ("left", "p", "pageup"):
@@ -552,6 +700,16 @@ class Viewer:
         self.show_page()
 
     def on_click(self, e):
+        """Left click on an image: open the review dialog and save/clear its verdict in the flags CSV.
+
+        Guards: left button only, only on a filled axis, and not while the matplotlib toolbar is in
+        zoom/pan mode (toolbar.mode) - otherwise dragging to zoom would open dialogs by accident.
+        The dialog's note dropdown is every note in the flags file ordered by how often it was used.
+        After the dialog the Tk canvas regains focus, or key bindings would keep going to the dead
+        dialog. False (cancel) changes nothing; None deletes the row; a verdict dict is stored whole
+        (provenance included, so the CSV is self-describing) and immediately written to disk. Only
+        the clicked tile is re-decorated - no page reload, so paging state survives every review.
+        """
         toolbar = self.fig.canvas.toolbar
         if e.button != 1 or e.inaxes not in self.axes or (toolbar is not None and toolbar.mode):
             return                                   # left clicks only, and not while zooming / panning
@@ -580,6 +738,16 @@ class Viewer:
 
 
 def main():
+    """Resolve --since, collect the items, then run the save mode or open the interactive Viewer.
+
+    --since resolution: --all shows everything (since=None); an explicit "YYYY-MM-DD HH:MM" is parsed
+    to a timestamp; otherwise the newest qwen_pipeline backup's time is used - the point in time the
+    current label-generation pipeline last ran, so the default view is "what the current version
+    wrote". Defaults hang off --yolo-dir (labels.csv and box_review.csv live one level above the
+    YOLO images/labels folders).
+    Post-filter order: --flagged (any recorded status, or only the listed ones) narrows to reviewed
+    images, then --limit truncates - so "--flagged --limit 40" reviews the first 40 flagged images.
+    """
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--yolo-dir", type=Path, default=DEFAULT_YOLO, help="folder with images/ and labels/")
     ap.add_argument("--labels-csv", type=Path, default=None,

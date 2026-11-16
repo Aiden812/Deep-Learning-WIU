@@ -1,53 +1,53 @@
-# Gigi: oral health check (Daniel's prototype)
+# SmileCheck SG: front-end prototype
 
-A patient-facing web app that closes the four gaps in the IT2226 brief in one flow:
+A patient-facing web page that covers the Detection, Understanding and Action gaps from the brief, with Cost as a one-line placeholder. Photos and videos (uploaded, dropped, or pasted with Ctrl+V) go through Daniel's models, using the same pipeline as the web demo in [`models/classifier/demo/Daniel`](../../models/classifier/demo/Daniel/README.md). The "Try a sample" chips still show simulated results.
 
-| Step | Gap | What happens |
-|---|---|---|
-| 1. Photo | Detection | Emergency check (995 / A&E), PDPA consent, upload or camera |
-| 2. What it might be | Understanding | Photo-quality gate, classifier result with confidence, full score spread, abstention when unsure, plain-language explanation and urgency |
-| 3. Cost | Cost | Estimate after CHAS tier, residency, age and Flexi-MediSave; every figure footnoted to its source and marked non-binding |
-| 4. Clinics & care | Action | Agent plans, estimates cost, finds clinics, matches home-care products and runs a safety review. Its tool trace is shown to the patient |
-
-## Run
+## Run it
 
 ```bash
-cd prototype/Daniel/backend
-python -m venv .venv
-.venv\Scripts\activate            # Windows
-pip install -r requirements.txt
-python app.py
+pip install -r models/classifier/demo/Daniel/requirements.txt
+python prototype/Daniel/server.py
 ```
 
-Open **http://127.0.0.1:8720**. On Windows you can instead double-click `prototype/Daniel/run.bat`, which creates the venv on first run. Set `GIGI_PORT` to change the port. API docs are at `/api/docs`.
+Run these from the repo root, or double-click `run.bat`. Then open http://127.0.0.1:8713/. `server.py` serves this page and the `/api/predict` and `/api/meta` endpoints.
 
-### Demo mode vs the real model
+Jump straight to a sample result with `?demo=calculus`, `caries`, `discolouration`, `ulcer`, `hypodontia`, `normal` or `check`.
 
-If `torch` and `torchvision` are installed **and** `models/classifier/weights/Daniel/best.pt` exists (or `GIGI_WEIGHTS` points at a checkpoint), the backend runs the trained classifier. It uses the same preprocessing, temperature scaling and abstain threshold as `models/classifier/demo/Daniel/app.py`.
+## How a screening works
 
-Otherwise it runs in **demo mode**. The header shows a "Demo mode" pill and results carry a "Simulated result" tag. In demo mode you can pick a scenario, or use "No photo? Run a demo" to present the flow without a real photo. `?demo=caries` preselects a scenario.
+`server.py` imports the demo's `app.py` instead of copying it, so both pages always run the same models, thresholds and preprocessing. There is no limit on how many photos or videos you add. Every photo, and every frame of every video, goes through:
 
-## Layout
+1. **Mouth gate** (`mouth_gate.py`): a close-up is used as it is. For a face photo, the gate crops to the mouth. A photo with no usable mouth is skipped and the page says why (no mouth, mouth closed, too small).
+2. **Issue gate** (`weights/Daniel/binary/best.pt`): p(issue), flagged at the checkpoint's tuned threshold (0.73).
+3. **YOLO detector** (`yolo_caries/weights/Daniel/best.pt`): runs only on flagged photos and outlines calculus, caries, hypodontia, mouth ulcers and discolouration.
 
-```
-backend/
-  app.py          FastAPI app; serves ../frontend at /
-  classifier.py   real model loader + labelled demo fallback
-  quality.py      too small / dark / bright / blurry / low-detail checks
-  costs.py        fee + CHAS + Flexi-MediSave estimator (sourced figures only)
-  agent.py        rule-based planner + tools + guardrail, returns a trace
-  data/           conditions.json, fees.json, products.json, clinics.json, areas.json
-frontend/
-  index.html, css/styles.css, js/app.js, assets/mark.svg
-PRODUCT.md        design context (users, principles, anti-references)
-```
+Videos are decoded with OpenCV from a temporary file that is deleted when the request ends. Videos longer than `VIDEO_MAX_FRAMES` (default 1800, one minute at 30 fps) are sampled evenly down to that many frames. `/api/predict` streams NDJSON (a start line, one progress line per photo or frame, then the result), so the page shows a frame counter while a video runs.
+
+The results are then combined per source (each photo or video), then across sources:
+
+- **Video verdict:** a video counts as flagged when at least 10% of its readable frames are flagged (`VIDEO_FLAG_FRACTION`), and at least 2 frames, so one blurry frame can't flag a whole video. Its score is the k-th highest frame p(issue), which is at or above the threshold exactly when that many frames are flagged.
+- **Verdict:** if any photo or video is flagged, the screening says *Needs a check*, because an issue may show from only one angle. The ring shows the highest score. If nothing is flagged, it says *Looks healthy*, and the ring shows 1 − p(issue).
+- **Condition:** the strongest detector finding sets the condition shown and the Understand and Clinics sections. If it isn't confident, the name says "Might be" and the boxes are dashed. If the detector finds nothing, the page shows the generic *Worth a check* result.
+- **Bars:** each condition's strongest box confidence, pooled over the flagged photos and videos.
+- **Hero photo:** the photo or video frame with the strongest finding, drawn with its boxes. Only that image is sent back, so long videos stay light.
+- **Notes:** skipped photos say why; each video gets a line like "60 of 60 frames checked, 45 worth a check".
+
+The demo's environment overrides apply here too: `DEMO_WEIGHTS` (the six-class `weights/Daniel/best.pt` also works, with probabilities averaged within each photo or video, then across them), `DEMO_MOUTH_GATE=0` and `DEMO_DETECTOR=0`. `VIDEO_MAX_FRAMES`, `VIDEO_FLAG_FRACTION` and `VIDEO_MAX_MB` (default 300) tune video handling. `PROTO_PORT` changes the port. If you change it, the page has to be opened from that same server.
+
+## Files
+
+| File | What it holds |
+| --- | --- |
+| `server.py` | Backend: serves the page, runs each photo and video frame through the demo's pipeline, streams progress and combines the results |
+| `run.bat` | Starts `server.py` on Windows |
+| `index.html` | Page structure: hero, screening, then (after a result) explainer and clinics and care |
+| `css/styles.css` | Neumorphic design tokens and components |
+| `js/data.js` | Plain-language content per condition, products, clinics, areas |
+| `js/art.js` | Hand-drawn SVG teeth, conditions and products |
+| `js/app.js` | Upload, paste and consent, photo-quality check, streamed model call, detector boxes, results, Leaflet map |
 
 ## Prototype data to replace
 
-- `data/clinics.json` holds **sample clinics, not real ones**. The UI labels them "Sample listing". A production `find_clinics` tool should query the CHAS clinic locator.
-- `fees.json` uses only figures quoted in the brief. Where a CHAS amount isn't sourced (e.g. fillings, root canals, non-Pioneer crowns), the estimate says "Ask clinic" rather than guessing. Source URLs for MOH and CPF point at the agency home pages and should be replaced with the exact pages.
-- The agent planner is rule-based. `agent.plan`/`run` is the seam for an LLM planner; the tools and trace format can stay as they are.
-
-## Privacy
-
-Photos are read into memory, screened and discarded. Nothing is written to disk or logged, and responses are sent with `Cache-Control: no-store`. Profile answers and location stay in the browser tab.
+- The three "CHAS dental clinic" entries are samples. The agent will fetch live CHAS clinics.
+- Clinic coordinates are approximate and only cover the north-east, and the HealthHub link goes to the homepage.
+- The cost estimator is a placeholder.

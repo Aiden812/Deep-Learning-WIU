@@ -54,17 +54,17 @@ resolution rather than the classifier's 224 px input.
 
 - Classes: Calculus, Caries, Hypodontia, Mouth_Ulcer, Tooth_Discoloration. Operating
   point, IoU and image size come from the `best.json` written next to the weights
-  (`conf` 0.357 = the confidence that maximised mean F1 on val).
+  (`conf` 0.317 for the 2026-11-14 model = the confidence that maximised mean F1 on val).
 - The UI draws the boxes over the photo and lists one chip per condition (count and
   strongest confidence). Boxes between 0.15 and `conf` are returned as weaker
   candidates (`confident: false`), hidden behind a toggle.
 - **A flagged photo is always outlined.** If nothing reaches `conf`, the detector's
   3 strongest non-overlapping guesses are returned however low their score (down to
   0.001; `guess: true` below 0.15) and drawn dashed, with a note that they are
-  low-confidence hints. On the test set this happens for 6 of 387 flagged issue photos
+  low-confidence hints. On the test set (2026-11-12 model) this happens for 6 of 387 flagged issue photos
   but 17 of 27 flagged Normal photos — a flagged photo with only best guesses is more
   often a classifier false alarm than a missed finding.
-- Test numbers for the detector (mAP50 0.840, mAP50-95 0.450) are read from
+- Test numbers for the detector (mAP50 0.814, mAP50-95 0.430 for the 2026-11-14 model) are read from
   `models/yolo_caries/results/Daniel/test_metrics.json` into the "About this model"
   strip. Adds ~40–70 ms per flagged image on GPU; photos that aren't flagged skip it.
 - `DEMO_DETECTOR=0` disables it; `DEMO_DETECTOR=<path to .pt>` tries other weights.
