@@ -28,27 +28,33 @@ DATASET = REPO / "data/raw/oral_dataset"
 CACHE = REPO / "data/processed/classifier_multilabel/_cache/pairs_k20_kp400.npz"
 ZIP_CANDIDATES = [REPO / "data/raw/roboflow_oral/oral-diseases.v2i.yolov11.zip", REPO.parent / "oral-diseases.v2i.yolov11.zip"]
 OUT = REPO / "data/processed/oral_dataset_leaks.csv"
-GROUP_KP, DIRECT_KP = 40, 20
+GROUP_KP, DIRECT_KP = 40, 20   # keypoint cut-offs: >= 40 = surely the same photo; >= 20 = copy (different photos stay below)
 
 
 def main():
+    # Matching is precomputed: DINOv2 found look-alike pairs, then SIFT counted keypoints that line up between them
+    # after a geometric fit (RANSAC). That survives crops, rotations and colour changes, unlike a perceptual hash.
     zip_path = next((p for p in ZIP_CANDIDATES if p.exists()), None)
     assert zip_path, f"Roboflow zip not found in {ZIP_CANDIDATES}"
     assert CACHE.exists(), f"{CACHE} missing: run prepare_roboflow_multilabel.py once first"
     # same image order as prepare_roboflow_multilabel.read_export, which the cached pair indices refer to
     images = [n for n in zipfile.ZipFile(zip_path).namelist() if "/images/" in n and not n.endswith("/")]
     key = pd.Series([n.split("/")[-1] for n in images])
+    # Roboflow names augmented copies "<photo>.rf.<hash>.jpg": strip the hash so copies of one photo share an id
     photo = pd.factorize(key.str.replace(r"\.rf\.[0-9a-f]+\.\w+$", "", regex=True))[0]
     c = np.load(CACHE)
     pairs, kp = c["pairs"], c["inliers"]
     assert pairs.max() < len(images), "cache does not match this zip"
 
+    # which split (train / val / test) Daniel put each Roboflow image in
     d = pd.read_csv(DATASET / "labels.csv", keep_default_na=False)
     rf = d[d.dataset == "roboflow_oral"].assign(key=lambda x: x.source_file.str.split("/").str[-1])
     assert rf.key.is_unique
     split = rf.set_index("key").split.reindex(key).to_numpy()   # NaN = image Daniel left out
     is_train = split == "train"
 
+    # Build copy groups: a graph where images are linked if they share >= 40 keypoints or the same photo name.
+    # Connected components = groups of copies. A val/test image whose group contains a training image is leaked.
     n, m = len(images), photo.max() + 1
     strong = pairs[kp >= GROUP_KP]
     rows = np.concatenate([strong[:, 0], np.arange(n)])
@@ -59,8 +65,9 @@ def main():
     for a, b in ((0, 1), (1, 0)):
         to_train = is_train[pairs[:, b]]
         np.maximum.at(best, pairs[to_train, a], kp[to_train])
-    leaked |= best >= DIRECT_KP
+    leaked |= best >= DIRECT_KP   # also leaked: a direct match of >= 20 keypoints with any training image
 
+    # Map the result back to every image of oral_dataset (non-Roboflow images can't be checked: leaked = False)
     info = pd.DataFrame({"key": key, "leaked": leaked, "max_keypoints_to_train": best})
     out = d[["md5", "split", "dataset", "source_file"]].copy()
     out["key"] = np.where(out.dataset == "roboflow_oral", out.source_file.str.split("/").str[-1], None)

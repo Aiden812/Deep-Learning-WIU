@@ -103,3 +103,25 @@ One entry per decision
 - **YOLO11n 100 epochs** (was 40; patience 20): Daniel's full test mAP50 0.798 -> 0.829, mAP50-95 0.414 -> 0.443;
   clean test mAP50 0.697 -> 0.752. Best epoch = 100, so still improving slowly; a larger model (yolo11s) is the next step.
 - **Owner:** Aiden
+
+## 2026-11-14 — Retrain on Daniel's v4 build (2026-11-13)
+- **Decision:** both gates and YOLO11n retrained on v4 (33,952 images; +109 classifier-only missing-teeth photos,
+  Hypodontia gap boxes for YOLO, val/test redrawn with a stable hash). Same settings as before. Reason: Daniel's v4
+  val/test overlap the old train split, so v2 models can't be scored on it, and the team should share one test set.
+- **Gate:** clean test (803 images, 182 issue) AUROC DenseNet 0.9895, DINOv2 0.9931, both catch all 182 issues;
+  specificity 88.2% / 92.8%. Cross-source test (1,181) AUROC 0.9772 / 0.9739 vs Daniel's gate 0.9780 on the same images.
+- **YOLO11n (100 epochs, best epoch 87):** Daniel's full test mAP50 0.808 / mAP50-95 0.423 (his yolo11s: 0.825 / 0.445);
+  clean test (803) 0.695 / 0.389. Clean test has only 3 Calculus images (AP 0.06, not meaningful).
+- **Note:** the DenseNet tuning runs (results/Aiden/tuning/) are on v2 data and were not repeated.
+- **Owner:** Aiden
+
+## 2026-11-15 — YOLO11s vs YOLO11n (v4 data)
+- **Why:** YOLO11n on v4 plateaued (clean-val mAP50 ~0.68 from epoch 60, val loss flat, train loss still falling), so
+  more epochs would not help; tried a ~4x larger model.
+- **Result:** YOLO11s stopped early at epoch 67 (best 47). Daniel's full test mAP50 0.818 / mAP50-95 0.430 (11n: 0.808 /
+  0.423; Daniel's 11s: 0.825 / 0.445). Clean test mAP50 0.748 (11n 0.695), but almost all of that gain is Calculus,
+  which has only 3 clean test images (AP50 0.06 -> 0.34); the other four classes are unchanged.
+- **Decision:** YOLO11s is kept as Aiden's detector (small but consistent gain on the full test, same speed class for
+  the prototype). Model size is not the main limit any more; further gains need more / better-labelled data
+  (Calculus, Caries) or higher resolution for small findings.
+- **Owner:** Aiden
