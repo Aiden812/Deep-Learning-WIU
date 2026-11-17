@@ -1,0 +1,69 @@
+
+=== TEST (in-distribution): n=2936 issue=2315 normal=621
+classifier  AUROC=0.9887 AP=0.9948
+yolo        AUROC=0.9975 AP=0.9991
+rank-avg    AUROC=0.9958 AP=0.9985
+AUROC(clf)-AUROC(yolo) 95% CI [-0.0159 -0.0087 -0.0033]
+classifier  sens=0.9935 spec=0.9485 FN=15 FP=32
+yolo        sens=0.9892 spec=0.9775 FN=25 FP=14
+AND         sens=0.9827 spec=0.9871 FN=40 FP=8
+OR          sens=1.0000 spec=0.9388 FN=0 FP=38
+sens@spec0.9: clf=0.999 yolo=1.000
+sens@spec0.95: clf=0.990 yolo=0.999
+clf right/yolo wrong=31, yolo right/clf wrong=39, McNemar p=0.403
+                  n  clf_sens  yolo_sens
+dataset                                 
+roboflow_oral  2315     0.994      0.989
+
+=== XSRC, YOLO trained on them: n=1833 issue=1202 normal=631
+classifier  AUROC=0.9833 AP=0.9890
+yolo        AUROC=0.9876 AP=0.9928
+rank-avg    AUROC=0.9934 AP=0.9961
+AUROC(clf)-AUROC(yolo) 95% CI [-0.0106 -0.0042  0.002 ]
+classifier  sens=0.9426 spec=0.9620 FN=69 FP=24
+yolo        sens=0.7912 spec=0.9842 FN=251 FP=10
+AND         sens=0.7654 spec=0.9905 FN=282 FP=6
+OR          sens=0.9684 spec=0.9556 FN=38 FP=28
+sens@spec0.9: clf=0.980 yolo=0.979
+sens@spec0.95: clf=0.955 yolo=0.931
+clf right/yolo wrong=217, yolo right/clf wrong=49, McNemar p=2.1e-26
+                      n  clf_sens  yolo_sens
+dataset                                     
+dentalai            380     0.905      0.824
+external_clean       85     0.859      0.741
+kaggle_oral         190     0.958      0.216
+mendeley_noncaries    5     0.400      0.200
+zenodo              542     0.982      0.983
+
+=== XSRC, neither model trained on them: n=529 issue=11 normal=518
+classifier  AUROC=0.8198 AP=0.1862
+yolo        AUROC=0.8331 AP=0.1408
+rank-avg    AUROC=0.8380 AP=0.1519
+AUROC(clf)-AUROC(yolo) 95% CI [-0.0991 -0.0109  0.0721]
+classifier  sens=0.3636 spec=0.9440 FN=7 FP=29
+yolo        sens=0.1818 spec=0.9768 FN=9 FP=12
+AND         sens=0.0909 spec=0.9865 FN=10 FP=7
+OR          sens=0.4545 spec=0.9344 FN=6 FP=34
+sens@spec0.9: clf=0.636 yolo=0.545
+sens@spec0.95: clf=0.364 yolo=0.455
+clf right/yolo wrong=8, yolo right/clf wrong=23, McNemar p=0.0107
+                     n  clf_sens  yolo_sens
+dataset                                    
+external_clean       1       1.0        1.0
+mendeley_noncaries  10       0.3        0.1
+
+classifier: xsrc issue sens 0.943 | test normal FAR 0.052 | xsrc normal FAR 0.046
+yolo conf 0.361: xsrc issue sens 0.791 | test normal FAR 0.023 | xsrc normal FAR 0.019
+yolo conf 0.250: xsrc issue sens 0.841 | test normal FAR 0.045 | xsrc normal FAR 0.030
+yolo conf 0.150: xsrc issue sens 0.885 | test normal FAR 0.063 | xsrc normal FAR 0.041
+yolo conf 0.100: xsrc issue sens 0.910 | test normal FAR 0.085 | xsrc normal FAR 0.057
+yolo conf 0.050: xsrc issue sens 0.960 | test normal FAR 0.119 | xsrc normal FAR 0.096
+yolo conf 0.030: xsrc issue sens 0.983 | test normal FAR 0.145 | xsrc normal FAR 0.125
+                              n  clf_sens  yolo_sens
+labels                                              
+Calculus                     23     0.783      0.261
+Caries                      899     0.957      0.892
+Caries|Tooth_Discoloration   64     0.969      0.922
+Mouth_Ulcer                  78     0.962      0.103
+Tooth_Discoloration          96     0.833      0.469
+kaggle_oral issue: median yolo_max 0.147, median p_issue 0.986

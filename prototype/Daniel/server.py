@@ -11,6 +11,10 @@ than copied so both front ends always run the same models, thresholds and prepro
 The demo's environment overrides (DEMO_WEIGHTS, DEMO_MOUTH_GATE, DEMO_DETECTOR, ...) apply
 here too; pointing DEMO_WEIGHTS at the six-class checkpoint also works.
 
+Step 2 can be switched off (PROTO_CLASSIFIER=0, or the form field `classifier=0` per request):
+YOLO then runs on every accepted photo and frame, and a photo is flagged when it has a box at
+or above the detector's own operating point (best.json `conf`). No forced best guesses are drawn.
+
 The page sends any number of photos and videos. Every photo, and every frame of every video,
 goes through the pipeline on its own; the results are then combined per source and across
 sources (see _combine). Progress is streamed back as NDJSON so long videos show a counter.
@@ -21,21 +25,23 @@ Run from the repo root:  python prototype/Daniel/server.py   (or run.bat)
 from __future__ import annotations
 
 import importlib.util
+import io
 import json
 import math
 import os
 import sys
 import tempfile
+import time
 from collections import Counter
 from pathlib import Path
 
 import cv2
 import numpy as np
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from PIL import Image
+from PIL import Image, ImageOps
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -57,15 +63,62 @@ VIDEO_FLAG_FRACTION = float(os.environ.get("VIDEO_FLAG_FRACTION", "0.1"))
 VIDEO_MIN_FLAGGED = 2
 VIDEO_EXT = {".mp4", ".mov", ".m4v", ".webm", ".avi", ".mkv", ".3gp"}
 
+# Issue classifier on (default) or off. Off = detector-only screening, which needs the detector.
+# The classifier is still loaded by the demo module; it just isn't run.
+_OFF = {"0", "off", "false", "no"}
+CLASSIFIER_DEFAULT = os.environ.get("PROTO_CLASSIFIER", "1").strip().lower() not in _OFF
+if not CLASSIFIER_DEFAULT and demo.DETECTOR is None:
+    raise SystemExit(f"PROTO_CLASSIFIER=0 needs the YOLO detector, which didn't load "
+                     f"({demo.DETECTOR_ERROR or 'DEMO_DETECTOR=0'}).")
+
 
 def _is_video(f: UploadFile) -> bool:
     return (f.content_type or "").startswith("video/") or Path(f.filename or "").suffix.lower() in VIDEO_EXT
 
 
-def _run(src: bytes | Image.Image) -> dict:
-    """One photo or frame through the demo pipeline; undecodable input counts as rejected."""
+def _decode(data: bytes) -> Image.Image:
+    """Same decoding as demo.predict_bytes()."""
     try:
-        r = demo.predict_bytes(src) if isinstance(src, bytes) else demo.predict_image(src)
+        im = Image.open(io.BytesIO(data))
+        if im.format == "JPEG":
+            im.draft("RGB", (demo.WORK_SIDE, demo.WORK_SIDE))
+        return ImageOps.exif_transpose(im).convert("RGB")
+    except Exception:
+        raise HTTPException(400, "Could not decode that file as an image.")
+
+
+def _detect_only(im: Image.Image) -> dict:
+    """Mouth gate -> YOLO, no classifier. Flagged = a box at/above the detector's `conf`;
+    the item's score (kept in `p_issue` so _combine treats both modes alike) is its strongest
+    box confidence, 0 if YOLO returns nothing at/above its weak cut."""
+    im.thumbnail((demo.WORK_SIDE, demo.WORK_SIDE), Image.LANCZOS)
+    gate = None
+    if demo.GATE is not None:
+        t0 = time.perf_counter()
+        g = demo.GATE(im)
+        gate = g.as_dict() | {"gate_ms": round((time.perf_counter() - t0) * 1000.0, 1)}
+        if g.route == "rejected":
+            return {"rejected": True, "gate": gate}
+        im = g.image
+    t0 = time.perf_counter()
+    boxes = demo.DETECTOR(im)  # no `always`: nothing is forced onto a photo YOLO finds clean
+    det = {"boxes": boxes, "n_confident": sum(b["confident"] for b in boxes), "conf": demo.DETECTOR.conf,
+           "detector_ms": round((time.perf_counter() - t0) * 1000.0, 1)}
+    if boxes:  # only photos with something to draw carry an image (keeps long videos light)
+        det["image"] = demo._jpeg_data_url(im, 720)
+    flagged = det["n_confident"] > 0
+    return {"rejected": False, "gate": gate, "task": "binary", "classifier": False,
+            "p_issue": max((b["conf"] for b in boxes), default=0.0), "flagged": flagged,
+            "threshold": demo.DETECTOR.conf, "anomaly": flagged, "detection": det}
+
+
+def _run(src: bytes | Image.Image, use_classifier: bool = True) -> dict:
+    """One photo or frame through the pipeline; undecodable input counts as rejected."""
+    try:
+        if use_classifier:
+            r = demo.predict_bytes(src) if isinstance(src, bytes) else demo.predict_image(src)
+        else:
+            r = _detect_only(_decode(src) if isinstance(src, bytes) else src)
     except HTTPException as e:
         return {"rejected": True, "gate": {"route": "rejected", "reason": "unreadable", "message": e.detail}}
     if r.get("gate"):
@@ -117,8 +170,11 @@ def _box_key(item: dict):
     return max(((b["confident"], b["conf"]) for b in boxes), default=None)
 
 
-def _combine(items: list[dict], sources: list[dict]) -> dict:
+def _combine(items: list[dict], sources: list[dict], use_classifier: bool = True) -> dict:
     ok = [p for p in items if not p["rejected"]]
+    # Detector-only screening scores each item by its strongest box, cut at the detector's conf.
+    task = demo.TASK if use_classifier else "binary"
+    threshold = demo.ABSTAIN_THRESHOLD if use_classifier else demo.DETECTOR.conf
     by_src: dict[int, list[dict]] = {}
     for p in ok:
         by_src.setdefault(p["source"], []).append(p)
@@ -127,12 +183,12 @@ def _combine(items: list[dict], sources: list[dict]) -> dict:
         s["reasons"] = dict(Counter((p.get("gate") or {}).get("reason") or "unreadable"
                                     for p in items if p["source"] == s["index"] and p["rejected"]))
 
-    out = {"task": demo.TASK, "threshold": demo.ABSTAIN_THRESHOLD, "photos": items, "sources": sources,
-           "n_accepted": len(ok), "rejected": not ok}
+    out = {"task": task, "classifier": use_classifier, "threshold": threshold, "photos": items,
+           "sources": sources, "n_accepted": len(ok), "rejected": not ok}
     if not ok:
         return out
 
-    if demo.TASK == "binary":
+    if task == "binary":
         # Per source: a photo's own p(issue); for a video, the k-th highest frame p(issue), so the
         # video is flagged exactly when at least k frames are. Any flagged source flags the screening
         # (an issue may only show from one angle) and the ring shows the strongest source score.
@@ -143,7 +199,7 @@ def _combine(items: list[dict], sources: list[dict]) -> dict:
                 continue
             k = 1 if s["kind"] == "image" else min(len(ps), max(VIDEO_MIN_FLAGGED, math.ceil(VIDEO_FLAG_FRACTION * len(ps))))
             s["p_issue"] = ps[k - 1]
-            s["flagged"] = s["p_issue"] >= demo.ABSTAIN_THRESHOLD
+            s["flagged"] = s["p_issue"] >= threshold
             s["flagged_frames"] = sum(p["flagged"] for p in by_src[s["index"]])
         scored = [s for s in sources if "p_issue" in s]
         out["p_issue"] = max(s["p_issue"] for s in scored)
@@ -193,7 +249,7 @@ def _line(obj: dict) -> bytes:
     return (json.dumps(obj) + "\n").encode()
 
 
-def _stream(uploads: list[dict]):
+def _stream(uploads: list[dict], use_classifier: bool = True):
     """Runs every photo and video frame, yielding NDJSON progress lines and then the result."""
     items: list[dict] = []
     sources: list[dict] = []
@@ -217,7 +273,7 @@ def _stream(uploads: list[dict]):
             src_best = None
             n = 0
             for frame, t, payload in frames:
-                item = {"index": len(items), "source": s["index"], "frame": frame, "t": t, **_run(payload)}
+                item = {"index": len(items), "source": s["index"], "frame": frame, "t": t, **_run(payload, use_classifier)}
                 n += 1
                 if u["kind"] == "video" and not item["rejected"]:
                     if first_ok:  # a still of the video, shown when nothing is outlined
@@ -239,7 +295,7 @@ def _stream(uploads: list[dict]):
                               "gate": {"route": "rejected", "reason": "unreadable_video",
                                        "message": "Could not read that video."}})
 
-        yield _line({"type": "result", **_combine(items, sources)})
+        yield _line({"type": "result", **_combine(items, sources, use_classifier)})
     except Exception as e:  # report instead of cutting the stream off mid-way
         yield _line({"type": "error", "detail": f"{type(e).__name__}: {e}"})
     finally:
@@ -272,11 +328,15 @@ def health():
 
 @app.get("/api/meta")
 def meta():
-    return demo.meta()
+    return demo.meta() | {"classifier_enabled": CLASSIFIER_DEFAULT}
 
 
 @app.post("/api/predict")
-async def predict(files: list[UploadFile] = File(...)):
+async def predict(files: list[UploadFile] = File(...), classifier: str | None = Form(None)):
+    # `classifier` (optional form field: 1/on or 0/off) overrides PROTO_CLASSIFIER for this request.
+    use_classifier = CLASSIFIER_DEFAULT if classifier is None else classifier.strip().lower() not in _OFF
+    if not use_classifier and demo.DETECTOR is None:
+        raise HTTPException(400, "The classifier can't be turned off: the YOLO detector isn't loaded.")
     if not files:
         raise HTTPException(400, "Send at least one photo or video.")
     uploads = []
@@ -304,7 +364,7 @@ async def predict(files: list[UploadFile] = File(...)):
             if u.get("path"):
                 os.unlink(u["path"])
         raise
-    return StreamingResponse(_stream(uploads), media_type="application/x-ndjson")
+    return StreamingResponse(_stream(uploads, use_classifier), media_type="application/x-ndjson")
 
 
 @app.get("/")
@@ -320,7 +380,9 @@ if __name__ == "__main__":
     import uvicorn
 
     port = int(os.environ.get("PROTO_PORT", "8713"))
-    if demo.TASK == "binary":
+    if not CLASSIFIER_DEFAULT:
+        print(f"classifier: off (PROTO_CLASSIFIER=0) | detector only, flag box conf>={demo.DETECTOR.conf:.2f}")
+    elif demo.TASK == "binary":
         print(f"classifier: {demo.BACKBONE} issue gate on {demo.DEVICE} | flag p(issue)>={demo.ABSTAIN_THRESHOLD:.2f}")
     else:
         print(f"classifier: {demo.BACKBONE} ({len(demo.CLASSES)} classes) on {demo.DEVICE}")

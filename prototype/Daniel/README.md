@@ -21,6 +21,20 @@ Jump straight to a sample result with `?demo=calculus`, `caries`, `discolouratio
 2. **Issue gate** (`weights/Daniel/binary/best.pt`): p(issue), flagged at the checkpoint's tuned threshold (0.73).
 3. **YOLO detector** (`yolo_caries/weights/Daniel/best.pt`): runs only on flagged photos and outlines calculus, caries, hypodontia, mouth ulcers and discolouration.
 
+### Turning the classifier off
+
+To screen with YOLO alone, skip step 2 in either of these ways:
+
+- **For the whole server:** set `PROTO_CLASSIFIER=0` before starting it (PowerShell: `$env:PROTO_CLASSIFIER = "0"; python prototype/Daniel/server.py`).
+- **For one page load:** open http://127.0.0.1:8713/?classifier=off. Use `?classifier=on` to force the classifier back on when the server runs with `PROTO_CLASSIFIER=0`. The page sends this as the `classifier` form field of `/api/predict`.
+
+With the classifier off, YOLO runs on every photo and frame that passes the mouth gate:
+
+- A photo or frame is flagged when it has a box at or above the detector's operating point (`conf` in `best.json`, 0.361 for the current model). Video and multi-photo results are combined with the same rules as below.
+- The score is the strongest box's confidence. It is not a calibrated probability, so the ring text changes to say how strongly the clearest finding was outlined.
+- No best guesses are forced onto a photo. A photo YOLO finds clean shows no boxes, and weaker boxes on a healthy result aren't drawn.
+- The classifier is still loaded at startup, because the demo module loads it, but it isn't run. The server won't start with `PROTO_CLASSIFIER=0` if the detector can't load.
+
 Videos are decoded with OpenCV from a temporary file that is deleted when the request ends. Videos longer than `VIDEO_MAX_FRAMES` (default 1800, one minute at 30 fps) are sampled evenly down to that many frames. `/api/predict` streams NDJSON (a start line, one progress line per photo or frame, then the result), so the page shows a frame counter while a video runs.
 
 The results are then combined per source (each photo or video), then across sources:
