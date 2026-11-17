@@ -1,7 +1,7 @@
 """Draw YOLO labels on a random sample of images for visual QA.
 
 Usage:
-    python models/yolo_caries/scripts/visualise_labels.py --split train --n 16
+    python models/yolo_caries/scripts/Junwei/visualise_labels.py --split train --n 16
 """
 
 import argparse
