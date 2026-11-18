@@ -171,7 +171,7 @@ GATE = None
 GATE_ERROR = None
 if os.environ.get("DEMO_MOUTH_GATE", "1") != "0":
     try:
-        from mouth_gate import CLIP_NAME, MouthGate
+        from models.classifier.demo.Daniel.Codex.mouth_gate import CLIP_NAME, MouthGate
         GATE = MouthGate(DEVICE, HERE / "assets")
         GATE(Image.new("RGB", (320, 240), (128, 128, 128)))  # warm-up, like _warmup()
     except Exception as e:  # noqa: BLE001 — the demo must still start without the gate
@@ -185,7 +185,7 @@ DETECTOR = None
 DETECTOR_ERROR = None
 if os.environ.get("DEMO_DETECTOR", "1") != "0":
     try:
-        from detector import ConditionDetector
+        from models.classifier.demo.Daniel.Codex.detector import ConditionDetector
         _dw = os.environ.get("DEMO_DETECTOR", "1")
         DETECTOR = ConditionDetector(Path(_dw) if _dw != "1" else DETECTOR_WEIGHTS, DEVICE)
     except Exception as e:  # noqa: BLE001 — the classifier demo must still start without it

@@ -1,16 +1,23 @@
-# External benchmark results (2026-11-17)
+# External benchmark results (2026-11-18)
 
 Photos no team model trained on (copies removed). Primary = **bench** part. 95% CIs in brackets (bootstrap over patients / photo clusters). Each model uses its **own** saved threshold.
 
 | model | owner | what | photos predicted |
 |---|---|---|---|
+| aiden_gate_densenet | Aiden | DenseNet-121 gate | 5154 |
+| aiden_gate_dinov2 | Aiden | DINOv2 ViT-B/14 gate | 5154 |
+| aiden_yolo11s | Aiden | YOLO11s on Daniel's v4 data | 5154 |
 | brandon_cls_v11 | Brandon | EfficientNet-B0 gate, v1.1 data | 5338 |
 | brandon_cls_v12 | Brandon | EfficientNet-B0 gate, v1.2 data | 5338 |
 | brandon_yolo_v11 | Brandon | YOLO11n 640, v1.1 data | 5338 |
 | brandon_yolo_v12 | Brandon | YOLO11n 640, v1.2 data | 5338 |
+| daniel_cls_6class | Daniel | EfficientNet-B0 6-class condition classifier | 5154 |
+| daniel_cls_binary | Daniel | binary gate | 5154 |
+| daniel_yolo | Daniel | YOLO12m 640 (no sidecar, so conf 0.25) | 5154 |
+| junwei_yolo11n | Junwei | YOLO11n 640, 100 ep (conf from best.json sidecar) | 5154 |
 | team_keras_6class | team | Keras EfficientNetB0 6-class baseline | 5338 |
 
-Not scored yet (no weights on this laptop): aiden_gate_dinov2, aiden_gate_densenet, aiden_yolo11n, aiden_yolo11s, daniel_cls_binary, daniel_cls_6class, daniel_yolo.
+Not scored yet (no weights on this laptop): aiden_yolo11n.
 
 
 ## 1. Problem vs healthy (MetaDent)
@@ -22,20 +29,34 @@ Problem = caries, plaque/calculus, discoloration, missing teeth or ulcer; health
 
 | model | AUROC | balanced acc | sensitivity | specificity |
 |---|---|---|---|---|
-| brandon_cls_v11 | 0.581 (0.43–0.73) | 54% (41–65) | 43% (33–53) | 65% (42–84) |
-| brandon_cls_v12 | 0.538 (0.39–0.67) | 50% (37–62) | 35% (26–45) | 65% (40–85) |
-| brandon_yolo_v11 | 0.824 (0.71–0.91) | 63% (59–68) | 27% (18–37) | 100% (100–100) |
-| brandon_yolo_v12 | 0.833 (0.74–0.92) | 66% (59–73) | 37% (27–47) | 95% (84–100) |
-| team_keras_6class | 0.713 (0.60–0.81) | 65% (53–75) | 65% (55–74) | 65% (44–85) |
+| aiden_gate_densenet | 0.586 (0.44–0.72) | 50% (37–63) | 46% (35–56) | 55% (31–76) |
+| aiden_gate_dinov2 | 0.564 (0.44–0.67) | 64% (59–68) | 28% (19–37) | 100% (100–100) |
+| aiden_yolo11s | 0.878 (0.76–0.96) | 64% (60–69) | 29% (20–39) | 100% (100–100) |
+| brandon_cls_v11 | 0.581 (0.43–0.73) | 54% (41–65) | 43% (33–53) | 65% (42–86) |
+| brandon_cls_v12 | 0.538 (0.39–0.68) | 50% (37–62) | 35% (26–45) | 65% (40–85) |
+| brandon_yolo_v11 | 0.824 (0.73–0.91) | 63% (59–68) | 27% (18–36) | 100% (100–100) |
+| brandon_yolo_v12 | 0.833 (0.73–0.92) | 66% (59–72) | 37% (28–47) | 95% (82–100) |
+| daniel_cls_6class | 0.678 (0.57–0.78) | 59% (47–71) | 73% (64–82) | 45% (21–67) |
+| daniel_cls_binary | 0.475 (0.34–0.62) | 54% (41–65) | 44% (34–53) | 65% (42–86) |
+| daniel_yolo | 0.849 (0.75–0.92) | 68% (63–73) | 36% (27–46) | 100% (100–100) |
+| junwei_yolo11n | 0.789 (0.67–0.89) | 57% (54–61) | 14% (7–21) | 100% (100–100) |
+| team_keras_6class | 0.713 (0.61–0.82) | 65% (53–76) | 65% (54–75) | 65% (46–85) |
 
 ### DS3: 308 problem / 170 healthy photos; size-only cheat tree balanced acc 0.56
 
 | model | AUROC | balanced acc | sensitivity | specificity |
 |---|---|---|---|---|
-| brandon_cls_v11 | 0.807 (0.77–0.84) | 73% (68–76) | 61% (56–67) | 84% (78–89) |
+| aiden_gate_densenet | 0.770 (0.73–0.81) | 69% (64–73) | 73% (68–78) | 65% (57–71) |
+| aiden_gate_dinov2 | 0.827 (0.79–0.86) | 76% (72–80) | 75% (70–80) | 78% (72–84) |
+| aiden_yolo11s | 0.799 (0.76–0.84) | 61% (58–64) | 26% (22–31) | 96% (93–98) |
+| brandon_cls_v11 | 0.807 (0.77–0.84) | 73% (69–76) | 61% (56–67) | 84% (78–89) |
 | brandon_cls_v12 | 0.771 (0.73–0.81) | 70% (66–74) | 59% (54–65) | 81% (74–86) |
 | brandon_yolo_v11 | 0.767 (0.72–0.81) | 61% (58–65) | 31% (26–36) | 92% (88–96) |
-| brandon_yolo_v12 | 0.804 (0.76–0.84) | 69% (66–73) | 51% (45–56) | 88% (82–93) |
+| brandon_yolo_v12 | 0.804 (0.76–0.84) | 69% (65–73) | 51% (45–57) | 88% (83–92) |
+| daniel_cls_6class | 0.704 (0.66–0.75) | 58% (54–62) | 92% (89–95) | 24% (18–31) |
+| daniel_cls_binary | 0.747 (0.70–0.79) | 68% (64–72) | 57% (52–63) | 79% (73–85) |
+| daniel_yolo | 0.818 (0.77–0.86) | 64% (61–67) | 31% (26–36) | 96% (93–99) |
+| junwei_yolo11n | 0.787 (0.74–0.83) | 61% (58–63) | 25% (20–30) | 96% (93–99) |
 | team_keras_6class | 0.565 (0.51–0.62) | 52% (49–55) | 88% (85–92) | 15% (10–21) |
 
 ## 2. Each condition, photo level
@@ -44,11 +65,18 @@ Models that name conditions: AUROC of that condition's score (photos with it vs 
 
 | model | Caries (AlphaDent) | Caries | Calculus/plaque | Discoloration | Missing teeth |
 |---|---|---|---|---|---|
-| brandon_cls_v11 | flags 62% (55–67) | flags 60% (50–71) | flags 54% (45–63) | flags 60% (53–66) | flags 71% (61–80) |
-| brandon_cls_v12 | flags 64% (59–70) | flags 69% (59–78) | flags 49% (41–58) | flags 49% (42–55) | flags 71% (62–80) |
-| brandon_yolo_v11 | AUROC 0.680 (0.60–0.75) | AUROC 0.802 (0.76–0.85) | AUROC 0.681 (0.63–0.73) | AUROC 0.700 (0.66–0.74) | AUROC 0.564 (0.52–0.61) |
-| brandon_yolo_v12 | AUROC 0.677 (0.59–0.75) | AUROC 0.788 (0.74–0.83) | AUROC 0.679 (0.63–0.73) | AUROC 0.658 (0.62–0.70) | AUROC 0.673 (0.62–0.73) |
-| team_keras_6class | AUROC 0.497 (0.43–0.57) | AUROC 0.491 (0.42–0.56) | AUROC 0.700 (0.66–0.74) | AUROC 0.496 (0.45–0.54) | AUROC 0.417 (0.37–0.47) |
+| aiden_gate_densenet | flags 70% (64–76) | flags 69% (59–78) | flags 65% (56–73) | flags 65% (59–71) | flags 82% (74–89) |
+| aiden_gate_dinov2 | flags 59% (53–66) | flags 69% (58–78) | flags 59% (50–68) | flags 62% (55–69) | flags 83% (75–90) |
+| aiden_yolo11s | AUROC 0.679 (0.60–0.76) | AUROC 0.813 (0.77–0.85) | AUROC 0.660 (0.61–0.71) | AUROC 0.708 (0.67–0.75) | AUROC 0.696 (0.64–0.75) |
+| brandon_cls_v11 | flags 62% (54–68) | flags 60% (50–71) | flags 54% (46–64) | flags 60% (53–66) | flags 71% (62–80) |
+| brandon_cls_v12 | flags 64% (59–71) | flags 69% (59–78) | flags 49% (40–57) | flags 49% (42–55) | flags 71% (62–80) |
+| brandon_yolo_v11 | AUROC 0.680 (0.62–0.75) | AUROC 0.802 (0.75–0.84) | AUROC 0.681 (0.63–0.73) | AUROC 0.700 (0.66–0.74) | AUROC 0.564 (0.52–0.61) |
+| brandon_yolo_v12 | AUROC 0.677 (0.60–0.75) | AUROC 0.788 (0.74–0.83) | AUROC 0.679 (0.63–0.73) | AUROC 0.658 (0.62–0.70) | AUROC 0.673 (0.62–0.73) |
+| daniel_cls_6class | AUROC 0.502 (0.44–0.57) | AUROC 0.619 (0.55–0.68) | AUROC 0.707 (0.66–0.75) | AUROC 0.461 (0.42–0.51) | AUROC 0.472 (0.41–0.54) |
+| daniel_cls_binary | flags 70% (63–75) | flags 67% (57–77) | flags 49% (39–58) | flags 51% (44–58) | flags 71% (61–79) |
+| daniel_yolo | AUROC 0.689 (0.61–0.76) | AUROC 0.813 (0.77–0.85) | AUROC 0.621 (0.57–0.67) | AUROC 0.712 (0.67–0.75) | AUROC 0.697 (0.64–0.75) |
+| junwei_yolo11n | AUROC 0.680 (0.61–0.75) | AUROC 0.789 (0.75–0.83) | AUROC 0.638 (0.59–0.69) | AUROC 0.690 (0.65–0.73) | AUROC 0.692 (0.64–0.75) |
+| team_keras_6class | AUROC 0.497 (0.43–0.57) | AUROC 0.491 (0.42–0.56) | AUROC 0.700 (0.66–0.74) | AUROC 0.496 (0.45–0.54) | AUROC 0.417 (0.37–0.48) |
 
 Positives in the bench part: AlphaDent caries 369/518, caries 86/967, calculus/plaque 127/967, discoloration 210/967, missing teeth 99/967 photos.
 
@@ -58,10 +86,16 @@ Dentist polygons for caries classes 1-6 merged into one Caries box each; abrasio
 
 | model | part | photos | caries lesions | AP50 (strict) | AP10 (loose) | lesions found (loose) | boxes on a lesion (loose) |
 |---|---|---|---|---|---|---|---|
-| brandon_yolo_v11 | bench | 518 | 1527 | 0.024 (0.02–0.03) | 0.111 (0.08–0.15) | 5% (4–7) | 25% (18–35) |
-| brandon_yolo_v11 | all | 1319 | 3576 | 0.024 (0.02–0.03) | 0.127 (0.11–0.15) | 5% (4–7) | 31% (25–37) |
-| brandon_yolo_v12 | bench | 518 | 1527 | 0.024 (0.02–0.04) | 0.115 (0.09–0.16) | 7% (5–9) | 27% (18–38) |
+| aiden_yolo11s | bench | 518 | 1527 | 0.024 (0.02–0.04) | 0.105 (0.08–0.14) | 7% (5–10) | 24% (17–33) |
+| aiden_yolo11s | all | 1319 | 3576 | 0.023 (0.02–0.03) | 0.117 (0.10–0.14) | 7% (6–8) | 27% (22–33) |
+| brandon_yolo_v11 | bench | 518 | 1527 | 0.024 (0.02–0.03) | 0.111 (0.09–0.14) | 5% (4–7) | 25% (18–35) |
+| brandon_yolo_v11 | all | 1319 | 3576 | 0.024 (0.02–0.03) | 0.127 (0.11–0.15) | 5% (4–6) | 31% (24–37) |
+| brandon_yolo_v12 | bench | 518 | 1527 | 0.024 (0.02–0.03) | 0.115 (0.09–0.15) | 7% (5–9) | 27% (18–37) |
 | brandon_yolo_v12 | all | 1319 | 3576 | 0.025 (0.02–0.03) | 0.128 (0.11–0.16) | 8% (6–9) | 31% (24–38) |
+| daniel_yolo | bench | 518 | 1527 | 0.023 (0.02–0.03) | 0.107 (0.08–0.14) | 10% (8–12) | 25% (19–32) |
+| daniel_yolo | all | 1319 | 3576 | 0.020 (0.02–0.03) | 0.116 (0.10–0.14) | 11% (9–12) | 30% (25–35) |
+| junwei_yolo11n | bench | 518 | 1527 | 0.025 (0.02–0.04) | 0.104 (0.08–0.14) | 3% (2–5) | 20% (12–31) |
+| junwei_yolo11n | all | 1319 | 3576 | 0.027 (0.02–0.04) | 0.119 (0.10–0.15) | 3% (2–4) | 24% (18–32) |
 
 ## 4. Mouth ulcers
 
@@ -69,10 +103,17 @@ Autooral: ulcer close-ups with dentist masks (every photo has an ulcer). SMART-O
 
 | model | ulcer photos caught (Autooral) | ulcer box AP50 | normal soft-tissue photos wrongly flagged (SMART-OM) |
 |---|---|---|---|
-| brandon_cls_v11 | 95% (90–98) (any-problem flag) | – | 45% (41–48) (any-problem flag) |
+| aiden_gate_densenet | 99% (97–100) (any-problem flag) | – | 54% (50–58) (any-problem flag) |
+| aiden_gate_dinov2 | 95% (88–100) (any-problem flag) | – | 47% (43–51) (any-problem flag) |
+| aiden_yolo11s | 32% (22–47) | 0.241 (0.17–0.34) | 1% (0–1) |
+| brandon_cls_v11 | 95% (89–98) (any-problem flag) | – | 45% (41–48) (any-problem flag) |
 | brandon_cls_v12 | 56% (46–67) (any-problem flag) | – | 35% (32–39) (any-problem flag) |
-| brandon_yolo_v11 | 17% (10–29) | 0.159 (0.11–0.24) | 2% (1–2) |
-| brandon_yolo_v12 | 72% (60–87) | 0.120 (0.07–0.21) | 1% (0–2) |
+| brandon_yolo_v11 | 17% (10–29) | 0.159 (0.11–0.25) | 2% (1–2) |
+| brandon_yolo_v12 | 72% (61–87) | 0.120 (0.07–0.22) | 1% (0–2) |
+| daniel_cls_6class | 91% (86–96) | – | 4% (3–5) |
+| daniel_cls_binary | 99% (98–100) (any-problem flag) | – | 50% (47–54) (any-problem flag) |
+| daniel_yolo | 43% (29–61) | 0.368 (0.27–0.51) | 1% (1–2) |
+| junwei_yolo11n | 36% (25–55) | 0.109 (0.06–0.18) | 1% (0–2) |
 | team_keras_6class | 87% (80–95) | – | 36% (32–40) |
 
 158 Autooral photos (43 patients), 788 SMART-OM photos (153 patients).

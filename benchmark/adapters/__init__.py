@@ -28,9 +28,9 @@ MODELS = {
     "team_keras_6class": dict(kind="keras6", weights="models/classifier/weights/oral_classifier.keras",
                               owner="team", note="Keras EfficientNetB0 6-class baseline", python="repo_venv"),
     # ---- Aiden (drop the weights at these paths) ---------------------------------------------------------------
-    "aiden_gate_dinov2": dict(kind="aiden_gate", weights="models/classifier/results/Aiden/dinov2_vitb14/model.pt",
+    "aiden_gate_dinov2": dict(kind="aiden_gate", weights="models/classifier/weights/Aiden/dinov2_vitb14/model.pt",
                               owner="Aiden", note="DINOv2 ViT-B/14 gate"),
-    "aiden_gate_densenet": dict(kind="aiden_gate", weights="models/classifier/results/Aiden/densenet121/model.pt",
+    "aiden_gate_densenet": dict(kind="aiden_gate", weights="models/classifier/weights/Aiden/densenet121/model.pt",
                                 owner="Aiden", note="DenseNet-121 gate"),
     "aiden_yolo11n": dict(kind="yolo", weights="models/yolo_caries/weights/Aiden/yolo11n.pt", owner="Aiden",
                           note="YOLO11n on Daniel's v4 data", conf=0.25),
@@ -39,10 +39,13 @@ MODELS = {
     # ---- Daniel ------------------------------------------------------------------------------------------------
     "daniel_cls_binary": dict(kind="torchvision_cls", weights="models/classifier/weights/Daniel/binary/best.pt",
                               owner="Daniel", note="binary gate"),
-    "daniel_cls_6class": dict(kind="torchvision_cls", weights="models/classifier/weights/Daniel/best.pt",
-                              owner="Daniel", note="6-class condition classifier"),
-    "daniel_yolo": dict(kind="yolo", weights="models/yolo_caries/weights/Daniel/best.pt", owner="Daniel",
-                        note="YOLO (conf from best.json sidecar)"),
+    "daniel_cls_6class": dict(kind="torchvision_cls", weights="models/classifier/weights/Daniel/multiclass.pt",
+                              owner="Daniel", note="EfficientNet-B0 6-class condition classifier"),
+    "daniel_yolo": dict(kind="yolo", weights="models/yolo_caries/weights/Daniel/yolo12m.pt", owner="Daniel",
+                        note="YOLO12m 640 (no sidecar, so conf 0.25)", conf=0.25),
+    # ---- Junwei ------------------------------------------------------------------------------------------------
+    "junwei_yolo11n": dict(kind="yolo", weights="models/yolo_caries/weights/Junwei/best.pt", owner="Junwei",
+                           note="YOLO11n 640, 100 ep (conf from best.json sidecar)"),
 }
 
 
