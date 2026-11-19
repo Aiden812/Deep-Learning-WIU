@@ -88,6 +88,17 @@
               <li><span class="tip-icon"><i data-lucide="smile"></i></span>Lips back</li>
               <li><span class="tip-icon"><i data-lucide="focus"></i></span>Close up</li>
             </ul>
+            <div class="qc" id="qc">
+              <button type="button" class="qc-btn" id="qcBtn" aria-expanded="false" aria-controls="qcPanel">
+                <i data-lucide="info"></i><span id="qcBtnText">What we check</span>
+              </button>
+              <div class="qc-panel" id="qcPanel" role="dialog" aria-labelledby="qcHead" hidden>
+                <p class="qc-head" id="qcHead">Photo checklist</p>
+                <p class="qc-sub" id="qcSub">Every photo is checked before we look at your teeth.</p>
+                <ul class="qc-list" id="qcList"></ul>
+                <p class="qc-foot" id="qcFoot">A photo that fails is left out, so we never guess from a bad photo.</p>
+              </div>
+            </div>
             <p class="dz-hint" id="dzHint">JPG or PNG · up to 5 photos</p>
             <input type="file" id="fileInput" accept="image/*" multiple hidden>
             <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
@@ -152,6 +163,10 @@
             <div class="low-conf" id="lowConf" hidden>
               <i data-lucide="image-off"></i>
               <span>The model isn't sure. Try a brighter, closer photo.</span>
+            </div>
+            <div class="qc-note" id="qcNote" hidden>
+              <i data-lucide="triangle-alert"></i>
+              <span id="qcNoteText"></span>
             </div>
             <div class="probs" id="probs" aria-label="Likelihood of each condition"></div>
             <details class="probs probs-fold" id="probsFold" hidden><summary>See all likelihoods</summary><div id="probsFoldBody" class="probs-inner"></div></details>
@@ -227,29 +242,74 @@
           <h3 class="card-title" id="flowTitle">If left alone</h3>
           <ol class="flow" id="flow"></ol>
         </article>
+
+        <article class="card ask-card" id="askCard">
+          <div class="ask-head">
+            <span class="ask-icon"><i data-lucide="messages-square"></i></span>
+            <div>
+              <h3 class="card-title">Ask about your result</h3>
+              <p class="ask-sub">Answers only use Singapore dental health sources, and show where each point comes from. Not a diagnosis.</p>
+            </div>
+          </div>
+          <div class="ask-chips" id="askChips" role="group" aria-label="Suggested questions"></div>
+          <div class="ask-thread" id="askThread" aria-live="polite"></div>
+          <form class="ask-form" id="askForm">
+            <label class="sr-only" for="askInput">Your question</label>
+            <input id="askInput" type="text" maxlength="300" autocomplete="off" placeholder="Ask anything about your teeth or this result">
+            <button class="btn btn-dark" type="submit" id="askSend"><i data-lucide="send-horizontal"></i><span>Ask</span></button>
+          </form>
+          <p class="ask-privacy"><i data-lucide="lock"></i>Please don't type your name or NRIC. Questions aren't saved. In an emergency, call 995.</p>
+        </article>
       </div>
     </section>
 
-    <!-- ============ COST (placeholder) ============ -->
-    <section id="cost" class="section">
+    <!-- ============ COST ============ -->
+    <section id="cost" class="section needs-result">
       <div class="section-head">
         <span class="section-icon"><i data-lucide="wallet"></i></span>
         <div>
           <h2>What will it cost?</h2>
-          <p>Coming soon: your price after CHAS and MediSave.</p>
+          <p>Your likely price after CHAS and MediSave. Three quick questions.</p>
         </div>
       </div>
-      <div class="card cost-card">
-        <ul class="cost-fields" aria-label="What the estimator will ask">
-          <li class="cost-field"><span class="cost-icon"><i data-lucide="id-card"></i></span>Citizenship</li>
-          <li class="cost-field"><span class="cost-icon"><i data-lucide="credit-card"></i></span>CHAS card</li>
-          <li class="cost-field"><span class="cost-icon"><i data-lucide="cake"></i></span>Age</li>
-          <li class="cost-field"><span class="cost-icon"><i data-lucide="stethoscope"></i></span><span id="costProcedure">Treatment</span></li>
-        </ul>
-        <div class="cost-soon">
-          <span class="soon-pill"><i data-lucide="hourglass"></i>Coming soon</span>
-          <p class="cost-soon-title">Cost estimator</p>
-          <p>An estimate, not a fixed price <strong>(non-binding)</strong>. Every figure will show its source: MOH, CHAS and CPF.</p>
+      <div class="locked" data-lock>
+        <span class="locked-icon"><i data-lucide="wallet"></i></span><span>A cost estimate for your result appears here.</span><a class="btn btn-soft btn-sm" href="#screen">Screen a photo</a>
+      </div>
+
+      <div data-content hidden>
+        <div class="card cost-card">
+          <form class="cost-form" id="costForm" aria-label="About you, for the cost estimate">
+            <fieldset class="cost-q">
+              <legend><span class="cost-icon"><i data-lucide="id-card"></i></span>You are a</legend>
+              <div class="seg" id="costResidency">
+                <label><input type="radio" name="residency" value="citizen" checked><span>Singapore Citizen</span></label>
+                <label><input type="radio" name="residency" value="pr"><span>PR</span></label>
+                <label><input type="radio" name="residency" value="foreigner"><span>Foreigner</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="cost-q">
+              <legend><span class="cost-icon"><i data-lucide="credit-card"></i></span>Your CHAS card</legend>
+              <div class="seg seg-wrap" id="costTier">
+                <label><input type="radio" name="tier" value="unknown" checked><span>Not sure</span></label>
+                <label><input type="radio" name="tier" value="none"><span>None</span></label>
+                <label><input type="radio" name="tier" value="blue"><span>Blue</span></label>
+                <label><input type="radio" name="tier" value="orange"><span>Orange</span></label>
+                <label><input type="radio" name="tier" value="green"><span>Green</span></label>
+                <label><input type="radio" name="tier" value="merdeka"><span>Merdeka</span></label>
+                <label><input type="radio" name="tier" value="pioneer"><span>Pioneer</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="cost-q">
+              <legend><span class="cost-icon"><i data-lucide="cake"></i></span>Your age</legend>
+              <div class="seg" id="costAge">
+                <label><input type="radio" name="age" value="under60" checked><span>Under 60</span></label>
+                <label><input type="radio" name="age" value="60plus"><span>60 or older</span></label>
+              </div>
+            </fieldset>
+            <p class="cost-privacy"><i data-lucide="lock"></i>Only used to work out this estimate. Nothing is saved.</p>
+          </form>
+
+          <div class="cost-out" id="costOut" aria-live="polite"></div>
         </div>
       </div>
     </section>

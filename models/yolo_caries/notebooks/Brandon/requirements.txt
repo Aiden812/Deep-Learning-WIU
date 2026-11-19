@@ -1,0 +1,10 @@
+# For 02_yolo_detector.ipynb (same environment as models/classifier/notebooks/Brandon).
+# Install PyTorch with CUDA first (GTX 10xx / Pascal GPUs need cu126 or older):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
+ultralytics
+pandas
+scikit-learn
+matplotlib
+pillow
+tqdm
+ipykernel
