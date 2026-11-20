@@ -234,6 +234,8 @@ def main():
             continue
         conf = d.attrs.get("conf", MODELS[m].get("conf", 0.25))
         for part, roles in [("bench", ["bench"]), ("all", ["bench", "train"])]:
+            if part == "all" and MODELS[m].get("trained_on_external"):
+                continue
             x = d[(d.dataset == "alphadent") & d.role.isin(roles)]
             r = box_track(x, 1, conf)
             R.setdefault(m, {})[f"t3_{part}"] = r

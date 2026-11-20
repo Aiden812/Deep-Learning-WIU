@@ -115,6 +115,8 @@ def main():
         if args.models == ["all"] and (MODELS[name].get("python") == "repo_venv") != in_tf_venv:
             print(f"{name}: skipped in this Python (see the docstring for which venv runs it)")
             continue
+        if MODELS[name].get("derived_from"):
+            continue                                # <model>_cal: predictions written by calibrate.py
         if not w.exists():
             print(f"{name}: skipped, no weights at {w}")
             continue
