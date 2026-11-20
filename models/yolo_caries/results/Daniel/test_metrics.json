@@ -1,8 +1,8 @@
 {
-  "chosen": "yolo11m",
+  "chosen": "yolo12m",
   "selection": "highest val mAP50-95 (data.yaml); ties within 0.005 -> fewest GFLOPs",
   "deploy": {
-    "run": "yolo11m",
+    "run": "yolo12m",
     "weights": "models/yolo_caries/weights/Daniel/best.pt",
     "classes": [
       "Calculus",
@@ -12,9 +12,9 @@
       "Tooth_Discoloration"
     ],
     "imgsz": 640,
-    "conf": 0.361,
+    "conf": 0.381,
     "iou": 0.7,
-    "trained": "2026-11-16",
+    "trained": "2026-11-17",
     "dataset": "data/raw/oral_dataset/oral_dataset",
     "ultralytics": "8.4.211"
   },
@@ -26,7 +26,12 @@
       "yolo11n",
       "yolo11s",
       "yolo11m",
-      "yolo11s_person"
+      "yolo11s_person",
+      "yolo12s",
+      "yolo12m",
+      "yolo26s",
+      "yolo26m",
+      "rtdetr_l"
     ],
     "epochs": 80,
     "patience": 15,
@@ -34,12 +39,7 @@
     "workers": 8,
     "tie_margin": 0.005,
     "pred_conf": 0.05,
-    "retrain": [
-      "yolo11n",
-      "yolo11s",
-      "yolo11m",
-      "yolo11s_person"
-    ],
+    "retrain": [],
     "quick": false,
     "quick_epochs": 2,
     "quick_fraction": 0.03
@@ -47,7 +47,7 @@
   "train_args": {
     "task": "detect",
     "mode": "train",
-    "model": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\weights\\Daniel\\pretrained\\yolo11m.pt",
+    "model": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\weights\\Daniel\\pretrained\\yolo12m.pt",
     "data": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\data\\interim\\Daniel\\yolo_oral_1024\\data.yaml",
     "epochs": 80,
     "time": null,
@@ -60,7 +60,7 @@
     "device": "0",
     "workers": 8,
     "project": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\results\\Daniel\\runs",
-    "name": "yolo11m",
+    "name": "yolo12m",
     "exist_ok": true,
     "pretrained": true,
     "cls_remap": true,
@@ -159,11 +159,17 @@
     "erasing": 0.4,
     "cfg": null,
     "tracker": "tracktrack.yaml",
-    "save_dir": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\results\\Daniel\\runs\\yolo11m"
+    "save_dir": "C:\\Users\\Dani\\Documents\\School\\AI Inno W DL\\Deep-Learning-WIU\\models\\yolo_caries\\results\\Daniel\\runs\\yolo12m"
+  },
+  "metric_check": {
+    "run": "yolo11m",
+    "model_val_mAP50_95": 0.4519243491313834,
+    "box_metrics_mAP50_95": 0.45213255472214686
   },
   "val": {
     "yolo11n": {
       "model": "yolo11n",
+      "family": "ultralytics",
       "train_images": 26032,
       "epochs_run": 80,
       "best_epoch": 80,
@@ -179,6 +185,7 @@
     },
     "yolo11s": {
       "model": "yolo11s",
+      "family": "ultralytics",
       "train_images": 26032,
       "epochs_run": 78,
       "best_epoch": 62,
@@ -194,6 +201,7 @@
     },
     "yolo11m": {
       "model": "yolo11m",
+      "family": "ultralytics",
       "train_images": 26032,
       "epochs_run": 69,
       "best_epoch": 59,
@@ -209,6 +217,7 @@
     },
     "yolo11s_person": {
       "model": "yolo11s",
+      "family": "ultralytics",
       "train_images": 18664,
       "epochs_run": 57,
       "best_epoch": 42,
@@ -221,146 +230,226 @@
       "val_mAP50": 0.794939560441459,
       "val_mAP50_95": 0.4291208289446607,
       "val_person_mAP50_95": 0.4423193276499553
+    },
+    "yolo12s": {
+      "model": "yolo12s",
+      "family": "ultralytics",
+      "train_images": 26032,
+      "epochs_run": 64,
+      "best_epoch": 51,
+      "min_per_epoch": 3.187416666666665,
+      "params_M": 9.255071,
+      "GFLOPs": 23.49184,
+      "inference_ms": 2.9422976538939203,
+      "val_P": 0.7840114602988344,
+      "val_R": 0.7697108399915396,
+      "val_mAP50": 0.8236617519974103,
+      "val_mAP50_95": 0.44959458803260266,
+      "val_person_mAP50_95": 0.4502244945651309
+    },
+    "yolo12m": {
+      "model": "yolo12m",
+      "family": "ultralytics",
+      "train_images": 26032,
+      "epochs_run": 66,
+      "best_epoch": 51,
+      "min_per_epoch": 6.042833333333329,
+      "params_M": 20.141343,
+      "GFLOPs": 71.0253056,
+      "inference_ms": 8.932297993913693,
+      "val_P": 0.782817713296012,
+      "val_R": 0.790054658924668,
+      "val_mAP50": 0.838098168500131,
+      "val_mAP50_95": 0.46324597261835687,
+      "val_person_mAP50_95": 0.4639364409106175
+    },
+    "yolo26s": {
+      "model": "yolo26s",
+      "family": "ultralytics",
+      "train_images": 26032,
+      "epochs_run": 66,
+      "best_epoch": 46,
+      "min_per_epoch": 2.6094166666666636,
+      "params_M": 9.951734,
+      "GFLOPs": 22.7567616,
+      "inference_ms": 2.9076674941584244,
+      "val_P": 0.776883297968797,
+      "val_R": 0.7851068275198589,
+      "val_mAP50": 0.8247393370905005,
+      "val_mAP50_95": 0.45063512813694706,
+      "val_person_mAP50_95": 0.45114690759345677
+    },
+    "yolo26m": {
+      "model": "yolo26m",
+      "family": "ultralytics",
+      "train_images": 26032,
+      "epochs_run": 66,
+      "best_epoch": 51,
+      "min_per_epoch": 5.174275,
+      "params_M": 21.780598,
+      "GFLOPs": 74.9899776,
+      "inference_ms": 6.228857667529585,
+      "val_P": 0.784242748687684,
+      "val_R": 0.7803985388270674,
+      "val_mAP50": 0.8304883169691919,
+      "val_mAP50_95": 0.4525917169699719,
+      "val_person_mAP50_95": 0.45321074512422205
+    },
+    "rtdetr_l": {
+      "model": "rtdetr-l",
+      "family": "ultralytics",
+      "train_images": 26032,
+      "epochs_run": 48,
+      "best_epoch": 33,
+      "min_per_epoch": 12.737750000000005,
+      "params_M": 32.816351,
+      "GFLOPs": 109.9094304,
+      "inference_ms": 8.373971472384103,
+      "val_P": 0.7747006967543253,
+      "val_R": 0.7874619076746262,
+      "val_mAP50": 0.8123731780099567,
+      "val_mAP50_95": 0.43100337751471524,
+      "val_person_mAP50_95": 0.4317830332418324
     }
   },
   "test_all": {
-    "run": "yolo11m",
+    "run": "yolo12m",
     "data": "data.yaml",
     "split": "test",
-    "precision": 0.8067483091737835,
-    "recall": 0.7675454407452189,
-    "mAP50": 0.8210348482459671,
-    "mAP50_95": 0.43461038534701707,
-    "f1_conf": 0.4314314314314314,
-    "f1_max": 0.7856927369756276,
-    "inference_ms": 5.188738249252774,
-    "params_M": 20.056863,
-    "GFLOPs": 68.320512,
+    "precision": 0.7973767945153439,
+    "recall": 0.78506570204532,
+    "mAP50": 0.8255770351949808,
+    "mAP50_95": 0.4441772268972246,
+    "f1_conf": 0.3973973973973974,
+    "f1_max": 0.7896593690640625,
+    "inference_ms": 6.227250510960093,
+    "params_M": 20.141343,
+    "GFLOPs": 71.0253056,
     "per_class": {
       "Calculus": {
-        "P": 0.7100813275027432,
-        "R": 0.5761092150170648,
-        "AP50": 0.6425653925997548,
-        "AP50_95": 0.3016351963325914
+        "P": 0.7046031500323908,
+        "R": 0.5938566552901023,
+        "AP50": 0.6664138592907699,
+        "AP50_95": 0.3177261092093932
       },
       "Caries": {
-        "P": 0.831254037272133,
-        "R": 0.7535758071107479,
-        "AP50": 0.8177450813560925,
-        "AP50_95": 0.4406331212048942
+        "P": 0.8315840433146566,
+        "R": 0.7728366812262031,
+        "AP50": 0.8202363434459752,
+        "AP50_95": 0.45209305668534105
       },
       "Hypodontia": {
-        "P": 0.7892029565255221,
-        "R": 0.8210526315789474,
-        "AP50": 0.8363706875197277,
-        "AP50_95": 0.36547652095452476
+        "P": 0.7584483557359872,
+        "R": 0.8357335368954454,
+        "AP50": 0.8133435978471641,
+        "AP50_95": 0.3528303873139965
       },
       "Mouth_Ulcer": {
-        "P": 0.8770350692895953,
-        "R": 0.8750254281571271,
-        "AP50": 0.9184338326297294,
-        "AP50_95": 0.4825640578252444
+        "P": 0.8750992428668954,
+        "R": 0.8905560458958517,
+        "AP50": 0.9272663880204104,
+        "AP50_95": 0.49616838550004577
       },
       "Tooth_Discoloration": {
-        "P": 0.8261681552789237,
-        "R": 0.8119641218622078,
-        "AP50": 0.8900592471245312,
-        "AP50_95": 0.5827430304178307
+        "P": 0.8171491806267897,
+        "R": 0.8323455909189973,
+        "AP50": 0.9006249873705847,
+        "AP50_95": 0.6020681957773462
       }
     }
   },
   "test_person": {
-    "run": "yolo11m",
+    "run": "yolo12m",
     "data": "data_person.yaml",
     "split": "test",
-    "precision": 0.8073573498412582,
-    "recall": 0.767542047488396,
-    "mAP50": 0.8221628954658255,
-    "mAP50_95": 0.435190755522709,
-    "f1_conf": 0.4314314314314314,
-    "f1_max": 0.786033419685744,
-    "inference_ms": 5.685242502116002,
-    "params_M": 20.056863,
-    "GFLOPs": 68.320512,
+    "precision": 0.7973928590724364,
+    "recall": 0.7852060729081052,
+    "mAP50": 0.8263853356813071,
+    "mAP50_95": 0.4446267712530437,
+    "f1_conf": 0.3973973973973974,
+    "f1_max": 0.7898038747203678,
+    "inference_ms": 7.259645366397072,
+    "params_M": 20.141343,
+    "GFLOPs": 71.0253056,
     "per_class": {
       "Calculus": {
-        "P": 0.7101176469081241,
-        "R": 0.5761092150170648,
-        "AP50": 0.6435940344304008,
-        "AP50_95": 0.3022100593732263
+        "P": 0.7040087236829344,
+        "R": 0.5938566552901023,
+        "AP50": 0.6666473456180537,
+        "AP50_95": 0.31785189227706806
       },
       "Caries": {
-        "P": 0.8340506346425679,
-        "R": 0.7535758071107479,
-        "AP50": 0.8210560572795158,
-        "AP50_95": 0.4424329554566924
+        "P": 0.8323985778224162,
+        "R": 0.7732940263729224,
+        "AP50": 0.822943735297295,
+        "AP50_95": 0.4535493569302066
       },
       "Hypodontia": {
-        "P": 0.7892752198056439,
-        "R": 0.8210526315789474,
-        "AP50": 0.8370200577738106,
-        "AP50_95": 0.36561246029934263
+        "P": 0.758495793247339,
+        "R": 0.8359497798871691,
+        "AP50": 0.8139249095136579,
+        "AP50_95": 0.3531829394133222
       },
       "Mouth_Ulcer": {
-        "P": 0.877033540024744,
-        "R": 0.8750130179495674,
-        "AP50": 0.9186241701771929,
-        "AP50_95": 0.48263984032048485
+        "P": 0.8747087711966828,
+        "R": 0.8905560458958517,
+        "AP50": 0.9273079857006113,
+        "AP50_95": 0.4961550218664332
       },
       "Tooth_Discoloration": {
-        "P": 0.8263097078252113,
-        "R": 0.811959565785653,
-        "AP50": 0.8905201576682081,
-        "AP50_95": 0.5830584621637993
+        "P": 0.81735242941281,
+        "R": 0.8323738570944802,
+        "AP50": 0.9011027022769177,
+        "AP50_95": 0.6023946457781885
       }
     }
   },
   "image_level": {
-    "conf": 0.3613613613613614,
+    "conf": 0.3813813813813814,
     "screening": {
       "all test images": {
         "issue_images": 2315.0,
         "normal_images": 621.0,
-        "sensitivity": 0.9892008639308856,
-        "false_alarm_rate": 0.02576489533011272
+        "sensitivity": 0.9926565874730021,
+        "false_alarm_rate": 0.024154589371980676
       },
       "person-labelled": {
         "issue_images": 2315.0,
         "normal_images": 59.0,
-        "sensitivity": 0.9892008639308856,
-        "false_alarm_rate": 0.11864406779661017
+        "sensitivity": 0.9926565874730021,
+        "false_alarm_rate": 0.1016949152542373
       }
     },
     "per_condition": {
       "Calculus": {
         "images_with": 401.0,
-        "recall": 0.8204488778054863,
-        "precision": 0.8457583547557841,
-        "F1": 0.8329113924050634
+        "recall": 0.8079800498753117,
+        "precision": 0.8571428571428571,
+        "F1": 0.8318356867779204
       },
       "Caries": {
         "images_with": 837.0,
-        "recall": 0.8745519713261649,
-        "precision": 0.9469598965071151,
-        "F1": 0.9093167701863354
+        "recall": 0.8853046594982079,
+        "precision": 0.9451530612244898,
+        "F1": 0.9142504626773598
       },
       "Hypodontia": {
         "images_with": 335.0,
-        "recall": 0.9343283582089552,
-        "precision": 0.937125748502994,
-        "F1": 0.9357249626307922
+        "recall": 0.9492537313432836,
+        "precision": 0.9352941176470588,
+        "F1": 0.9422222222222223
       },
       "Mouth_Ulcer": {
         "images_with": 543.0,
-        "recall": 0.9779005524861878,
-        "precision": 0.9833333333333333,
-        "F1": 0.9806094182825484
+        "recall": 0.9797421731123389,
+        "precision": 0.987012987012987,
+        "F1": 0.9833641404805916
       },
       "Tooth_Discoloration": {
         "images_with": 898.0,
-        "recall": 0.9042316258351893,
-        "precision": 0.871244635193133,
-        "F1": 0.8874316939890711
+        "recall": 0.9131403118040089,
+        "precision": 0.8779443254817987,
+        "F1": 0.8951965065502183
       }
     },
     "false_alarm_by_source": [
@@ -380,7 +469,7 @@
         "dataset": "kaggle_oral",
         "label_by": "person",
         "images": 59,
-        "false_alarm_rate": 0.11864406779661017
+        "false_alarm_rate": 0.1016949152542373
       },
       {
         "dataset": "mendeley_noncaries",
