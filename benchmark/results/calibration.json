@@ -1,0 +1,98 @@
+{
+ "brandon_cls_v12": {
+  "threshold": 0.29849475622177124,
+  "calib_bal_acc": 0.7400095877277085,
+  "old_threshold": 0.500312089920044,
+  "old_calib_bal_acc": 0.6991562799616491,
+  "calib_auroc": 0.7874400767018217,
+  "n": 473
+ },
+ "brandon_cls_v11": {
+  "threshold": 0.3137350082397461,
+  "calib_bal_acc": 0.7654074784276126,
+  "old_threshold": 0.5000748634338379,
+  "old_calib_bal_acc": 0.7525311601150527,
+  "calib_auroc": 0.8207286673058486,
+  "n": 473
+ },
+ "brandon_yolo_v12": {
+  "threshold": 0.11222643405199051,
+  "calib_bal_acc": 0.7687631831255992,
+  "old_threshold": 0.25,
+  "old_calib_bal_acc": 0.7002013422818791,
+  "calib_auroc": 0.7901821668264623,
+  "n": 473
+ },
+ "brandon_yolo_v11": {
+  "threshold": 0.03356669470667839,
+  "calib_bal_acc": 0.7448609779482263,
+  "old_threshold": 0.25,
+  "old_calib_bal_acc": 0.6632023010546501,
+  "calib_auroc": 0.8061936720997124,
+  "n": 473
+ },
+ "team_keras_6class": {
+  "threshold": 0.996354877948761,
+  "calib_bal_acc": 0.5304218600191755,
+  "old_threshold": 0.5004816055297852,
+  "old_calib_bal_acc": 0.49823585810162996,
+  "calib_auroc": 0.5185043144774688,
+  "n": 473
+ },
+ "aiden_gate_dinov2": {
+  "threshold": 0.5082614198416082,
+  "calib_bal_acc": 0.794477468839885,
+  "old_threshold": 0.5216859151695785,
+  "old_calib_bal_acc": 0.7911217641418984,
+  "calib_auroc": 0.8310642377756472,
+  "n": 473
+ },
+ "aiden_gate_densenet": {
+  "threshold": 0.5033232773818129,
+  "calib_bal_acc": 0.7500383509108342,
+  "old_threshold": 0.2445488093554768,
+  "old_calib_bal_acc": 0.7346596356663471,
+  "calib_auroc": 0.8176893576222436,
+  "n": 473
+ },
+ "aiden_yolo11s": {
+  "threshold": 0.01584429107606411,
+  "calib_bal_acc": 0.7428667305848514,
+  "old_threshold": 0.25,
+  "old_calib_bal_acc": 0.6346788111217642,
+  "calib_auroc": 0.7956855225311601,
+  "n": 473
+ },
+ "daniel_cls_binary": {
+  "threshold": 0.13777804374694824,
+  "calib_bal_acc": 0.7447267497603068,
+  "old_threshold": 0.7295357584953308,
+  "old_calib_bal_acc": 0.7129434324065197,
+  "calib_auroc": 0.797104506232023,
+  "n": 473
+ },
+ "daniel_cls_6class": {
+  "threshold": 0.990191594697535,
+  "calib_bal_acc": 0.6923010546500479,
+  "old_threshold": 0.5090647339820862,
+  "old_calib_bal_acc": 0.5514765100671141,
+  "calib_auroc": 0.7247363374880154,
+  "n": 473
+ },
+ "daniel_yolo": {
+  "threshold": 0.044598158448934555,
+  "calib_bal_acc": 0.7560690316395015,
+  "old_threshold": 0.25,
+  "old_calib_bal_acc": 0.6607094918504315,
+  "calib_auroc": 0.8245733461169702,
+  "n": 473
+ },
+ "junwei_yolo11n": {
+  "threshold": 0.023687932640314102,
+  "calib_bal_acc": 0.7192425695110258,
+  "old_threshold": 0.221,
+  "old_calib_bal_acc": 0.6269702780441035,
+  "calib_auroc": 0.7800191754554171,
+  "n": 473
+ }
+}

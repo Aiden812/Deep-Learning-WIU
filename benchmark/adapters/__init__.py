@@ -24,6 +24,14 @@ MODELS = {
                              owner="Brandon", note="YOLO11n 640, v1.2 data", conf=0.25),
     "brandon_yolo_v11": dict(kind="yolo", weights="models/yolo_caries/weights/Brandon/yolo_detector.pt",
                              owner="Brandon", note="YOLO11n 640, v1.1 data", conf=0.25),
+    # v1.3: trained on v1.2 + the manifest's TRAIN part (never the bench part); threshold picked on a held-out slice
+    # of that train part and saved with the weights (YOLO: .json sidecar; classifier: in the checkpoint)
+    "brandon_yolo_v13": dict(kind="yolo", weights="models/yolo_caries/weights/Brandon/yolo_detector_v13.pt",
+                             owner="Brandon", note="YOLO11n 960, v1.2 + external train parts, fine-tuned from v1.2",
+                             trained_on_external=True),
+    "brandon_cls_v13": dict(kind="torchvision_cls", weights="models/classifier/weights/Brandon/issue_classifier_v13.pt",
+                            owner="Brandon", note="EfficientNet-B0 gate, v1.2 + external train parts, source-balanced",
+                            trained_on_external=True),
     # ---- team baseline (Keras EfficientNetB0, 6 classes incl. Normal) ------------------------------------------
     "team_keras_6class": dict(kind="keras6", weights="models/classifier/weights/oral_classifier.keras",
                               owner="team", note="Keras EfficientNetB0 6-class baseline", python="repo_venv"),
@@ -47,6 +55,27 @@ MODELS = {
     "junwei_yolo11n": dict(kind="yolo", weights="models/yolo_caries/weights/Junwei/best.pt", owner="Junwei",
                            note="YOLO11n 640, 100 ep (conf from best.json sidecar)"),
 }
+
+
+def _add_derived():
+    """YOLO entries without a fixed conf take it from their best.json sidecar (what the adapter uses), so score.py's
+    box tracks use the same operating point. calibrate.py's results add "<model>_cal" entries: same weights and
+    predictions, threshold re-picked on the MetaDent train part (predictions/<model>_cal.csv, not re-run)."""
+    import json
+    for spec in MODELS.values():
+        side = (REPO / spec["weights"]).with_suffix(".json")
+        if spec["kind"] == "yolo" and "conf" not in spec and side.exists():
+            spec["conf"] = float(json.loads(side.read_text()).get("conf", 0.25))
+    cal = Path(__file__).resolve().parents[1] / "results" / "calibration.json"
+    if cal.exists():
+        for name, c in json.loads(cal.read_text()).items():
+            if name in MODELS:
+                base = MODELS[name]
+                MODELS[f"{name}_cal"] = dict(base, conf=c["threshold"], derived_from=name,
+                                             note=base["note"] + f"; threshold re-picked on MetaDent train part ({c['threshold']:.3f})")
+
+
+_add_derived()
 
 
 def norm_name(s: str) -> str:

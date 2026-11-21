@@ -1,0 +1,95 @@
+{
+ "experiment": "Y4_yolo11n_960_v13",
+ "start_weights": "models\\yolo_caries\\weights\\Brandon\\yolo_detector_v12.pt",
+ "imgsz": 960,
+ "batch": 8,
+ "epochs_run": 10,
+ "data": {
+  "train_photos": 11100,
+  "train_from_v12": 6688,
+  "train_external_incl_repeats": 4412,
+  "val_photos": 1674,
+  "val_from_v12": 1200,
+  "val_external": 474,
+  "external_by_dataset": {
+   "fit": {
+    "alphadent": 643,
+    "autooral": 224,
+    "metadent": 638,
+    "smartom": 701
+   },
+   "val": {
+    "alphadent": 158,
+    "autooral": 38,
+    "metadent": 176,
+    "smartom": 102
+   }
+  },
+  "external_boxes_by_class": {
+   "Calculus": {
+    "fit": 64,
+    "val": 11
+   },
+   "Caries": {
+    "fit": 478,
+    "val": 119
+   },
+   "Hypodontia": {
+    "fit": 44,
+    "val": 14
+   },
+   "Mouth_Ulcer": {
+    "fit": 210,
+    "val": 36
+   },
+   "Tooth_Discoloration": {
+    "fit": 96,
+    "val": 38
+   }
+  },
+  "dropped": {
+   "metadent: finding without a matching contour": 43,
+   "v1.2 train: whole-tooth caries photos (zenodo/roboflow)": 3551
+  }
+ },
+ "conf": 0.0378464013338089,
+ "calib": {
+  "bal_acc": 0.7343517138599105,
+  "auroc": 0.7758941877794335,
+  "n": 105
+ },
+ "box": {
+  "val_external": {
+   "mAP50": 0.1769034662475512,
+   "mAP50_95": 0.0637490666829475,
+   "per_class_AP50": {
+    "Calculus": 0.00869046975052299,
+    "Caries": 0.22081919538025296,
+    "Hypodontia": 0.0033885829180872453,
+    "Mouth_Ulcer": 0.6387081487710792,
+    "Tooth_Discoloration": 0.01291093441781377
+   }
+  },
+  "v12_test_fair_human": {
+   "mAP50": 0.11313130725678106,
+   "mAP50_95": 0.06685705463977991,
+   "per_class_AP50": {
+    "Calculus": 0.0001389412119761476,
+    "Caries": 0.4243587713223427,
+    "Mouth_Ulcer": 0.0,
+    "Tooth_Discoloration": 0.02802751649280541
+   }
+  },
+  "v12_test_fair": {
+   "mAP50": 0.12355601207972344,
+   "mAP50_95": 0.062319972769001426,
+   "per_class_AP50": {
+    "Calculus": 0.09261232998208328,
+    "Caries": 0.3830357073282602,
+    "Hypodontia": 0.008791340907210968,
+    "Mouth_Ulcer": 0.08389070583506855,
+    "Tooth_Discoloration": 0.049449976345994295
+   }
+  }
+ }
+}

@@ -344,6 +344,32 @@ grading ourselves on our own data. Plan and audit: `docs/benchmark_plan.md`. Cod
 Aiden's and Daniel's models are wired in but not scored yet (their weights aren't on my laptop). Full tables:
 `benchmark/results/benchmark_report.md`.
 
+### 11.4 Retraining on the benchmark's train part: v1.3 (2026-11-19)
+The benchmark showed three weaknesses. The classifiers had learned dataset style rather than disease. Our caries boxes cover the whole tooth while dentists outline only the lesion. And the confidence cut-offs were set too high on photos the models had never seen. Three steps fixed these, run overnight by `datasets/v13_work/run_overnight.sh`:
+
+1. **Re-picked thresholds** (`benchmark/calibrate.py`): every model's cut-off was re-chosen for best balanced accuracy on the MetaDent *train* part. These rows appear as `_cal` in the report. YOLO v12 on DS1 went from 66% to 79% balanced accuracy with no retraining.
+2. **YOLO v1.3** (`models/yolo_caries/scripts/Brandon/{build,train}_yolo_v13.py`): fine-tuned from v1.2 for 10 epochs at 960 px.
+   - Added data: the AlphaDent lesion boxes, MetaDent DS3 contours (turned into boxes only where the dentist code agrees), Autooral ulcer boxes, and SMART-OM normal mucosa as negatives.
+   - Dropped data: the 3,551 Zenodo/Roboflow whole-tooth caries photos.
+   - The confidence cut-off (0.038) was picked on a 20% held-out MetaDent slice.
+3. **Classifier v1.3** (`models/classifier/scripts/Brandon/train_issue_v13.py`): EfficientNet-B0 trained from ImageNet weights.
+   - Training batches are balanced across sources, so no dataset can stand in for the answer.
+   - AlphaDent is left out because its no-caries photos are not confirmed healthy.
+
+| Test (bench part, never trained on) | v1.2 | v1.3 |
+|---|---|---|
+| MetaDent DS1 hospital, YOLO AUROC / balanced acc | 0.833 / 66% | **0.937 / 88%** |
+| MetaDent DS1 hospital, classifier AUROC | 0.538 | **0.882** |
+| MetaDent DS3 web, YOLO / classifier AUROC | 0.804 / 0.771 | 0.795 / 0.819 |
+| AlphaDent caries boxes AP50 / lesions found | 0.024 / 7% | **0.310 / 72%** |
+| Autooral ulcers caught / ulcer box AP50 | 72% / 0.12 | **96% / 0.67** |
+| Classifier v1.2 test_fair balanced acc | 0.819 | 0.860 |
+
+Cautions:
+- DS1 has only 20 healthy photos, so its confidence intervals are wide.
+- AlphaDent, Autooral and SMART-OM bench photos come from different patients but the same clinics as the train part, so those gains are partly in-distribution. DS1 is the fairest test.
+- YOLO v1.3 scores lower on the old v1.2 test_fair_human caries boxes (AP50 0.42 vs 0.71). This is expected: those boxes are the whole-tooth style we stopped training on.
+
 ---
 
 ## 12. Testing
@@ -393,8 +419,8 @@ Plus: quality-check threshold tests (section 5), cheat checks in every classifie
 
 ## 15. Open items
 
-- Score Aiden's and Daniel's models on the benchmark once their weights are copied over (`benchmark/adapters/__init__.py`).
-- Decide as a team whether to train on the benchmark's `train` rows (AlphaDent, MetaDent DS3, Autooral).
+- Score aiden_yolo11n once its weights are copied over (`benchmark/adapters/__init__.py`).
+- Switch the app to the v1.3 classifier and YOLO; measure YOLO v1.3's CPU speed at 960 px.
 - Two-stage pipeline (classifier → YOLO) in the app; currently `/api/predict` uses the team Keras classifier.
 - A held-out safety test set and an LLM-mode evaluation for the RAG explainer.
 - 50–100 consented real phone photos as a real-world test; human check of ~200 Qwen labels.
