@@ -2,8 +2,6 @@
 
 Detects carious lesions on intraoral photos.
 
-**Current status, results and next steps: [AI_HANDOVER.md](AI_HANDOVER.md).**
-
 ## Pipeline
 
 1. `scripts/Junwei/check_downloads.py` — verify `data/raw/` is populated
