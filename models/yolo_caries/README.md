@@ -16,12 +16,6 @@ Weights are gitignored.
 `dedup_and_split.py` (split Zenodo by person, tested in `tests/test_dedup_and_split.py`), `build_mixed.py` (add other caries and healthy photos),
 `visualise_labels.py` (look at labels). `configs/data.yaml` belongs to this pipeline.
 
-## Inference
-
-```python
-from models.yolo_caries.src.predict import predict
-```
-
 ## Aiden: 5-class detector on Daniel's `oral_dataset` (stage 2 behind the classifier gate)
 
 ```bash
