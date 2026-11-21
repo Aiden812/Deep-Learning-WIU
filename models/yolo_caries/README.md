@@ -1,15 +1,20 @@
-# YOLO caries detector
+# YOLO detector
 
-Detects carious lesions on intraoral photos.
+Draws a box around each problem on a mouth photo and names it: Calculus, Caries, Hypodontia, Mouth_Ulcer, Tooth_Discoloration.
+All team runs train on Daniel's `data/raw/oral_dataset/` (see its README) and are logged in `results/experiments.csv`.
+Weights are gitignored.
 
-## Pipeline
+## Jun Wei: YOLO11n at 640 vs 960 px
 
-1. `scripts/Junwei/check_downloads.py` — verify `data/raw/` is populated
-2. `scripts/Junwei/convert_dentalai_to_yolo.py` — DentalAI masks → YOLO boxes (`data/interim/`)
-3. `scripts/Junwei/dedup_and_split.py` — person-level split of Zenodo + `manifests/yolo_split.csv`; then `scripts/Junwei/build_mixed.py` — add oral-diseases caries and healthy photos (`data/processed/yolo_mixed`)
-4. `scripts/Junwei/visualise_labels.py` — eyeball labels before training
-5. Train (notebook in `notebooks/`) with `configs/data.yaml`
-6. Log every run in `results/experiments.csv`; best weights go in `weights/` (gitignored)
+1. `notebooks/JunWei/01_eda.ipynb`: checks the data (Zenodo labels and patient leak, then class counts, boxes per image, box sizes and sources in `oral_dataset`)
+2. `notebooks/JunWei/02_training_script.ipynb`: trains YOLO11n at 640 and 960 px with the same settings, tests both on the test set and logs them
+3. Results: `results/Junwei/` (see its README)
+
+## Earlier Zenodo caries pipeline (before the team dataset)
+
+`scripts/Junwei/`: `check_downloads.py` (check `data/raw/`), `convert_dentalai_to_yolo.py` (DentalAI masks to YOLO boxes),
+`dedup_and_split.py` (split Zenodo by person, tested in `tests/test_dedup_and_split.py`), `build_mixed.py` (add other caries and healthy photos),
+`visualise_labels.py` (look at labels). `configs/data.yaml` belongs to this pipeline.
 
 ## Inference
 
