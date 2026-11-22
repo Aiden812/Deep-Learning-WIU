@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+python-multipart
+torch
+torchvision>=0.20
+numpy
+pillow
+# condition detector (detector.py)
+ultralytics>=8.3
+# mouth gate (mouth_gate.py)
+transformers
+opencv-python

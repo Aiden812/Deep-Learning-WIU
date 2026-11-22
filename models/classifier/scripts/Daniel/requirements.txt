@@ -1,0 +1,8 @@
+# scrape_web_images.py
+icrawler
+ddgs
+requests
+pillow
+
+# view_yolo_boxes.py
+matplotlib

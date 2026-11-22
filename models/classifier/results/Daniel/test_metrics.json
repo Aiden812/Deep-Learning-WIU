@@ -1,0 +1,70 @@
+{
+  "experiment": "B_efficientnet_b0",
+  "backbone": "efficientnet_b0",
+  "temperature": 0.5923347473144531,
+  "abstain_threshold": 0.5,
+  "test": {
+    "acc": 0.956386292834891,
+    "bal_acc": 0.9408602150537635,
+    "macro_f1": 0.9360911007885448,
+    "recall_calculus": 1.0,
+    "recall_caries": 0.8,
+    "recall_hypodontia": 1.0,
+    "recall_mouth_ulcer": 0.9354838709677419,
+    "recall_normal": 0.95,
+    "recall_tooth_discoloration": 0.9596774193548387,
+    "f1_calculus": 0.9014084507042254,
+    "f1_caries": 0.8333333333333334,
+    "f1_hypodontia": 0.9857142857142858,
+    "f1_mouth_ulcer": 0.9666666666666667,
+    "f1_normal": 0.95,
+    "f1_tooth_discoloration": 0.9794238683127572
+  },
+  "test_macro_f1_95ci": "[0.900, 0.965]",
+  "robustness": [
+    {
+      "condition": "original",
+      "macro_f1": 0.9360911007885448,
+      "recall_normal": 0.95,
+      "recall_caries": 0.8,
+      "changed_vs_original": 0.0
+    },
+    {
+      "condition": "low-res 160px + JPEG60",
+      "macro_f1": 0.836326823187138,
+      "recall_normal": 0.925,
+      "recall_caries": 0.72,
+      "changed_vs_original": 0.11214953271028037
+    },
+    {
+      "condition": "dark (x0.5)",
+      "macro_f1": 0.9312422219149399,
+      "recall_normal": 0.95,
+      "recall_caries": 0.72,
+      "changed_vs_original": 0.018691588785046728
+    },
+    {
+      "condition": "bright (x1.6)",
+      "macro_f1": 0.8849786419805047,
+      "recall_normal": 0.925,
+      "recall_caries": 0.72,
+      "changed_vs_original": 0.04361370716510903
+    },
+    {
+      "condition": "blur (r=2)",
+      "macro_f1": 0.8874775589487061,
+      "recall_normal": 0.95,
+      "recall_caries": 0.68,
+      "changed_vs_original": 0.06230529595015576
+    },
+    {
+      "condition": "JPEG q=20",
+      "macro_f1": 0.9024357462978277,
+      "recall_normal": 0.95,
+      "recall_caries": 0.64,
+      "changed_vs_original": 0.0529595015576324
+    }
+  ],
+  "n_test": 321,
+  "n_val": 320
+}

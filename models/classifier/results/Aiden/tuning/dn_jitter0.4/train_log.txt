@@ -1,0 +1,29 @@
+{'arch': 'densenet121', 'img': 224, 'epochs': 10, 'lr': 0.0001, 'batch': 32, 'passes': 1, 'workers': 4, 'jitter': 0.4, 'tag': 'dn_jitter0.4'}
+train 25524 images (12119 photo groups, 22081 with an issue) | clean val 852 of 2941 | clean test 777 of 3046 (178 with an issue, 599 healthy) | cross-source val 1166, test 1166 (592 with an issue)
+  epoch  1  train loss 0.225  clean-val loss 0.151  clean-val AUROC 0.9931
+  epoch  2  train loss 0.179  clean-val loss 0.176  clean-val AUROC 0.9959
+  epoch  3  train loss 0.167  clean-val loss 0.077  clean-val AUROC 0.9986
+  epoch  4  train loss 0.161  clean-val loss 0.117  clean-val AUROC 0.9951
+  epoch  5  train loss 0.155  clean-val loss 0.116  clean-val AUROC 0.9977
+  epoch  6  train loss 0.151  clean-val loss 0.105  clean-val AUROC 0.9969
+  epoch  7  train loss 0.147  clean-val loss 0.134  clean-val AUROC 0.9946
+  epoch  8  train loss 0.143  clean-val loss 0.114  clean-val AUROC 0.9932
+  epoch  9  train loss 0.143  clean-val loss 0.127  clean-val AUROC 0.9924
+  epoch 10  train loss 0.141  clean-val loss 0.128  clean-val AUROC 0.9909
+STAGE-1 GATE: has an issue or healthy. Threshold 0.670 (catches 95% of issues in clean val and cross-source val)
+
+clean test (777)             AUROC 0.9901  AP 0.9481  sensitivity 0.972  specificity 0.963  precision 0.887  accuracy 0.965
+                             AUROC 95% CI 0.9834-0.9956, sensitivity 95% CI 0.946-0.994
+                             confusion: {'tp': 173, 'fn': 5, 'fp': 22, 'tn': 577}
+person-labelled only (238)   AUROC 0.9787  AP 0.9877  sensitivity 0.972  specificity 0.900  precision 0.966  accuracy 0.954
+full test, leaky (3046)      AUROC 0.9912  AP 0.9964  sensitivity 0.985  specificity 0.963  precision 0.991  accuracy 0.981
+cross-source test (1166)     AUROC 0.9781  AP 0.9735  sensitivity 0.944  specificity 0.939  precision 0.941  accuracy 0.942
+  dentalai                   AUROC 0.8934  issues 187, healthy 92
+  external_clean             AUROC 0.9024  issues 41, healthy 7
+  kaggle_oral                AUROC 0.9638  issues 94, healthy 15
+  mendeley_noncaries         AUROC n/a  issues 0, healthy 454
+  zenodo                     AUROC 0.8299  issues 270, healthy 6
+clean val (852)              AUROC 0.9909  AP 0.9435  sensitivity 0.995  specificity 0.948  precision 0.865  accuracy 0.960
+
+passed on to YOLO, per condition (clean test): Calculus 100.0% of 6, Caries 91.3% of 23, Hypodontia 100.0% of 32, Mouth_Ulcer 100.0% of 90, Tooth_Discoloration 91.4% of 35
+saved C:\Users\aiden\Downloads\AI WIU\Deep-Learning-WIU\models\classifier\results\Aiden\tuning\dn_jitter0.4\model.pt

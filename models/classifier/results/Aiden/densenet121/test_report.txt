@@ -1,0 +1,16 @@
+STAGE-1 GATE: has an issue or healthy. Threshold 0.244 (catches 95% of issues in clean val and cross-source val)
+
+clean test (803)             AUROC 0.9895  AP 0.9348  sensitivity 1.000  specificity 0.882  precision 0.714  accuracy 0.909
+                             AUROC 95% CI 0.9823-0.9953, sensitivity 95% CI 1.000-1.000
+                             confusion: {'tp': 182, 'fn': 0, 'fp': 73, 'tn': 548}
+person-labelled only (241)   AUROC 0.9636  AP 0.9771  sensitivity 1.000  specificity 0.729  precision 0.919  accuracy 0.934
+full test, leaky (2936)      AUROC 0.9896  AP 0.9949  sensitivity 1.000  specificity 0.882  precision 0.969  accuracy 0.975
+cross-source test (1181)     AUROC 0.9772  AP 0.9758  sensitivity 0.960  specificity 0.916  precision 0.924  accuracy 0.939
+  dentalai                   AUROC 0.9073  issues 190, healthy 92
+  external_clean             AUROC 0.9806  issues 43, healthy 6
+  kaggle_oral                AUROC 0.9712  issues 95, healthy 15
+  mendeley_noncaries         AUROC 0.8073  issues 8, healthy 455
+  zenodo                     AUROC 0.7678  issues 271, healthy 6
+clean val (811)              AUROC 0.9940  AP 0.9628  sensitivity 1.000  specificity 0.913  precision 0.792  accuracy 0.935
+
+passed on to YOLO, per condition (clean test): Calculus 100.0% of 3, Caries 100.0% of 32, Hypodontia 100.0% of 48, Mouth_Ulcer 100.0% of 93, Tooth_Discoloration 100.0% of 12

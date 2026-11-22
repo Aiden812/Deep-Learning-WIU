@@ -1,18 +1,31 @@
-# YOLO caries detector
+# YOLO detector
 
-Detects carious lesions on intraoral photos.
+Draws a box around each problem on a mouth photo and names it: Calculus, Caries, Hypodontia, Mouth_Ulcer, Tooth_Discoloration.
+All team runs train on Daniel's `data/raw/oral_dataset/` (see its README) and are logged in `results/experiments.csv`.
+Weights are gitignored, except the final models kept in `weights/<name>/`.
 
-## Pipeline
+## Jun Wei: YOLO11n at 640 vs 960 px
 
-1. `scripts/check_downloads.py` — verify `data/raw/` is populated
-2. `scripts/convert_dentalai_to_yolo.py` — DentalAI masks → YOLO boxes (`data/interim/`)
-3. `scripts/dedup_and_split.py` — dedup across sources, write splits + `manifests/yolo_split.csv`
-4. `scripts/visualise_labels.py` — eyeball labels before training
-5. Train (notebook in `notebooks/`) with `configs/data.yaml`
-6. Log every run in `results/experiments.csv`; best weights go in `weights/` (gitignored)
+1. `notebooks/JunWei/01_eda.ipynb`: checks the data (Zenodo labels and patient leak, then class counts, boxes per image, box sizes and sources in `oral_dataset`)
+2. `notebooks/JunWei/02_training_script.ipynb`: trains YOLO11n at 640 and 960 px with the same settings, tests both on the test set and logs them
+3. Results: `results/Junwei/` (see its README)
 
-## Inference
+## Earlier Zenodo caries pipeline (before the team dataset)
 
-```python
-from models.yolo_caries.src.predict import predict
+`scripts/Junwei/`: `check_downloads.py` (check `data/raw/`), `convert_dentalai_to_yolo.py` (DentalAI masks to YOLO boxes),
+`dedup_and_split.py` (split Zenodo by person: 1,020 patient IDs → 390 person groups; tested in `tests/test_dedup_and_split.py`), `build_mixed.py` (add other caries and healthy photos),
+`visualise_labels.py` (look at labels). `configs/data.yaml` belongs to this pipeline.
+
+## Aiden: 5-class detector on Daniel's `oral_dataset` (stage 2 behind the classifier gate)
+
+```bash
+pip install ultralytics
+python models/classifier/scripts/Aiden/find_leaks.py         # once: marks val/test copies of training photos
+python models/yolo_caries/scripts/Aiden/train_yolo.py         # yolo11n, 640 px; --model yolo11s.pt etc. to compare
 ```
+
+Trains on Daniel's `yolo_train.txt` unchanged. `best.pt` is picked on the val set **without copies of training photos**.
+Test is reported on Daniel's `data.yaml` (the number to compare across the team, logged in `results/experiments.csv`),
+on `data_person.yaml`, and on the copy-free subset (the honest score: about 90% of Daniel's val/test images with a
+condition are copies of training photos). Output: `results/Aiden/<model>/` (overwritten per run), `results/Aiden/yolo_report.txt`
+and `results/Aiden/figures/yolo_*.png`.

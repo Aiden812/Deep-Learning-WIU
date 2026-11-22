@@ -33,6 +33,7 @@ __pycache__/
 .venv/
 venv/
 env/
+.rfdetr_site/
 .ipynb_checkpoints/
 .pytest_cache/
 .mypy_cache/
@@ -52,9 +53,16 @@ desktop.ini
 # --- Local tooling ---
 .playwright-cli/
 .taste-skill/
+# --- Syncthing (results synced from the GPU machine) --------------------
+.stfolder/
+.stignore
+.stversions/
+.syncthing.*
+~syncthing~*
 # --- Logs ---------------------------------------------------------------
 *.log
 # --- Misc ---------------------------------------------------------------
 IT2226_Project_Guidebook_v1.1(student).pdf
 IT2226_Project_Proposal.docx
 IT2226_Student_Brief_Dental_Health.docx
+models/yolo_caries/results/Aiden/_lists/

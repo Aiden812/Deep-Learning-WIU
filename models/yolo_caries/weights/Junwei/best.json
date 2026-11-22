@@ -1,0 +1,19 @@
+{
+  "run": "yolo11n_640_100ep",
+  "weights": "models/yolo_caries/weights/Junwei/best.pt",
+  "classes": [
+    "Calculus",
+    "Caries",
+    "Hypodontia",
+    "Mouth_Ulcer",
+    "Tooth_Discoloration"
+  ],
+  "imgsz": 640,
+  "conf": 0.221,
+  "iou": 0.7,
+  "conf_rule": "max mean F1 on val (data.yaml), same rule as Daniel",
+  "val_f1_max": 0.769,
+  "trained": "2026-11-18",
+  "dataset": "data/raw/oral_dataset",
+  "ultralytics": "8.4.202"
+}

@@ -1,0 +1,260 @@
+================================================================================
+SMILECHECK SG — SUPPLEMENTARY KNOWLEDGE (conditions not covered by the supplied files)
+Written for this project in plain language from the official pages named in each
+chunk's [SOURCE]. Paraphrased, not copied. No medicine names by design.
+Checked: 2026-11-12
+================================================================================
+
+--- CHUNK S01 ---
+[CHUNK ID]   hypodontia-what-it-is
+[TOPIC]      Hypodontia — being born without some teeth
+[CONDITIONS] hypodontia
+[KEYWORDS]   hypodontia, missing teeth, born without teeth, congenitally missing, gap, genetic, adult teeth, milk teeth
+[SOURCE]     NDCS: "Tried counting how many teeth your children have? They might naturally be missing a few" (26 Jun 2024) | https://www.ndcs.com.sg/news/patient-care/tried-counting-how-many-teeth-your-children-have-they-might-naturally-be-missing-a-few
+[TRIGGERS]
+  - What is hypodontia?
+  - Why am I missing teeth?
+  - Is it normal to be born without some teeth?
+
+CONTENT:
+Hypodontia means a person was born without one or more teeth. It usually affects
+the adult (permanent) teeth, but it can also affect milk teeth. Wisdom teeth are not
+counted. It is not rare: about 11 in every 100 patients who need braces at the
+National Dental Centre Singapore have it. The teeth most often missing are the
+small upper front teeth beside the two middle ones, then the lower second premolars,
+then the lower front teeth.
+
+The main cause is genetic, and it can run in families. It is also linked with some
+syndromes. Less often, the tissue that forms a tooth is damaged early in life, for
+example by injury, infection, radiation or chemotherapy.
+
+A photo cannot tell a tooth that never formed from one that was lost or has not come
+through yet. A dentist confirms hypodontia with an X-ray.
+
+[RELATED CHUNKS]  hypodontia-effects-and-when-to-see | missing-teeth-replacement-options
+--- END CHUNK S01 ---
+
+--- CHUNK S02 ---
+[CHUNK ID]   hypodontia-effects-and-when-to-see
+[TOPIC]      Missing teeth — effects, and when to see a dentist
+[CONDITIONS] hypodontia
+[KEYWORDS]   missing teeth, gap, tooth drift, chewing, speech, food trapping, late teeth, X-ray, children, age 6 to 12
+[SOURCE]     NDCS: "Tried counting how many teeth your children have? They might naturally be missing a few" (26 Jun 2024) | https://www.ndcs.com.sg/news/patient-care/tried-counting-how-many-teeth-your-children-have-they-might-naturally-be-missing-a-few
+[TRIGGERS]
+  - Is it bad to have a gap from a missing tooth?
+  - Do I need to replace a missing tooth?
+  - When should my child see a dentist about missing teeth?
+
+CONTENT:
+Missing teeth can make chewing and speaking harder, let food get trapped, and allow
+the teeth next to the gap to drift. A gap does not always need to be filled,
+especially in children who still have their milk teeth.
+
+See a dentist if baby or adult teeth are very late to appear, if there are gaps, or
+if an adult tooth that should have come through has not. For children, gaps or delays
+between about age 6 and 12 are a good reason for a dental visit. Dentists often take
+a full-mouth X-ray at around age eight to check which adult teeth are forming.
+
+Treatment depends on age. Braces are usually avoided in very young children, and
+implants are normally left until the jaw has finished growing. Adults may be offered a
+denture or a bridge. The dentist talks through the options; leaving the gap is
+sometimes one of them.
+
+[RELATED CHUNKS]  hypodontia-what-it-is | missing-teeth-replacement-options
+--- END CHUNK S02 ---
+
+--- CHUNK S03 ---
+[CHUNK ID]   missing-teeth-replacement-options
+[TOPIC]      Replacing missing teeth — implant, bridge or denture
+[CONDITIONS] hypodontia
+[KEYWORDS]   tooth replacement, implant, bridge, resin-bonded bridge, denture, partial denture, complete denture, missing tooth
+[SOURCE]     NDCS: "Missing Teeth and Tooth Replacement" | https://www.ndcs.com.sg/symptoms-treatments/missing-teeth-tooth-replacement-dental-implants-bridges-dentures
+[TRIGGERS]
+  - How can a missing tooth be replaced?
+  - What is the difference between an implant, a bridge and a denture?
+  - How long does it take to replace a missing tooth?
+
+CONTENT:
+There are three main ways to replace missing teeth. Replacing them helps with
+eating, speech and appearance.
+
+Implant: a small titanium post is placed in the jaw bone and a new tooth is fixed on
+top. It usually takes about four months to a year, and some people need a bone graft
+first.
+
+Bridge: a fixed false tooth held by the teeth on either side, which are usually
+shaped to take crowns. A resin-bonded bridge needs much less trimming of the
+neighbouring teeth. A bridge needs at least two visits. Keep it clean by brushing,
+flossing and having regular check-ups.
+
+Denture: a removable plate. A partial denture replaces some teeth and a complete
+denture replaces all the teeth in one jaw. It usually takes two to six visits.
+
+Before choosing, the dentist checks the jaw bone, how the teeth and jaws meet, habits
+such as grinding, and general health.
+
+[RELATED CHUNKS]  hypodontia-effects-and-when-to-see
+--- END CHUNK S03 ---
+
+--- CHUNK S04 ---
+[CHUNK ID]   mouth-ulcer-what-it-is
+[TOPIC]      Mouth ulcers — what they are and common causes
+[CONDITIONS] mouth_ulcer
+[KEYWORDS]   mouth ulcer, ulcer, sore, canker sore, cold sore, bite cheek, recurring ulcers, stress, causes
+[SOURCE]     SGH (Sengkang General Hospital Head and Neck Service): "Mouth Ulcers – Causes & When to See A Doctor" | https://www.sgh.com.sg/symptoms-treatments/mouth-ulcers
+[TRIGGERS]
+  - What is a mouth ulcer?
+  - What causes mouth ulcers?
+  - Why do I keep getting mouth ulcers?
+
+CONTENT:
+A mouth ulcer is a sore where part of the soft lining of the mouth has broken down.
+A single ulcer is most often caused by a small injury, such as accidentally biting
+the cheek, and it usually heals by itself within one to two weeks.
+
+Some people get ulcers again and again. Often no clear cause is found, but some
+health conditions make repeat ulcers more likely, including viral infections such as
+cold sores, low levels of some nutrients, some medicines, bowel inflammation and a
+few rarer conditions. Stress and periods can bring on cold sores in people who carry
+the virus.
+
+[RELATED CHUNKS]  mouth-ulcer-when-to-see
+--- END CHUNK S04 ---
+
+--- CHUNK S05 ---
+[CHUNK ID]   mouth-ulcer-when-to-see
+[TOPIC]      Mouth ulcers — when to see a doctor or dentist
+[CONDITIONS] mouth_ulcer
+[KEYWORDS]   ulcer not healing, two weeks, three weeks, oral cancer, smoking, alcohol, betel nut, see a doctor, raised edges
+[SOURCE]     SGH (Sengkang General Hospital Head and Neck Service): "Mouth Ulcers – Causes & When to See A Doctor" | https://www.sgh.com.sg/symptoms-treatments/mouth-ulcers
+[TRIGGERS]
+  - When should I worry about a mouth ulcer?
+  - How long does a mouth ulcer take to heal?
+  - Can a mouth ulcer be cancer?
+
+CONTENT:
+Most mouth ulcers heal on their own within one to two weeks. See a doctor or dentist
+if an ulcer has not healed after two to three weeks. A sore that will not heal needs
+to be checked because, occasionally, it can be a sign of mouth cancer. An ulcer with
+raised or rolled edges should also be checked.
+
+Smoking, drinking alcohol and chewing betel nut raise the risk of mouth and tongue
+cancer, but a non-healing ulcer should be checked even if you have none of these
+habits. Only a doctor or dentist can say what an ulcer is; a photo cannot.
+
+[RELATED CHUNKS]  mouth-ulcer-what-it-is
+--- END CHUNK S05 ---
+
+--- CHUNK S06 ---
+[CHUNK ID]   discoloured-teeth-causes
+[TOPIC]      Discoloured teeth — surface stains vs stains inside the tooth
+[CONDITIONS] tooth_discoloration
+[KEYWORDS]   discoloured teeth, discolouration, stains, yellow teeth, brown teeth, grey tooth, extrinsic, intrinsic, coffee, tea, smoking, ageing, trauma
+[SOURCE]     NDCS: "Discoloured Teeth" | https://www.ndcs.com.sg/symptoms-treatments/discoloured-teeth
+[TRIGGERS]
+  - Why are my teeth stained?
+  - What causes yellow or brown teeth?
+  - Why has one tooth turned grey?
+
+CONTENT:
+Tooth stains are either on the surface of the tooth (extrinsic) or inside it
+(intrinsic).
+
+Surface stains come from strongly coloured food and drink such as coffee, tea, red
+wine, cola and curry, from smoking or other tobacco use, from stain-forming bacteria,
+and from not cleaning the teeth well. They usually cause no symptoms apart from how
+the teeth look.
+
+Stains inside the tooth can come from ageing, genes, an injury to the tooth, tooth
+decay, problems while the tooth was forming in childhood (such as too much fluoride,
+or high fevers), or a tooth that has had root canal treatment slowly changing colour.
+A single tooth that turns darker after a knock is a stain inside the tooth, so a
+dentist should check it.
+If discolouration comes with toothache, sensitivity, or a hole or pit in the tooth,
+it may be decay, so get it checked rather than treating it as a cosmetic issue.
+
+[RELATED CHUNKS]  discoloured-teeth-what-helps
+--- END CHUNK S06 ---
+
+--- CHUNK S07 ---
+[CHUNK ID]   discoloured-teeth-what-helps
+[TOPIC]      Discoloured teeth — what helps
+[CONDITIONS] tooth_discoloration
+[KEYWORDS]   remove stains, whitening, bleaching, scaling and polishing, veneers, crowns, stop smoking, cut down coffee
+[SOURCE]     NDCS: "Discoloured Teeth" | https://www.ndcs.com.sg/symptoms-treatments/discoloured-teeth
+[TRIGGERS]
+  - How can I get rid of tooth stains?
+  - Can a cleaning remove stains?
+  - Does teeth whitening work on all stains?
+
+CONTENT:
+At home: stop smoking, cut down on coffee, tea and other strongly coloured food and
+drink, and brush well every day.
+
+At the dentist: a scaling and polishing visit removes most surface stains. Stains
+inside the tooth cannot be polished away. Some of them can be lightened by bleaching
+(whitening). If bleaching does not work, a dentist may suggest a veneer or a crown.
+The dentist decides which option suits your teeth.
+
+[RELATED CHUNKS]  discoloured-teeth-causes
+--- END CHUNK S07 ---
+
+--- CHUNK S08 ---
+[CHUNK ID]   dental-emergency-where-to-go
+[TOPIC]      Dental emergencies — when to go to A&E and where
+[CONDITIONS] all
+[KEYWORDS]   emergency, A&E, 995, facial swelling, fever, uncontrolled bleeding, knocked out tooth, broken tooth, trauma, severe pain, NDCS, SGH emergency, after hours, KKH
+[SOURCE]     NDCS: "Emergency Dental Services" | https://www.ndcs.com.sg/clinic-visit/emergency-dental-services
+[TRIGGERS]
+  - What counts as a dental emergency?
+  - Where can I get emergency dental care at night?
+  - Should I go to A&E for a toothache?
+
+CONTENT:
+Get emergency care straight away for: swelling of the face or jaw from an infection,
+especially with a high fever; bleeding from the mouth that will not stop; severe
+pain; or an injury to the teeth or face, such as a loose, broken or knocked-out tooth
+or a cut to the gums or face. If breathing or swallowing is difficult, call 995.
+
+The National Dental Centre Singapore (NDCS) has 24-hour emergency dental care on the
+SingHealth Outram campus. During NDCS clinic hours, its Urgent Care Clinic sees
+toothaches, injuries and infections from teeth. Outside those hours, urgent dental
+cases go to the SGH Emergency Department. Children under 12 go to NDCS Paediatric
+Dentistry during clinic hours and to KK Women's and Children's Hospital Children's
+Emergency after hours. Emergency departments do not do routine work such as fillings
+or root canals.
+
+A toothache on its own is usually best seen at a dental clinic, unless it comes with
+a high fever or a lot of facial swelling.
+
+[RELATED CHUNKS]  toothache-while-waiting
+--- END CHUNK S08 ---
+
+--- CHUNK S09 ---
+[CHUNK ID]   toothache-while-waiting
+[TOPIC]      Tooth or gum pain — what to do while waiting to see a dentist
+[CONDITIONS] caries, all
+[KEYWORDS]   toothache, tooth pain, gum pain, salt water rinse, cold pack, swelling, walk-in, GP, polyclinic, pus, foul taste
+[SOURCE]     SingHealth GPFirst: "Gum or Tooth Pain" | https://www.singhealth.com.sg/community-care/find-resources-in-your-community/what-is-gpfirst/conditions-your-gp-can-treat/gum-or-tooth-pain
+[TRIGGERS]
+  - What can I do for a toothache at home?
+  - My gum hurts, what should I do?
+  - Should I see a GP or a dentist for tooth pain?
+
+CONTENT:
+Most tooth and gum pain gets better with early care, and many dental clinics offer
+walk-in or next-day appointments, so book a dentist soon.
+
+While you wait: rinse with warm salt water (about half a teaspoon of salt in a glass
+of warm water). If the cheek or jaw is swollen, hold a cold pack wrapped in a towel
+against the outside of the cheek for 15 to 20 minutes. Avoid very hot or very cold
+food and drinks, and hard, sugary or acidic food. Keep brushing twice a day and
+cleaning between your teeth.
+
+See a GP or polyclinic doctor promptly if the pain comes with clear swelling of the
+jaw, fever, pus or a bad taste, or if a tooth broke in an accident. Go to the
+Emergency Department if the gums or a tooth socket keep bleeding even after pressing
+on them with gauze. For advice on pain relief, ask a pharmacist or doctor.
+
+[RELATED CHUNKS]  dental-emergency-where-to-go
+--- END CHUNK S09 ---

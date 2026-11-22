@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oral condition classifier — demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <span class="wordmark">Oral condition classifier</span>
+    <span class="topbar-right">
+      <span id="device-pill" class="pill">loading…</span>
+    </span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="cols">
+
+    <!-- left: upload -->
+    <div class="col-left">
+      <h2 class="sec">Upload a photo</h2>
+      <div id="drop" class="dropzone" tabindex="0" role="button"
+           aria-label="Choose an intraoral photo or drag one here">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 16V4m0 0 4 4m-4-4L8 8"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>
+        </svg>
+        <p>Drop an image here, click to browse, or paste from clipboard</p>
+        <p class="dz-hint">JPG / PNG / WebP, up to 20&nbsp;MB</p>
+        <input id="file" type="file" accept="image/*" hidden>
+      </div>
+
+      <div id="preview-card" class="card hidden">
+        <div class="preview-row">
+          <div class="preview-wrap">
+            <img id="preview" alt="Uploaded photo">
+            <svg id="mouth-box" class="mouth-box hidden" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">
+              <polygon points="" vector-effect="non-scaling-stroke"/>
+            </svg>
+          </div>
+          <div class="preview-side">
+            <p id="file-name" class="mono small"></p>
+            <p id="file-size" class="muted small"></p>
+            <div class="btn-row">
+              <button id="again" class="btn">Choose another</button>
+              <button id="clear" class="btn btn-quiet">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="sec">History</h2>
+      <div id="history" class="history" aria-live="polite">
+        <p class="muted small pad">Nothing classified yet.</p>
+      </div>
+    </div>
+
+    <!-- right: result -->
+    <div class="col-right">
+      <h2 class="sec">Prediction</h2>
+
+      <div id="idle" class="card empty">
+        <p id="idle-text">The gate scores each photo for a dental issue that needs attention. Upload a photo to see the probability.</p>
+      </div>
+
+      <div id="loading" class="card empty hidden">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Running inference…</p>
+      </div>
+
+      <div id="error" class="card error hidden">
+        <strong>Could not classify the image</strong>
+        <p id="error-msg" class="small"></p>
+      </div>
+
+      <div id="rejected" class="card reject hidden">
+        <strong id="rej-title">No mouth to classify</strong>
+        <p id="rej-msg" class="small"></p>
+        <h3 class="card-h">What the photo looks like</h3>
+        <div id="rej-bars" class="bars"></div>
+        <p class="tiny mono" id="rej-latency"></p>
+      </div>
+
+      <div id="result" class="hidden">
+        <div class="card verdict">
+          <div class="verdict-row">
+            <div>
+              <p class="muted tiny">Most likely</p>
+              <h3 id="pred-name">—</h3>
+            </div>
+            <div class="verdict-num">
+              <p class="muted tiny">Confidence</p>
+              <h3 id="pred-conf">—</h3>
+            </div>
+          </div>
+          <div id="abstain" class="notice hidden">
+            <span id="abstain-body">Confidence is below the abstention threshold. The model is not confident
+            enough to answer — a retake with better lighting and focus, or a dental visit, is the safer next step.</span>
+          </div>
+          <p class="small muted" id="subline">—</p>
+          <div id="gate-row" class="gate-row hidden">
+            <figure id="gate-crop" class="gate-crop hidden">
+              <img alt="Mouth crop sent to the model">
+              <figcaption class="tiny muted">Model input</figcaption>
+            </figure>
+            <p id="gate-msg" class="small"></p>
+          </div>
+          <p class="tiny mono" id="latency"></p>
+        </div>
+
+        <div id="det-card" class="card hidden">
+          <div class="det-head">
+            <h3 class="card-h">Where the detector sees it</h3>
+            <label id="det-weak-wrap" class="tiny muted det-toggle">
+              <input id="det-weak" type="checkbox"> weaker candidates
+            </label>
+          </div>
+          <div class="det-frame">
+            <div class="det-stage">
+              <img id="det-img" alt="Photo with detected conditions outlined">
+              <div id="det-boxes" class="det-boxes"></div>
+            </div>
+          </div>
+          <p id="det-note" class="small det-note"></p>
+          <div id="det-list" class="det-list"></div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-h">Probabilities</h3>
+          <div id="bars" class="bars"></div>
+        </div>
+
+        <details class="card json-card">
+          <summary>Raw JSON response</summary>
+          <pre id="raw-json" class="mono small"></pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="model-strip">
+    <h2 class="sec">About this model</h2>
+    <div class="strip-grid">
+      <div>
+        <h3 class="card-h" id="perf-h">Test performance</h3>
+        <table class="tbl" id="metrics-tbl">
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+        <h3 class="card-h" id="f1-h">Test sensitivity &amp; specificity</h3>
+        <div id="f1-bars" class="bars"></div>
+      </div>
+      <div>
+        <h3 class="card-h">Checkpoint</h3>
+        <table class="tbl kv">
+          <tbody id="ckpt-tbl"></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="disclaimer" id="disclaimer">Trained on 4,375 images from the Kaggle oral-image dataset (group-aware splits,
+       class-balanced sampling, strong augmentation). Confidence is temperature-scaled; predictions under the
+       abstention threshold are flagged.</p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Screening and education aid — not a diagnosis. Trained on non-Singapore web/clinical photos.
+       Gum disease is not a class, so “No visible condition” does not mean healthy gums. See a dentist for any concern.</p>
+  </div>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+{
+  "experiment": "B1_effb0_issue",
+  "temperature": 1.6764581203460693,
+  "threshold": 0.5,
+  "best_epoch": 10,
+  "val": {
+    "n": 3224,
+    "n_issue": 2301,
+    "n_healthy": 923,
+    "accuracy": 0.9711538461538461,
+    "balanced_accuracy": 0.95026963169718,
+    "recall_issue": 0.9991308126901347,
+    "recall_healthy": 0.9014084507042254,
+    "precision_issue": 0.9619246861924686,
+    "f1_issue": 0.9801748028138989,
+    "roc_auc": 0.9993144438119373,
+    "unsure_rate": 0.027605459057072013,
+    "accuracy_when_sure": 0.9837320574162679,
+    "tp": 2299,
+    "fp": 91,
+    "fn": 2,
+    "tn": 832
+  },
+  "test_all": {
+    "n": 3410,
+    "n_issue": 2447,
+    "n_healthy": 963,
+    "accuracy": 0.9700879765395894,
+    "balanced_accuracy": 0.9486148932657914,
+    "recall_issue": 0.9979566816510013,
+    "recall_healthy": 0.8992731048805815,
+    "precision_issue": 0.9617959826703426,
+    "f1_issue": 0.9795427196149218,
+    "roc_auc": 0.9992017690935686,
+    "unsure_rate": 0.02580645161290318,
+    "accuracy_when_sure": 0.9810355207706201,
+    "tp": 2442,
+    "fp": 97,
+    "fn": 5,
+    "tn": 866
+  },
+  "test_person_only": {
+    "n": 2506,
+    "n_issue": 2447,
+    "n_healthy": 59,
+    "accuracy": 0.9952114924181963,
+    "balanced_accuracy": 0.9396563069271955,
+    "recall_issue": 0.9979566816510013,
+    "recall_healthy": 0.8813559322033898,
+    "precision_issue": 0.9971416904859126,
+    "f1_issue": 0.9975490196078431,
+    "roc_auc": 0.9993004232093258,
+    "unsure_rate": 0.0027932960893854997,
+    "accuracy_when_sure": 0.9971988795518207,
+    "tp": 2442,
+    "fp": 7,
+    "fn": 5,
+    "tn": 52
+  },
+  "test_mixed": {
+    "n": 2063,
+    "n_issue": 1175,
+    "n_healthy": 888,
+    "accuracy": 0.7852641783809986,
+    "balanced_accuracy": 0.7949856239217942,
+    "recall_issue": 0.7251063829787234,
+    "recall_healthy": 0.8648648648648649,
+    "precision_issue": 0.8765432098765432,
+    "f1_issue": 0.7936655798789007,
+    "roc_auc": 0.8759425915276979,
+    "unsure_rate": 0.133301017935046,
+    "accuracy_when_sure": 0.8266219239373602,
+    "tp": 852,
+    "fp": 120,
+    "fn": 323,
+    "tn": 768
+  },
+  "test_all_at_0.5": {
+    "n": 3410,
+    "n_issue": 2447,
+    "n_healthy": 963,
+    "accuracy": 0.9700879765395894,
+    "balanced_accuracy": 0.9486148932657914,
+    "recall_issue": 0.9979566816510013,
+    "recall_healthy": 0.8992731048805815,
+    "precision_issue": 0.9617959826703426,
+    "f1_issue": 0.9795427196149218,
+    "roc_auc": 0.9992017690935686,
+    "unsure_rate": 0.02580645161290318,
+    "accuracy_when_sure": 0.9810355207706201,
+    "tp": 2442,
+    "fp": 97,
+    "fn": 5,
+    "tn": 866
+  },
+  "by_source": [
+    {
+      "set": "test",
+      "source": "dentalai",
+      "n": 94,
+      "n_issue": 0,
+      "n_healthy": 94,
+      "recall_issue": NaN,
+      "recall_healthy": 0.7872340425531915
+    },
+    {
+      "set": "test",
+      "source": "external_clean",
+      "n": 14,
+      "n_issue": 0,
+      "n_healthy": 14,
+      "recall_issue": NaN,
+      "recall_healthy": 0.5714285714285714
+    },
+    {
+      "set": "test",
+      "source": "kaggle_oral",
+      "n": 59,
+      "n_issue": 0,
+      "n_healthy": 59,
+      "recall_issue": NaN,
+      "recall_healthy": 0.8813559322033898
+    },
+    {
+      "set": "test",
+      "source": "mendeley_noncaries",
+      "n": 472,
+      "n_issue": 0,
+      "n_healthy": 472,
+      "recall_issue": NaN,
+      "recall_healthy": 0.9364406779661016
+    },
+    {
+      "set": "test",
+      "source": "roboflow_oral",
+      "n": 2447,
+      "n_issue": 2447,
+      "n_healthy": 0,
+      "recall_issue": 0.9979566816510013,
+      "recall_healthy": NaN
+    },
+    {
+      "set": "test",
+      "source": "zenodo",
+      "n": 324,
+      "n_issue": 0,
+      "n_healthy": 324,
+      "recall_issue": NaN,
+      "recall_healthy": 0.8950617283950617
+    },
+    {
+      "set": "test_mixed",
+      "source": "dentalai",
+      "n": 370,
+      "n_issue": 242,
+      "n_healthy": 128,
+      "recall_issue": 0.8966942148760331,
+      "recall_healthy": 0.7578125
+    },
+    {
+      "set": "test_mixed",
+      "source": "external_clean",
+      "n": 70,
+      "n_issue": 57,
+      "n_healthy": 13,
+      "recall_issue": 0.8421052631578947,
+      "recall_healthy": 0.6153846153846154
+    },
+    {
+      "set": "test_mixed",
+      "source": "kaggle_oral",
+      "n": 135,
+      "n_issue": 112,
+      "n_healthy": 23,
+      "recall_issue": 0.9553571428571429,
+      "recall_healthy": 0.8695652173913043
+    },
+    {
+      "set": "test_mixed",
+      "source": "zenodo",
+      "n": 1488,
+      "n_issue": 764,
+      "n_healthy": 724,
+      "recall_issue": 0.6282722513089005,
+      "recall_healthy": 0.888121546961326
+    }
+  ],
+  "by_condition": [
+    {
+      "condition": "Calculus",
+      "n": 415,
+      "flagged": 1.0
+    },
+    {
+      "condition": "Caries",
+      "n": 811,
+      "flagged": 1.0
+    },
+    {
+      "condition": "Hypodontia",
+      "n": 397,
+      "flagged": 1.0
+    },
+    {
+      "condition": "Mouth_Ulcer",
+      "n": 568,
+      "flagged": 1.0
+    },
+    {
+      "condition": "Tooth_Discoloration",
+      "n": 885,
+      "flagged": 0.9943502824858758
+    }
+  ],
+  "robustness": [
+    {
+      "condition": "original",
+      "recall_issue": 0.9972401103955841,
+      "recall_healthy": 0.9128329297820823,
+      "balanced_accuracy": 0.9550365200888332
+    },
+    {
+      "condition": "blur",
+      "recall_issue": 0.9668813247470102,
+      "recall_healthy": 0.8159806295399515,
+      "balanced_accuracy": 0.8914309771434809
+    },
+    {
+      "condition": "dark (x0.5)",
+      "recall_issue": 0.9935602575896965,
+      "recall_healthy": 0.9176755447941889,
+      "balanced_accuracy": 0.9556179011919427
+    },
+    {
+      "condition": "bright (x1.6)",
+      "recall_issue": 1.0,
+      "recall_healthy": 0.8280871670702179,
+      "balanced_accuracy": 0.914043583535109
+    },
+    {
+      "condition": "low-res (1/3)",
+      "recall_issue": 0.9751609935602575,
+      "recall_healthy": 0.8111380145278451,
+      "balanced_accuracy": 0.8931495040440514
+    },
+    {
+      "condition": "JPEG q=20",
+      "recall_issue": 0.9871205151793928,
+      "recall_healthy": 0.7046004842615012,
+      "balanced_accuracy": 0.8458604997204471
+    }
+  ]
+}

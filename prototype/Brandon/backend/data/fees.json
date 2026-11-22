@@ -1,0 +1,176 @@
+{
+  "_note": "Every figure carries a source key and was checked against the official page on the date in `sources`. Fees are MOH private-clinic benchmarks, before GST, unless the procedure says otherwise. Anything not in an official table is left out rather than guessed.",
+  "gst_rate": 0.09,
+
+  "sources": {
+    "moh_benchmarks": {
+      "title": "MOH: Guide to Dental Treatment Costs - CHAS dental fee benchmarks (private clinics, excl. GST)",
+      "url": "https://www.moh.gov.sg/managing-expenses/bills-and-fee-benchmarks/guide-to-dental-treatment-costs/",
+      "checked": "2026-11-11"
+    },
+    "moh_hospital_avg": {
+      "title": "MOH: Guide to Dental Treatment Costs - public hospital average fees, non-subsidised, 1 Jan-31 Dec 2025 (excl. GST)",
+      "url": "https://www.moh.gov.sg/managing-expenses/bills-and-fee-benchmarks/guide-to-dental-treatment-costs/",
+      "checked": "2026-11-11"
+    },
+    "moh_chas_2025": {
+      "title": "MOH press release, 1 Sep 2025: Enhanced financing support for CHAS dental procedures (Annex A subsidy caps, from 1 Oct 2025)",
+      "url": "https://www.moh.gov.sg/newsroom/enhanced-financing-support-for-chas-dental-procedures-and-financial-governance-of-chas-clinics/",
+      "checked": "2026-11-11"
+    },
+    "chas_dental": {
+      "title": "CHAS: Dental subsidies - claim limits and how GST is applied",
+      "url": "https://www.chas.sg/chas-dental-subsidies",
+      "checked": "2026-11-11"
+    },
+    "chas_faq": {
+      "title": "CHAS FAQs: eligibility (Singapore Citizens) and CHAS Green (no dental subsidy)",
+      "url": "https://www.chas.sg/faqs",
+      "checked": "2026-11-11"
+    },
+    "flexi_medisave": {
+      "title": "MOH press release, 1 Sep 2025: Flexi-MediSave for root canals and crowns, age 60+, from mid-2026",
+      "url": "https://www.moh.gov.sg/newsroom/enhanced-financing-support-for-chas-dental-procedures-and-financial-governance-of-chas-clinics/",
+      "checked": "2026-11-11"
+    }
+  },
+
+  "procedures": {
+    "consult": {
+      "name": "Consultation",
+      "plain": "The dentist checks your teeth and gums and plans any treatment",
+      "min": 21, "max": 31, "source": "moh_benchmarks",
+      "chas_items": ["consultation"]
+    },
+    "xray": {
+      "name": "X-ray (small)",
+      "plain": "A close-up X-ray to see between and inside teeth",
+      "min": 16, "max": 33, "source": "moh_benchmarks",
+      "chas_items": ["xray"]
+    },
+    "scale_polish": {
+      "name": "Scaling and polishing",
+      "plain": "A professional cleaning that removes tartar and surface stains",
+      "min": 61, "max": 98, "source": "moh_benchmarks",
+      "chas_items": ["scaling", "polishing"]
+    },
+    "filling_simple": {
+      "name": "Simple filling",
+      "plain": "Removes a small area of decay and fills the hole",
+      "min": 65, "max": 160, "source": "moh_benchmarks",
+      "chas_items": ["filling_simple"]
+    },
+    "filling_complex": {
+      "name": "Complex filling",
+      "plain": "A larger filling covering more of the tooth",
+      "min": 80, "max": 180, "source": "moh_benchmarks",
+      "chas_items": ["filling_complex"]
+    },
+    "rct_molar": {
+      "name": "Root canal treatment (back tooth)",
+      "plain": "Cleans out an infected or inflamed nerve inside the tooth",
+      "min": 872, "max": 1400, "source": "moh_benchmarks",
+      "chas_items": ["rct_molar"], "flexi_medisave": true
+    },
+    "crown": {
+      "name": "Permanent crown",
+      "plain": "A cap that covers and protects a weakened tooth",
+      "min": 750, "max": 1400, "source": "moh_benchmarks",
+      "chas_items": ["crown"], "flexi_medisave": true
+    },
+    "denture_partial_simple": {
+      "name": "Partial denture (fewer than 6 teeth, one jaw)",
+      "plain": "A removable plate that fills gaps from missing teeth",
+      "min": 320, "max": 603, "source": "moh_benchmarks",
+      "chas_items": ["denture_partial_simple"]
+    },
+    "implant_crown": {
+      "name": "Implant with crown (one tooth, public hospital)",
+      "plain": "A fixed artificial tooth anchored in the jaw",
+      "min": 4835, "max": 6168, "source": "moh_hospital_avg",
+      "range_note": "Lowest to highest 2025 hospital average. Bone grafts and scans are extra.",
+      "chas_items": []
+    }
+  },
+
+  "plans": {
+    "calculus": {
+      "likely": ["consult", "scale_polish"],
+      "later": []
+    },
+    "caries": {
+      "likely": ["consult", "xray", "filling_simple"],
+      "later": [
+        { "label": "If the decay is larger (instead of a simple filling)", "procedures": ["filling_complex"] },
+        { "label": "If it has reached the nerve (on top of the visit)", "procedures": ["rct_molar", "crown"] }
+      ]
+    },
+    "tooth_discoloration": {
+      "likely": ["consult", "scale_polish"],
+      "later": [],
+      "note": "Whitening is cosmetic. It isn't covered by CHAS and has no MOH benchmark, so it isn't estimated here."
+    },
+    "hypodontia": {
+      "likely": ["consult", "xray"],
+      "later": [
+        { "label": "If you choose a partial denture", "procedures": ["denture_partial_simple"] },
+        { "label": "If you choose an implant", "procedures": ["implant_crown"] }
+      ]
+    },
+    "mouth_ulcer": {
+      "likely": [],
+      "later": [
+        { "label": "If it lasts more than 2 weeks", "procedures": ["consult"] }
+      ],
+      "note": "Most mouth ulcers heal by themselves within 1 to 2 weeks, so there is often nothing to pay."
+    },
+    "normal": {
+      "likely": ["consult", "scale_polish"],
+      "later": [],
+      "note": "A routine check-up and cleaning every 6 to 12 months."
+    }
+  },
+
+  "chas": {
+    "source": "moh_chas_2025",
+    "eligible_residency": ["citizen"],
+    "dental_tiers": ["pioneer", "merdeka", "blue", "orange"],
+    "max_per_claim": {
+      "consultation":           { "pioneer": 30.50,  "merdeka": 25.50,  "blue": 20.50,  "orange": 13.50 },
+      "polishing":              { "pioneer": 30.50,  "merdeka": 25.50,  "blue": 20.50,  "orange": 13.50 },
+      "scaling":                { "pioneer": 40.00,  "merdeka": 35.00,  "blue": 30.00,  "orange": 20.00 },
+      "xray":                   { "pioneer": 21.00,  "merdeka": 16.00,  "blue": 11.00,  "orange": 7.50 },
+      "filling_simple":         { "pioneer": 40.00,  "merdeka": 35.00,  "blue": 30.00,  "orange": 20.00 },
+      "filling_complex":        { "pioneer": 60.00,  "merdeka": 55.00,  "blue": 50.00,  "orange": 33.50 },
+      "crown":                  { "pioneer": 625.00, "merdeka": 620.00, "blue": 615.00, "orange": 410.00 },
+      "denture_partial_simple": { "pioneer": 314.00, "merdeka": 309.00, "blue": 304.00, "orange": 202.50 },
+      "rct_molar":              { "pioneer": 594.50, "merdeka": 589.50, "blue": 584.50, "orange": 389.50 }
+    },
+    "claim_limits": {
+      "source": "chas_dental",
+      "consultation": "Up to 2 a year, 6 months apart",
+      "scaling": "Up to 2 a year",
+      "polishing": "Up to 2 a year",
+      "xray": "Up to 6 a year",
+      "filling_simple": "Up to 6 fillings a year",
+      "filling_complex": "Up to 6 fillings a year",
+      "crown": "Up to 4 a year",
+      "rct_molar": "Up to 2 root canals a year",
+      "denture_partial_simple": "1 upper and 1 lower every 3 years"
+    }
+  },
+
+  "flexi_medisave": {
+    "source": "flexi_medisave",
+    "min_age_group": "60plus",
+    "eligible_residency": ["citizen", "pr"],
+    "annual_cap": 400,
+    "note": "Flexi-MediSave is your own MediSave savings, not a subsidy: up to S$400 a year in total towards root canals and crowns, at CHAS dental clinics and public hospitals."
+  },
+
+  "general_notes": [
+    "Typical ranges from MOH fee benchmarks for private clinics. Actual fees vary by clinic and case.",
+    "The higher figure includes 9% GST. GST-registered CHAS clinics add GST before taking off the CHAS subsidy.",
+    "CHAS subsidies only apply at CHAS dental clinics. Polyclinics and public hospitals have their own subsidised rates."
+  ]
+}
