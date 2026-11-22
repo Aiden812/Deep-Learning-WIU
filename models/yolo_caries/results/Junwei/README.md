@@ -10,4 +10,4 @@ Code: `notebooks/JunWei/02_training_script.ipynb`. Scores: `results/experiments.
 | `..._test_person/` | Same test set, only images labelled by people |
 | `compare_640_vs_960.png` | Validation mAP50 and mAP50-95 of both runs per epoch, and the gap between them |
 
-Weights (`weights/best.pt`) are gitignored, so they are not on GitHub.
+Final model (640 px run): `models/yolo_caries/weights/Junwei/best.pt`, with `best.json` (classes, image size, confidence cut-off 0.221 picked on val). Weights inside the run folders are gitignored.

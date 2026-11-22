@@ -2,7 +2,7 @@
 
 Draws a box around each problem on a mouth photo and names it: Calculus, Caries, Hypodontia, Mouth_Ulcer, Tooth_Discoloration.
 All team runs train on Daniel's `data/raw/oral_dataset/` (see its README) and are logged in `results/experiments.csv`.
-Weights are gitignored.
+Weights are gitignored, except the final models kept in `weights/<name>/`.
 
 ## Jun Wei: YOLO11n at 640 vs 960 px
 
@@ -13,7 +13,7 @@ Weights are gitignored.
 ## Earlier Zenodo caries pipeline (before the team dataset)
 
 `scripts/Junwei/`: `check_downloads.py` (check `data/raw/`), `convert_dentalai_to_yolo.py` (DentalAI masks to YOLO boxes),
-`dedup_and_split.py` (split Zenodo by person, tested in `tests/test_dedup_and_split.py`), `build_mixed.py` (add other caries and healthy photos),
+`dedup_and_split.py` (split Zenodo by person: 1,020 patient IDs → 390 person groups; tested in `tests/test_dedup_and_split.py`), `build_mixed.py` (add other caries and healthy photos),
 `visualise_labels.py` (look at labels). `configs/data.yaml` belongs to this pipeline.
 
 ## Aiden: 5-class detector on Daniel's `oral_dataset` (stage 2 behind the classifier gate)
