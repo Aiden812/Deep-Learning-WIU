@@ -45,7 +45,7 @@ from PIL import Image, ImageOps
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
-DEMO_DIR = REPO / "models" / "classifier" / "demo" / "Daniel"
+DEMO_DIR = REPO / "models" / "classifier" / "demo" / "Daniel" / "Codex"
 
 # The demo imports mouth_gate / detector as top-level modules from its own folder.
 sys.path.insert(0, str(DEMO_DIR))

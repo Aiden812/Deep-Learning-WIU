@@ -17,7 +17,7 @@ Anomalies (flagged by the gate, or a non-"normal" top class) are then localised 
 YOLO detector from models/yolo_caries/notebooks/Daniel/yolo_oral_detector.ipynb
 (detector.py; DEMO_DETECTOR=0 disables it).
 
-Run:  python models/classifier/demo/Daniel/app.py   (or run.bat)
+Run:  python models/classifier/demo/Daniel/Codex/app.py   (or run.bat)
 Then open the printed URL in a browser.
 """
 
@@ -41,7 +41,7 @@ from PIL import Image, ImageOps
 from torchvision.transforms import v2
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parents[3]  # .../Deep-Learning-WIU
+REPO = HERE.parents[4]  # .../Deep-Learning-WIU (HERE is models/classifier/demo/Daniel/Codex)
 WEIGHTS = Path(os.environ.get("DEMO_WEIGHTS") or
                REPO / "models" / "classifier" / "weights" / "Daniel" / "binary" / "best.pt")
 # results/Daniel/{test_metrics.json,binary/test_metrics.json} — set below once the task is known.
@@ -171,7 +171,7 @@ GATE = None
 GATE_ERROR = None
 if os.environ.get("DEMO_MOUTH_GATE", "1") != "0":
     try:
-        from models.classifier.demo.Daniel.Codex.mouth_gate import CLIP_NAME, MouthGate
+        from mouth_gate import CLIP_NAME, MouthGate  # this folder: the script's own, or put on sys.path by prototype/Daniel/server.py
         GATE = MouthGate(DEVICE, HERE / "assets")
         GATE(Image.new("RGB", (320, 240), (128, 128, 128)))  # warm-up, like _warmup()
     except Exception as e:  # noqa: BLE001 — the demo must still start without the gate
@@ -185,7 +185,7 @@ DETECTOR = None
 DETECTOR_ERROR = None
 if os.environ.get("DEMO_DETECTOR", "1") != "0":
     try:
-        from models.classifier.demo.Daniel.Codex.detector import ConditionDetector
+        from detector import ConditionDetector
         _dw = os.environ.get("DEMO_DETECTOR", "1")
         DETECTOR = ConditionDetector(Path(_dw) if _dw != "1" else DETECTOR_WEIGHTS, DEVICE)
     except Exception as e:  # noqa: BLE001 — the classifier demo must still start without it

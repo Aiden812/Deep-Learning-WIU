@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "SmileCheck SG",
+    "slug": "smilecheck-sg",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#f1e9e2",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#121110",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro",
+      "name": "SmileCheck SG",
+      "shortName": "SmileCheck",
+      "lang": "en-SG",
+      "description": "Screen a photo or video of your teeth, understand what it means, and find a clinic near you. A screening aid, not a diagnosis.",
+      "themeColor": "#f1e9e2",
+      "backgroundColor": "#f1e9e2",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "SmileCheck SG uses your photos and videos for this screening only.",
+          "cameraPermission": "SmileCheck SG uses the camera to photograph your teeth for this screening only.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "SmileCheck SG uses your location to sort nearby clinics. It is never stored."
+        }
+      ]
+    ]
+  }
+}

@@ -1,11 +1,11 @@
 # SmileCheck SG: front-end prototype
 
-A patient-facing web page that covers the Detection, Understanding and Action gaps from the brief, with Cost as a one-line placeholder. Photos and videos (uploaded, dropped, or pasted with Ctrl+V) go through Daniel's models, using the same pipeline as the web demo in [`models/classifier/demo/Daniel`](../../models/classifier/demo/Daniel/README.md). The "Try a sample" chips still show simulated results.
+A patient-facing web page that covers the Detection, Understanding and Action gaps from the brief, with Cost as a one-line placeholder. Photos and videos (uploaded, dropped, or pasted with Ctrl+V) go through Daniel's models, using the same pipeline as the web demo in [`models/classifier/demo/Daniel/Codex`](../../models/classifier/demo/Daniel/Codex/README.md). The "Try a sample" chips still show simulated results.
 
 ## Run it
 
 ```bash
-pip install -r models/classifier/demo/Daniel/requirements.txt
+pip install -r models/classifier/demo/Daniel/Codex/requirements.txt
 python prototype/Daniel/server.py
 ```
 
