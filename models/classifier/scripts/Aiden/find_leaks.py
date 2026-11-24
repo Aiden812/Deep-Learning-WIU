@@ -25,6 +25,8 @@ from scipy.sparse.csgraph import connected_components
 
 REPO = Path(__file__).resolve().parents[4]
 DATASET = REPO / "data/raw/oral_dataset"
+if not (DATASET / "labels.csv").exists():   # the zip unpacks one folder deeper: data/raw/oral_dataset/oral_dataset
+    DATASET = DATASET / "oral_dataset"
 CACHE = REPO / "data/processed/classifier_multilabel/_cache/pairs_k20_kp400.npz"
 ZIP_CANDIDATES = [REPO / "data/raw/roboflow_oral/oral-diseases.v2i.yolov11.zip", REPO.parent / "oral-diseases.v2i.yolov11.zip"]
 OUT = REPO / "data/processed/oral_dataset_leaks.csv"
